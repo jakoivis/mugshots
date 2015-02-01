@@ -1,0 +1,321 @@
+<resourceLoader>
+	<loadingGroup name="various">
+		<resource source="assets/images/background/00.png" name="background" />
+		<resource source="assets/shader/swirl2Transition2.pbj" name="swirlShader" />
+	</loadingGroup>
+	<loadingGroup name="chin">
+		<set source="assets/images/chin/">
+			<resource source="+00_03.png" offsets="" bitmapBottom="285" />
+			<resource source="+01_03.png" offsets="" bitmapBottom="285" />
+			<resource source="+02_03.png" offsets="" bitmapBottom="290" />
+			<resource source="+03_03.png" offsets="" bitmapBottom="315" />
+			<resource source="+04_03.png" offsets="" bitmapBottom="326" />
+			<resource source="+05_03.png" offsets="" bitmapBottom="357" />
+			<resource source="+06_03.png" offsets="" bitmapBottom="305" />
+			<resource source="+07_03.png" offsets="" bitmapBottom="300" />
+			<resource source="+08_03.png" offsets="" bitmapBottom="353" />
+			<resource source="+09_03.png" offsets="" bitmapBottom="337" />
+			<resource source="+10_03.png" offsets="" bitmapBottom="345" />
+			<resource source="+11_03.png" offsets="" bitmapBottom="328" />
+			<resource source="+12_03.png" offsets="" bitmapBottom="277" />
+			<resource source="+14_03.png" offsets="" bitmapBottom="282" />
+			<resource source="+15_03.png" offsets="" bitmapBottom="315" />
+			<resource source="+16_03.png" offsets="" bitmapBottom="313" />
+			<resource source="+17_03.png" offsets="" bitmapBottom="320" />
+			<resource source="+18_03.png" offsets="" bitmapBottom="360" />
+			<resource source="+19_03.png" offsets="" bitmapBottom="345" />
+			<resource source="+20_03.png" offsets="" bitmapBottom="290" />
+			<resource source="+21_03.png" offsets="" bitmapBottom="300" />
+			<resource source="+22_03.png" offsets="" bitmapBottom="318" />
+			<resource source="+23_03.png" offsets="" bitmapBottom="286" />
+			<resource source="+24_03.png" offsets="" bitmapBottom="344" />
+			<resource source="+25_03.png" offsets="" bitmapBottom="343" />
+			<resource source="+26_03.png" offsets="" bitmapBottom="340" />
+			<resource source="+27_03.png" offsets="" bitmapBottom="308" />
+			<resource source="+28_03.png" offsets="" bitmapBottom="279" />
+			<resource source="+29_03.png" offsets="" bitmapBottom="317" />
+			<resource source="+31_03.png" offsets="" bitmapBottom="351" />
+			<resource source="+32_03.png" offsets="" bitmapBottom="294" />
+			<resource source="+33_03.png" offsets="" bitmapBottom="281" />
+			<resource source="+34_03.png" offsets="" bitmapBottom="278" />
+			<resource source="+35_03.png" offsets="" bitmapBottom="289" />
+			<resource source="+38_03.png" offsets="" bitmapBottom="285" />
+			<resource source="+39_03.png" offsets="" bitmapBottom="311" />
+			<resource source="+40_03.png" offsets="" bitmapBottom="293" />
+			<resource source="+41_03.png" offsets="" bitmapBottom="354" />
+			<resource source="+42_03.png" offsets="" bitmapBottom="325" />
+			<resource source="+43_03.png" offsets="" bitmapBottom="348" />
+			<resource source="+44_03.png" offsets="" bitmapBottom="284" />
+			<resource source="+45_03.png" offsets="" bitmapBottom="334" />
+			<resource source="+46_03.png" offsets="" bitmapBottom="282" />
+			<resource source="+47_03.png" offsets="" bitmapBottom="295" />
+			<resource source="+49_03.png" offsets="" bitmapBottom="342" />
+			<resource source="+50_03.png" offsets="" bitmapBottom="288" />
+			<resource source="+51_03.png" offsets="" bitmapBottom="289" />
+			<resource source="+52_03.png" offsets="" bitmapBottom="274" />
+			<resource source="+53_03.png" offsets="" bitmapBottom="284" />
+			<resource source="+54_03.png" offsets="" bitmapBottom="289" />
+			<resource source="+55_03.png" offsets="" bitmapBottom="307" />
+			<resource source="+56_03.png" offsets="" bitmapBottom="286" />
+			<resource source="+57_03.png" offsets="" bitmapBottom="298" />
+			<resource source="+58_03.png" offsets="" bitmapBottom="271" />
+			<resource source="+59_03.png" offsets="" bitmapBottom="331" />
+			<resource source="+60_03.png" offsets="" bitmapBottom="352" />
+			<resource source="+63_03.png" offsets="" bitmapBottom="304" />
+			<resource source="+64_03.png" offsets="" bitmapBottom="339" />
+			<resource source="+65_03.png" offsets="" bitmapBottom="311" />
+		</set>
+	</loadingGroup>
+	<loadingGroup name="lefteye">
+		<set source="assets/images/lefteye/">
+			<resource source="+00_03.png" offsets="" />
+			<resource source="+01_03.png" offsets="" />
+			<resource source="+02_03.png" offsets="" />
+			<resource source="+03_03.png" offsets="" />
+			<resource source="+04_03.png" offsets="" />
+			<resource source="+05_03.png" offsets="" />
+			<resource source="+06_03.png" offsets="" />
+			<resource source="+07_03.png" offsets="" />
+			<resource source="+08_03.png" offsets="" />
+			<resource source="+09_03.png" offsets="" />
+			<resource source="+10_03.png" offsets="" />
+			<resource source="+11_03.png" offsets="" />
+			<resource source="+12_03.png" offsets="" />
+			<resource source="+14_03.png" offsets="" />
+			<resource source="+15_03.png" offsets="" />
+			<resource source="+16_03.png" offsets="" />
+			<resource source="+17_03.png" offsets="" />
+			<resource source="+18_03.png" offsets="" />
+			<resource source="+19_03.png" offsets="" />
+			<resource source="+20_03.png" offsets="" />
+			<resource source="+21_03.png" offsets="" />
+			<resource source="+22_03.png" offsets="" />
+			<resource source="+23_03.png" offsets="" />
+			<resource source="+24_03.png" offsets="" />
+			<resource source="+25_03.png" offsets="" />
+			<resource source="+26_03.png" offsets="" />
+			<resource source="+27_03.png" offsets="" />
+			<resource source="+28_03.png" offsets="" />
+			<resource source="+29_03.png" offsets="" />
+			<resource source="+31_03.png" offsets="" />
+			<resource source="+32_03.png" offsets="" />
+			<resource source="+33_03.png" offsets="" />
+			<resource source="+34_03.png" offsets="" />
+			<resource source="+35_03.png" offsets="" />
+			<resource source="+38_03.png" offsets="" />
+			<resource source="+39_03.png" offsets="" />
+			<resource source="+40_03.png" offsets="" />
+			<resource source="+41_03.png" offsets="" />
+			<resource source="+42_03.png" offsets="" />
+			<resource source="+43_03.png" offsets="" />
+			<resource source="+44_03.png" offsets="" />
+			<resource source="+45_03.png" offsets="" />
+			<resource source="+46_03.png" offsets="" />
+			<resource source="+47_03.png" offsets="" />
+			<resource source="+49_03.png" offsets="" />
+			<resource source="+50_03.png" offsets="" />
+			<resource source="+51_03.png" offsets="" />
+			<resource source="+52_03.png" offsets="" />
+			<resource source="+53_03.png" offsets="" />
+			<resource source="+54_03.png" offsets="" />
+			<resource source="+55_03.png" offsets="" />
+			<resource source="+56_03.png" offsets="" />
+			<resource source="+57_03.png" offsets="" />
+			<resource source="+58_03.png" offsets="" />
+			<resource source="+59_03.png" offsets="" />
+			<resource source="+60_03.png" offsets="" />
+			<resource source="+63_03.png" offsets="" />
+			<resource source="+64_03.png" offsets="" />
+			<resource source="+65_03.png" offsets="" />
+		</set>
+	</loadingGroup>
+	<loadingGroup name="righteye">
+		<set source="assets/images/righteye/">
+			<resource source="+00_03.png" offsets="" />
+			<resource source="+01_03.png" offsets="" />
+			<resource source="+02_03.png" offsets="" />
+			<resource source="+03_03.png" offsets="" />
+			<resource source="+04_03.png" offsets="" />
+			<resource source="+05_03.png" offsets="" />
+			<resource source="+06_03.png" offsets="" />
+			<resource source="+07_03.png" offsets="" />
+			<resource source="+08_03.png" offsets="" />
+			<resource source="+09_03.png" offsets="" />
+			<resource source="+10_03.png" offsets="" />
+			<resource source="+11_03.png" offsets="" />
+			<resource source="+12_03.png" offsets="" />
+			<resource source="+14_03.png" offsets="" />
+			<resource source="+15_03.png" offsets="" />
+			<resource source="+16_03.png" offsets="" />
+			<resource source="+17_03.png" offsets="" />
+			<resource source="+18_03.png" offsets="" />
+			<resource source="+19_03.png" offsets="" />
+			<resource source="+20_03.png" offsets="" />
+			<resource source="+21_03.png" offsets="" />
+			<resource source="+22_03.png" offsets="" />
+			<resource source="+23_03.png" offsets="" />
+			<resource source="+24_03.png" offsets="" />
+			<resource source="+25_03.png" offsets="" />
+			<resource source="+26_03.png" offsets="" />
+			<resource source="+27_03.png" offsets="" />
+			<resource source="+28_03.png" offsets="" />
+			<resource source="+29_03.png" offsets="" />
+			<resource source="+31_03.png" offsets="" />
+			<resource source="+32_03.png" offsets="" />
+			<resource source="+33_03.png" offsets="" />
+			<resource source="+34_03.png" offsets="" />
+			<resource source="+35_03.png" offsets="" />
+			<resource source="+38_03.png" offsets="" />
+			<resource source="+39_03.png" offsets="" />
+			<resource source="+40_03.png" offsets="" />
+			<resource source="+41_03.png" offsets="" />
+			<resource source="+42_03.png" offsets="" />
+			<resource source="+43_03.png" offsets="" />
+			<resource source="+44_03.png" offsets="" />
+			<resource source="+45_03.png" offsets="" />
+			<resource source="+46_03.png" offsets="" />
+			<resource source="+47_03.png" offsets="" />
+			<resource source="+49_03.png" offsets="" />
+			<resource source="+50_03.png" offsets="" />
+			<resource source="+51_03.png" offsets="" />
+			<resource source="+52_03.png" offsets="" />
+			<resource source="+53_03.png" offsets="" />
+			<resource source="+54_03.png" offsets="" />
+			<resource source="+55_03.png" offsets="" />
+			<resource source="+56_03.png" offsets="" />
+			<resource source="+57_03.png" offsets="" />
+			<resource source="+58_03.png" offsets="" />
+			<resource source="+59_03.png" offsets="" />
+			<resource source="+60_03.png" offsets="" />
+			<resource source="+63_03.png" offsets="" />
+			<resource source="+64_03.png" offsets="" />
+			<resource source="+65_03.png" offsets="" />
+		</set>
+	</loadingGroup>
+	<loadingGroup name="mouth">
+		<set source="assets/images/mouth/">
+			<resource source="+00_03.png" />
+			<resource source="+01_03.png" offsets="" />
+			<resource source="+02_03.png" offsets="" />
+			<resource source="+03_03.png" offsets="" /><!-- chin:nose: offsetFromNose offsetBottom -->
+			<resource source="+04_03.png" offsets="" />
+			<resource source="+05_03.png" offsets="" />
+			<resource source="+06_03.png" offsets="" />
+			<resource source="+07_03.png" offsets="" />
+			<resource source="+08_03.png" offsets="" />
+			<resource source="+09_03.png" offsets="" />
+			<resource source="+10_03.png" offsets="" />
+			<resource source="+11_03.png" offsets="" />
+			<resource source="+12_03.png" offsets="" />
+			<resource source="+14_03.png" offsets="" />
+			<resource source="+15_03.png" offsets="" />
+			<resource source="+16_03.png" offsets="" />
+			<resource source="+17_03.png" offsets="" />
+			<resource source="+18_03.png" offsets="" />
+			<resource source="+19_03.png" offsets="" />
+			<resource source="+20_03.png" offsets="" />
+			<resource source="+21_03.png" offsets="" />
+			<resource source="+22_03.png" offsets="" />
+			<resource source="+23_03.png" offsets="" />
+			<resource source="+24_03.png" offsets="" />
+			<resource source="+25_03.png" offsets="" />
+			<resource source="+26_03.png" offsets="" />
+			<resource source="+27_03.png" offsets="" />
+			<resource source="+28_03.png" offsets="" />
+			<resource source="+29_03.png" offsets="" />
+			<resource source="+31_03.png" offsets="" />
+			<resource source="+32_03.png" offsets="" />
+			<resource source="+33_03.png" offsets="" />
+			<resource source="+34_03.png" offsets="" />
+			<resource source="+35_03.png" offsets="" />
+			<resource source="+38_03.png" offsets="" />
+			<resource source="+39_03.png" offsets="" />
+			<resource source="+40_03.png" offsets="" />
+			<resource source="+41_03.png" offsets="" />
+			<resource source="+42_03.png" offsets="" />
+			<resource source="+43_03.png" offsets="" />
+			<resource source="+44_03.png" offsets="" />
+			<resource source="+45_03.png" offsets="" />
+			<resource source="+46_03.png" offsets="" />
+			<resource source="+47_03.png" offsets="" />
+			<resource source="+49_03.png" offsets="" />
+			<resource source="+50_03.png" offsets="" />
+			<resource source="+51_03.png" offsets="" />
+			<resource source="+52_03.png" offsets="" />
+			<resource source="+53_03.png" offsets="" />
+			<resource source="+54_03.png" offsets="" />
+			<resource source="+55_03.png" offsets="" />
+			<resource source="+56_03.png" offsets="" />
+			<resource source="+57_03.png" offsets="" />
+			<resource source="+58_03.png" offsets="" />
+			<resource source="+59_03.png" offsets="" />
+			<resource source="+60_03.png" offsets="" />
+			<resource source="+63_03.png" offsets="" />
+			<resource source="+64_03.png" offsets="" />
+			<resource source="+65_03.png" offsets="65:65#-71:25;" />
+		</set>
+	</loadingGroup>
+	<loadingGroup name="nose">
+		<set source="assets/images/nose/">
+			<resource source="+00_03.png" offsets="65#-15:15;" /><!-- chin: offsetTop offsetBottom -->
+			<resource source="+01_03.png" offsets="65#-15:15;" />
+			<resource source="+02_03.png" offsets="65#-20:15;" />
+			<resource source="+03_03.png" offsets="65#0:15;" />
+			<resource source="+04_03.png" offsets="65#-15:20;" />
+			<resource source="+05_03.png" offsets="65#-15:20;" />
+			<resource source="+06_03.png" offsets="65#-10:20;" />
+			<resource source="+07_03.png" offsets="" />
+			<resource source="+08_03.png" offsets="" />
+			<resource source="+09_03.png" offsets="" />
+			<resource source="+10_03.png" offsets="" />
+			<resource source="+11_03.png" offsets="" />
+			<resource source="+12_03.png" offsets="" />
+			<resource source="+14_03.png" offsets="" />
+			<resource source="+15_03.png" offsets="" />
+			<resource source="+16_03.png" offsets="" />
+			<resource source="+17_03.png" offsets="" />
+			<resource source="+18_03.png" offsets="" />
+			<resource source="+19_03.png" offsets="" />
+			<resource source="+20_03.png" offsets="" />
+			<resource source="+21_03.png" offsets="" />
+			<resource source="+22_03.png" offsets="" />
+			<resource source="+23_03.png" offsets="" />
+			<resource source="+24_03.png" offsets="" />
+			<resource source="+25_03.png" offsets="" />
+			<resource source="+26_03.png" offsets="" />
+			<resource source="+27_03.png" offsets="" />
+			<resource source="+28_03.png" offsets="" />
+			<resource source="+29_03.png" offsets="" />
+			<resource source="+31_03.png" offsets="" />
+			<resource source="+32_03.png" offsets="" />
+			<resource source="+33_03.png" offsets="" />
+			<resource source="+34_03.png" offsets="" />
+			<resource source="+35_03.png" offsets="" />
+			<resource source="+38_03.png" offsets="" />
+			<resource source="+39_03.png" offsets="" />
+			<resource source="+40_03.png" offsets="" />
+			<resource source="+41_03.png" offsets="" />
+			<resource source="+42_03.png" offsets="" />
+			<resource source="+43_03.png" offsets="" />
+			<resource source="+44_03.png" offsets="" />
+			<resource source="+45_03.png" offsets="" />
+			<resource source="+46_03.png" offsets="" />
+			<resource source="+47_03.png" offsets="" />
+			<resource source="+49_03.png" offsets="" />
+			<resource source="+50_03.png" offsets="" />
+			<resource source="+51_03.png" offsets="" />
+			<resource source="+52_03.png" offsets="" />
+			<resource source="+53_03.png" offsets="" />
+			<resource source="+54_03.png" offsets="" />
+			<resource source="+55_03.png" offsets="" />
+			<resource source="+56_03.png" offsets="" />
+			<resource source="+57_03.png" offsets="" />
+			<resource source="+58_03.png" offsets="" />
+			<resource source="+59_03.png" offsets="" />
+			<resource source="+60_03.png" offsets="" />
+			<resource source="+63_03.png" offsets="" />
+			<resource source="+64_03.png" offsets="" />
+			<resource source="+65_03.png" offsets="65#-30:15;" />
+		</set>
+	</loadingGroup>
+</resourceLoader>

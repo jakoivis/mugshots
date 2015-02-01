@@ -1,0 +1,20 @@
+{
+  "name": "mugshots",
+  "version": "0.0.0",
+  "authors": [
+    "Jarmo Koivisto <jarmo.kvst@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "easeljs": "~0.8.0",
+    "imageLoader": "https://github.com/jakoivis/imageLoader.git#~1.0.0"
+  }
+}
