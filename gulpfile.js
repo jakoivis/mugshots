@@ -14,7 +14,7 @@ var buffer = require('vinyl-buffer');
 var util = require('gulp-util');
 var clean = require('gulp-clean');
 
-var mainSourceFile = './src/mugshots.js';
+var mainSourceFile = './src/index.js';
 var sourceFiles = './src/**/*.js';
 var htmlFiles = './src/**/*.html';
 var imageFiles = './assets/**/*.png';
@@ -53,7 +53,7 @@ function serverStop() {
     }
 }
 
-gulp.task('clean', function(){
+gulp.task('clean', function() {
     var allBuildFiles = buildFolder + '*';
     return gulp.src(allBuildFiles, {read:false})
         .pipe(clean());
