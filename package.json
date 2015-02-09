@@ -29,6 +29,7 @@
     "vinyl-source-stream": "^1.0.0"
   },
   "browser": {
-    "imageLoader": "./bower_components/imageLoader/build/imageLoader.js"
+    "imageLoader": "./bower_components/imageLoader/build/imageLoader.js",
+    "easeljs": "./bower_components/easeljs/lib/easeljs-0.8.0.combined.js"
   }
 }

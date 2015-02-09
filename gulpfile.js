@@ -91,7 +91,6 @@ gulp.task('copy-images', function() {
 
 gulp.task('copy-3rd-party', function() {
     var filesToMove = [
-        './bower_components/imageLoader/build/imageLoader.min.js',
         './bower_components/easeljs/lib/easeljs-0.8.0.min.js'
     ];
     gulp.src(filesToMove, {base: '' })

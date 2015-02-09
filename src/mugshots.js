@@ -1,8 +1,13 @@
 
+'use strict';
+
 var PreloaderList = require('./preloaderList.js');
 require('imageLoader');
+var FacePart = require('./facePart.js');
 
-var Mugshots = function()
+module.exports = Mugshots;
+
+function Mugshots()
 {
     var faceResources = {
         various: [],
@@ -13,31 +18,98 @@ var Mugshots = function()
         chin: []
     };
 
+    var bitmaps = {
+        background: undefined,
+        lefteye: undefined,
+        righteye: undefined,
+        nose: undefined,
+        mouth: undefined,
+        chin: undefined
+    };
+
+    var stage = undefined;
+
     function init()
     {
-        var imageLoader = new ImageLoader({
+        new ImageLoader({
             images: new PreloaderList().create(),
             onFileComplete: onFileComplete,
             onComplete: onComplete
         });
 
-        console.log(new PreloaderList().create());
+        var randomButton = document.getElementById('randomButton');
+        randomButton.addEventListener('click', randomize);
     }
 
     function onFileComplete(item)
     {
         if(!item.isFailed())
         {
-            faceResources[item.groupName].push(item.tag);
+            var bitmap = new createjs.Bitmap(item.tag);
+            var facePart = new FacePart(item.groupName, bitmap);
+            faceResources[item.groupName].push(facePart);
         }
     }
 
     function onComplete()
     {
-        var x = 0;
+        stage = new createjs.Stage('face');
+
+        // bitmaps.background = getDefaultImage('various');
+        // stage.addChild(bitmaps.background);
+
+        bitmaps.chin = getDefaultImage('chin');
+        stage.addChild(bitmaps.chin);
+
+        bitmaps.nose = getDefaultImage('nose');
+        stage.addChild(bitmaps.nose);
+
+        bitmaps.mouth = getDefaultImage('mouth');
+        stage.addChild(bitmaps.mouth);
+
+        bitmaps.lefteye = getDefaultImage('lefteye');
+        stage.addChild(bitmaps.lefteye);
+
+        bitmaps.righteye = getDefaultImage('righteye');
+        stage.addChild(bitmaps.righteye);
+
+        stage.update();
+    }
+
+    function getDefaultImage(facePartName)
+    {
+        var facePart = faceResources[facePartName][0];
+        var image = facePart.getImage();
+        var defaultPosition = facePart.getDefaultPosition();
+
+        image.x = defaultPosition.x;
+        image.y = defaultPosition.y;
+
+        return image;
+    }
+
+    function randomize()
+    {
+        // bitmaps.lefteye.image = getRandomFacePartImage('lefteye');
+        bitmaps.righteye.image = getRandomFacePartImage('righteye');
+        bitmaps.nose.image = getRandomFacePartImage('nose');
+        bitmaps.mouth.image = getRandomFacePartImage('mouth');
+        bitmaps.chin.image = getRandomFacePartImage('chin');
+
+        stage.update();
+    }
+
+    function getRandomFacePartImage(facePartName)
+    {
+        var faceParts = faceResources[facePartName];
+
+        return faceParts[getRandomInt(0, faceParts.length)].getImage();
+    }
+
+    function getRandomInt(min, max)
+    {
+      return Math.floor(Math.random() * (max - min)) + min;
     }
 
     init();
 }
-
-module.exports = Mugshots;

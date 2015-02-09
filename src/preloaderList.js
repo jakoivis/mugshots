@@ -11,7 +11,7 @@ var PreloaderList = function ()
 
     var FILE_INDEX_PATTERN = '<number>';
     var FILE_INDEX_NUMBER_OF_DIGITS = 2;
-    var FILE_NAME_PATTERN = FILE_INDEX_PATTERN + '_03.png';
+    var FILE_NAME_PATTERN = FILE_INDEX_PATTERN + '.png';
     var BASEPATH = 'assets/images/';
 
     var additionalFiles = [
@@ -23,31 +23,31 @@ var PreloaderList = function ()
             groupName: 'chin',
             directory: BASEPATH + 'chin/',
             listSize: 65,
-            exlusions: []
+            exclusions: [13,30,36,37,48,61,62]
         },
         {
             groupName: 'nose',
             directory: BASEPATH + 'nose/',
             listSize: 65,
-            exlusions: []
+            exclusions: [13,30,36,37,48,61,62]
         },
         {
             groupName: 'mouth',
             directory: BASEPATH + 'mouth/',
             listSize: 65,
-            exlusions: []
+            exclusions: [13,30,36,37,48,61,62]
         },
         {
             groupName: 'lefteye',
             directory: BASEPATH + 'lefteye/',
             listSize: 65,
-            exlusions: []
+            exclusions: [13,30,36,37,48,61,62]
         },
         {
             groupName: 'righteye',
             directory: BASEPATH + 'righteye/',
             listSize: 65,
-            exlusions: []
+            exclusions: [13,30,36,37,48,61,62]
         }
     ];
 
@@ -63,7 +63,7 @@ var PreloaderList = function ()
         }
 
         return list;
-    }
+    };
 
     function createListItems(options) {
 
@@ -71,9 +71,12 @@ var PreloaderList = function ()
 
         for(var i = 0; i < options.listSize; i++) {
 
-            var src = options.directory + createFileName(i);
+            if(!isExcluded(i, options.exclusions)) {
 
-            list.push({groupName:options.groupName, src:src});
+                var src = options.directory + createFileName(i);
+
+                list.push({groupName:options.groupName, src:src});
+            }
         }
 
         return list;
@@ -93,6 +96,21 @@ var PreloaderList = function ()
         }
 
         return str;
+    }
+
+    function isExcluded(index, exclusions) {
+
+        var excluded = false;
+
+        for(var i = 0; i < exclusions.length; i++) {
+
+            if(index === exclusions[i]) {
+                excluded = true;
+                break;
+            }
+        }
+
+        return excluded;
     }
 
     return this;
