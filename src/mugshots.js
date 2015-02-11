@@ -55,8 +55,8 @@ function Mugshots()
     {
         stage = new createjs.Stage('face');
 
-        // bitmaps.background = getDefaultImage('various');
-        // stage.addChild(bitmaps.background);
+        bitmaps.background = getDefaultImage('various');
+        stage.addChild(bitmaps.background);
 
         bitmaps.chin = getDefaultImage('chin');
         stage.addChild(bitmaps.chin);
@@ -91,10 +91,35 @@ function Mugshots()
     function randomize()
     {
         // bitmaps.lefteye.image = getRandomFacePartImage('lefteye');
-        bitmaps.righteye.image = getRandomFacePartImage('righteye');
-        bitmaps.nose.image = getRandomFacePartImage('nose');
-        bitmaps.mouth.image = getRandomFacePartImage('mouth');
-        bitmaps.chin.image = getRandomFacePartImage('chin');
+        // bitmaps.righteye.image = getRandomFacePartImage('righteye');
+        // bitmaps.nose.image = getRandomFacePartImage('nose');
+        // bitmaps.mouth.image = getRandomFacePartImage('mouth');
+        // bitmaps.chin.image = getRandomFacePartImage('chin');
+
+        stage.removeChild(bitmaps.lefteye);
+        stage.removeChild(bitmaps.righteye);
+        stage.removeChild(bitmaps.nose);
+        stage.removeChild(bitmaps.mouth);
+        stage.removeChild(bitmaps.chin);
+
+        bitmaps.chin = getRandomFacePartImage('chin');
+        stage.addChild(bitmaps.chin);
+
+        bitmaps.nose = getRandomFacePartImage('nose');
+        stage.addChild(bitmaps.nose);
+
+        bitmaps.mouth = getRandomFacePartImage('mouth');
+        stage.addChild(bitmaps.mouth);
+
+        bitmaps.lefteye = getRandomFacePartImage('lefteye');
+        stage.addChild(bitmaps.lefteye);
+
+        bitmaps.righteye = getRandomFacePartImage('righteye');
+        stage.addChild(bitmaps.righteye);
+
+        stage.update();
+
+
 
         stage.update();
     }
@@ -102,8 +127,15 @@ function Mugshots()
     function getRandomFacePartImage(facePartName)
     {
         var faceParts = faceResources[facePartName];
+        var randomNumber = getRandomInt(0, faceParts.length);
+        var facePart = faceParts[randomNumber];
+        var image = facePart.getImage();
+        var defaultPosition = facePart.getDefaultPosition();
 
-        return faceParts[getRandomInt(0, faceParts.length)].getImage();
+        image.x = defaultPosition.x;
+        image.y = defaultPosition.y;
+
+        return image;
     }
 
     function getRandomInt(min, max)
