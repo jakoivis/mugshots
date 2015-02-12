@@ -46,7 +46,7 @@ var ImageDataUtil =
     getPixel32At: function (uint32Array, width, x, y)
     {
         return uint32Array[y * width + x];
-    }
+    },
 
     /**
      * Get the bottom position of an image. Lowest non-transparent pixel y position
@@ -67,7 +67,7 @@ var ImageDataUtil =
             }
         }
 
-        return bmd.height;
+        return height;
     },
 
     /**
@@ -84,7 +84,7 @@ var ImageDataUtil =
             {
                 if((uint32Array[y*width+x] >> 24 & 0xFF) >= alphaTolerance)
                 {
-                    return y+1;
+                    return y;
                 }
             }
         }
@@ -106,7 +106,7 @@ var ImageDataUtil =
             {
                 if((uint32Array[y*width+x] >> 24 & 0xFF) >= alphaTolerance)
                 {
-                    return x+1;
+                    return x;
                 }
             }
         }
@@ -133,8 +133,23 @@ var ImageDataUtil =
             }
         }
 
-        return bmd.width;
+        return width;
     },
-}
+
+    getBounds: function (uint32Array, width, height, alphaTolerance)
+    {
+        var rect = {
+            top: this.getBoundsTop(uint32Array, width, height, alphaTolerance),
+            bottom: this.getBoundsBottom(uint32Array, width, height, alphaTolerance),
+            left: this.getBoundsLeft(uint32Array, width, height, alphaTolerance),
+            right: this.getBoundsRight(uint32Array, width, height, alphaTolerance)
+        };
+
+        rect.width = rect.right - rect.left;
+        rect.height = rect.bottom - rect.top;
+
+        return rect;
+    }
+};
 
 module.exports = ImageDataUtil;
