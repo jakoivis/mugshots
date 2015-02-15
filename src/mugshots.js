@@ -83,11 +83,8 @@ function Mugshots()
     function getDefaultImage(facePartName)
     {
         var facePart = faceResources[facePartName][0];
-        var image = facePart.getImage();
-        var defaultPosition = facePart.getDefaultPosition();
 
-        image.x = defaultPosition.x;
-        image.y = defaultPosition.y;
+        facePart.setDefaultPosition();
 
         return facePart;
     }
@@ -126,11 +123,13 @@ function Mugshots()
         var faceParts = faceResources[facePartName];
         var randomNumber = getRandomInt(0, faceParts.length);
         var facePart = faceParts[randomNumber];
-        var image = facePart.getImage();
-        var defaultPosition = facePart.getDefaultPosition();
 
-        image.x = defaultPosition.x;
-        image.y = defaultPosition.y;
+        facePart.setDefaultPosition();
+        // var image = facePart.getImage();
+        // var defaultPosition = facePart.getDefaultPosition();
+
+        // image.x = defaultPosition.x;
+        // image.y = defaultPosition.y;
 
         return facePart;
     }
@@ -145,11 +144,16 @@ function Mugshots()
         debug.removeAllChildren();
         debug.clear();
 
-        debug.addChild(currentFaceParts.chin.getDebugBounds());
-        debug.addChild(currentFaceParts.nose.getDebugBounds());
-        debug.addChild(currentFaceParts.mouth.getDebugBounds());
-        debug.addChild(currentFaceParts.lefteye.getDebugBounds());
-        debug.addChild(currentFaceParts.righteye.getDebugBounds());
+        debug.addChild(currentFaceParts.chin.getInnerDebugBounds());
+        debug.addChild(currentFaceParts.chin.getOuterDebugBounds());
+        debug.addChild(currentFaceParts.nose.getInnerDebugBounds());
+        debug.addChild(currentFaceParts.nose.getOuterDebugBounds());
+        debug.addChild(currentFaceParts.mouth.getInnerDebugBounds());
+        debug.addChild(currentFaceParts.mouth.getOuterDebugBounds());
+        debug.addChild(currentFaceParts.lefteye.getInnerDebugBounds());
+        debug.addChild(currentFaceParts.lefteye.getOuterDebugBounds());
+        debug.addChild(currentFaceParts.righteye.getInnerDebugBounds());
+        debug.addChild(currentFaceParts.righteye.getOuterDebugBounds());
 
         debug.update();
     }

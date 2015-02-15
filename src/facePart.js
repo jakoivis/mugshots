@@ -17,25 +17,34 @@ function FacePart(groupName, image)
     var me = this;
     var settings;
 
+    var x;
+    var y;
+    var width;
+    var height;
+
+    function init()
+    {
+        settings = defaultFacePartSettings[groupName];
+
+        width = image.image.width;
+        height = image.image.height;
+    }
+
     me.getImage = function()
     {
         return image;
     };
 
-    me.getDefaultPosition = function()
+    me.setDefaultPosition = function()
     {
-        return {
-            x:settings.defaultRect.x,
-            y:settings.defaultRect.y
-        };
+        x = settings.defaultRect.x;
+        y = settings.defaultRect.y;
+
+        image.x = x;
+        image.y = y;
     };
 
-    function init()
-    {
-        settings = defaultFacePartSettings[groupName];
-    }
-
-    me.getDebugBounds = function()
+    me.getInnerDebugBounds = function()
     {
         var imageData = CanvasUtil.getImageDataFromTag(image.image);
         var imageData8ClampedView = imageData.data;
@@ -55,13 +64,25 @@ function FacePart(groupName, image)
         return shape;
     };
 
+    me.getOuterDebugBounds = function()
+    {
+        var shape = new createjs.Shape();
+
+        shape.graphics
+            .setStrokeStyle(1)
+            .beginStroke(settings.debugColor)
+            .drawRect(x, y, width, height);
+
+        return shape;
+    };
+
     function localToGlobal(rect)
     {
         return {
-            left: rect.left + me.getDefaultPosition().x,
-            right: rect.right + me.getDefaultPosition().x,
-            top: rect.top + me.getDefaultPosition().y,
-            bottom: rect.bottom + me.getDefaultPosition().y,
+            left: rect.left + x,
+            right: rect.right + x,
+            top: rect.top + y,
+            bottom: rect.bottom + y,
             width: rect.width,
             height: rect.height
         };
