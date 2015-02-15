@@ -1,6 +1,7 @@
 
 'use strict';
 
+var FacePartStack = require('./facePartStack.js');
 var PreloaderList = require('./preloaderList.js');
 require('imageLoader');
 var FacePart = require('./facePart.js');
@@ -9,22 +10,13 @@ module.exports = Mugshots;
 
 function Mugshots()
 {
-    var faceResources = {
-        various: [],
-        lefteye: [],
-        righteye: [],
-        nose: [],
-        mouth: [],
-        chin: []
-    };
-
-    var currentFaceParts = {
-        background: undefined,
-        lefteye: undefined,
-        righteye: undefined,
-        nose: undefined,
-        mouth: undefined,
-        chin: undefined
+    var stacks = {
+        various: new FacePartStack(),
+        lefteye: new FacePartStack(),
+        righteye: new FacePartStack(),
+        nose: new FacePartStack(),
+        mouth: new FacePartStack(),
+        chin: new FacePartStack()
     };
 
     var stage = undefined;
@@ -32,6 +24,9 @@ function Mugshots()
 
     function init()
     {
+        stage = new createjs.Stage('face');
+        debug = new createjs.Stage('debug');
+
         new ImageLoader({
             images: new PreloaderList().create(),
             onFileComplete: onFileComplete,
@@ -48,89 +43,109 @@ function Mugshots()
         {
             var bitmap = new createjs.Bitmap(item.tag);
             var facePart = new FacePart(item.groupName, bitmap);
-            faceResources[item.groupName].push(facePart);
+            stacks[item.groupName].push(facePart);
         }
     }
 
     function onComplete()
     {
-        stage = new createjs.Stage('face');
-        debug = new createjs.Stage('debug');
+        stage.addChild(stacks.various.current().getImage());
 
-        currentFaceParts.background = getDefaultImage('various');
-        stage.addChild(currentFaceParts.background.getImage());
-
-        currentFaceParts.chin = getDefaultImage('chin');
-        stage.addChild(currentFaceParts.chin.getImage());
-
-        currentFaceParts.nose = getDefaultImage('nose');
-        stage.addChild(currentFaceParts.nose.getImage());
-
-        currentFaceParts.mouth = getDefaultImage('mouth');
-        stage.addChild(currentFaceParts.mouth.getImage());
-
-        currentFaceParts.lefteye = getDefaultImage('lefteye');
-        stage.addChild(currentFaceParts.lefteye.getImage());
-
-        currentFaceParts.righteye = getDefaultImage('righteye');
-        stage.addChild(currentFaceParts.righteye.getImage());
-
-        stage.update();
+        setDefaultFaceParts();
+        setDefaultPositions();
+        addFacePartsToStage();
 
         drawDebugBounds();
-    }
-
-    function getDefaultImage(facePartName)
-    {
-        var facePart = faceResources[facePartName][0];
-
-        facePart.setDefaultPosition();
-
-        return facePart;
     }
 
     function randomize()
     {
-        stage.removeChild(currentFaceParts.lefteye.getImage());
-        stage.removeChild(currentFaceParts.righteye.getImage());
-        stage.removeChild(currentFaceParts.nose.getImage());
-        stage.removeChild(currentFaceParts.mouth.getImage());
-        stage.removeChild(currentFaceParts.chin.getImage());
-
-        currentFaceParts.chin = getRandomFacePart('chin');
-        stage.addChild(currentFaceParts.chin.getImage());
-
-        currentFaceParts.nose = getRandomFacePart('nose');
-        stage.addChild(currentFaceParts.nose.getImage());
-
-        currentFaceParts.mouth = getRandomFacePart('mouth');
-        stage.addChild(currentFaceParts.mouth.getImage());
-
-        currentFaceParts.lefteye = getRandomFacePart('lefteye');
-        stage.addChild(currentFaceParts.lefteye.getImage());
-
-        currentFaceParts.righteye = getRandomFacePart('righteye');
-        stage.addChild(currentFaceParts.righteye.getImage());
-
-        stage.update();
+        removeAllFacePartsFromStage();
+        setRandomFaceParts();
+        setRandomPositions();
+        addFacePartsToStage();
 
         drawDebugBounds();
+    }
 
+    function addFacePartsToStage()
+    {
+        stage.addChild(stacks.chin.current().getImage());
+        stage.addChild(stacks.nose.current().getImage());
+        stage.addChild(stacks.mouth.current().getImage());
+        stage.addChild(stacks.lefteye.current().getImage());
+        stage.addChild(stacks.righteye.current().getImage());
+        stage.update();
+    }
+
+    function setDefaultFaceParts()
+    {
+        stacks.chin.setPosition(0);
+        stacks.nose.setPosition(0);
+        stacks.mouth.setPosition(0);
+        stacks.lefteye.setPosition(0);
+        stacks.righteye.setPosition(0);
+    }
+
+    function setRandomFaceParts()
+    {
+        stacks.chin.random();
+        stacks.nose.random();
+        stacks.mouth.random();
+        stacks.lefteye.random();
+        stacks.righteye.random();
+    }
+
+    function removeAllFacePartsFromStage()
+    {
+        stage.removeChild(stacks.lefteye.current().getImage());
+        stage.removeChild(stacks.righteye.current().getImage());
+        stage.removeChild(stacks.nose.current().getImage());
+        stage.removeChild(stacks.mouth.current().getImage());
+        stage.removeChild(stacks.chin.current().getImage());
+    }
+
+    function setDefaultPositions()
+    {
+        stacks.chin.current().reset();
+        stacks.nose.current().reset();
+        stacks.mouth.current().reset();
+        stacks.lefteye.current().reset();
+        stacks.righteye.current().reset();
+    }
+
+    function setRandomPositions()
+    {
+        setRandomNosePosition();
+        setRandomMouthPosition();
+        setRandomEyePosition();
+    }
+
+    function setRandomNosePosition()
+    {
+        stacks.nose.current().setRandomYPosition();
+    }
+
+    function setRandomMouthPosition()
+    {
+
+    }
+
+    function setRandomEyePosition()
+    {
+
+    }
+
+    function getDefaultFacePart(facePartName)
+    {
+        return stacks[facePartName][0];
     }
 
     function getRandomFacePart(facePartName)
     {
-        var faceParts = faceResources[facePartName];
+        var faceParts = stacks[facePartName];
         var randomNumber = getRandomInt(0, faceParts.length);
         var facePart = faceParts[randomNumber];
-
-        facePart.setDefaultPosition();
-        // var image = facePart.getImage();
-        // var defaultPosition = facePart.getDefaultPosition();
-
-        // image.x = defaultPosition.x;
-        // image.y = defaultPosition.y;
-
         return facePart;
     }
 
@@ -144,16 +159,16 @@ function Mugshots()
         debug.removeAllChildren();
         debug.clear();
 
-        debug.addChild(currentFaceParts.chin.getInnerDebugBounds());
-        debug.addChild(currentFaceParts.chin.getOuterDebugBounds());
-        debug.addChild(currentFaceParts.nose.getInnerDebugBounds());
-        debug.addChild(currentFaceParts.nose.getOuterDebugBounds());
-        debug.addChild(currentFaceParts.mouth.getInnerDebugBounds());
-        debug.addChild(currentFaceParts.mouth.getOuterDebugBounds());
-        debug.addChild(currentFaceParts.lefteye.getInnerDebugBounds());
-        debug.addChild(currentFaceParts.lefteye.getOuterDebugBounds());
-        debug.addChild(currentFaceParts.righteye.getInnerDebugBounds());
-        debug.addChild(currentFaceParts.righteye.getOuterDebugBounds());
+        debug.addChild(stacks.chin.current().getInnerDebugBounds());
+        debug.addChild(stacks.chin.current().getOuterDebugBounds());
+        debug.addChild(stacks.nose.current().getInnerDebugBounds());
+        debug.addChild(stacks.nose.current().getOuterDebugBounds());
+        debug.addChild(stacks.mouth.current().getInnerDebugBounds());
+        debug.addChild(stacks.mouth.current().getOuterDebugBounds());
+        debug.addChild(stacks.lefteye.current().getInnerDebugBounds());
+        debug.addChild(stacks.lefteye.current().getOuterDebugBounds());
+        debug.addChild(stacks.righteye.current().getInnerDebugBounds());
+        debug.addChild(stacks.righteye.current().getOuterDebugBounds());
 
         debug.update();
     }

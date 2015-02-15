@@ -26,8 +26,7 @@ function FacePart(groupName, image)
     {
         settings = defaultFacePartSettings[groupName];
 
-        width = image.image.width;
-        height = image.image.height;
+        me.reset();
     }
 
     me.getImage = function()
@@ -35,13 +34,21 @@ function FacePart(groupName, image)
         return image;
     };
 
-    me.setDefaultPosition = function()
+    me.reset = function()
     {
+        width = image.image.width;
+        height = image.image.height;
+
         x = settings.defaultRect.x;
         y = settings.defaultRect.y;
 
         image.x = x;
         image.y = y;
+    };
+
+    me.setRandomYPosition = function()
+    {
+        y = settings.defaultRect.y + getRandomInt(settings.rangeY.min, settings.rangeY.max);
     };
 
     me.getInnerDebugBounds = function()
@@ -86,6 +93,11 @@ function FacePart(groupName, image)
             width: rect.width,
             height: rect.height
         };
+    }
+
+    function getRandomInt(min, max)
+    {
+      return Math.floor(Math.random() * (max - min)) + min;
     }
 
     init();
