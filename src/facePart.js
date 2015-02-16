@@ -37,8 +37,11 @@ function FacePart(groupName, image)
         get: function() { return imageAlphaBounds.bottom; },
         set: function(value)
         {
-            imageAlphaBounds.bottom = value;
-            imageAlphaBounds.height = imageAlphaBounds.bottom - imageAlphaBounds.top;
+            if(value !== undefined)
+            {
+                imageAlphaBounds.bottom = value;
+                imageAlphaBounds.height = imageAlphaBounds.bottom - imageAlphaBounds.top;
+            }
         }
     });
 
@@ -46,8 +49,11 @@ function FacePart(groupName, image)
         get: function() { return imageAlphaBounds.top; },
         set: function(value)
         {
-            imageAlphaBounds.top = value;
-            imageAlphaBounds.height = imageAlphaBounds.bottom - imageAlphaBounds.top;
+            if(value !== undefined)
+            {
+                imageAlphaBounds.top = value;
+                imageAlphaBounds.height = imageAlphaBounds.bottom - imageAlphaBounds.top;
+            }
         }
     });
 
@@ -55,8 +61,11 @@ function FacePart(groupName, image)
         get: function() { return imageAlphaBounds.left; },
         set: function(value)
         {
-            imageAlphaBounds.left = value;
-            imageAlphaBounds.width = imageAlphaBounds.right - imageAlphaBounds.left;
+            if(value !== undefined)
+            {
+                imageAlphaBounds.left = value;
+                imageAlphaBounds.width = imageAlphaBounds.right - imageAlphaBounds.left;
+            }
         }
     });
 
@@ -64,8 +73,11 @@ function FacePart(groupName, image)
         get: function() { return imageAlphaBounds; },
         set: function(value)
         {
-            imageAlphaBounds.right = value;
-            imageAlphaBounds.width = imageAlphaBounds.right - imageAlphaBounds.left;
+            if(value !== undefined)
+            {
+                imageAlphaBounds.right = value;
+                imageAlphaBounds.width = imageAlphaBounds.right - imageAlphaBounds.left;
+            }
         }
     });
 
