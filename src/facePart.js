@@ -22,12 +22,52 @@ function FacePart(groupName, image)
     var width;
     var height;
 
+    var imageAlphaBounds;
+
     function init()
     {
         settings = defaultFacePartSettings[groupName];
 
+        imageAlphaBounds = getBitmapAlphaBounds();
+
         me.reset();
     }
+
+    Object.defineProperty(this, 'boundsBottom', {
+        get: function() { return imageAlphaBounds.bottom; },
+        set: function(value)
+        {
+            imageAlphaBounds.bottom = value;
+            imageAlphaBounds.height = imageAlphaBounds.bottom - imageAlphaBounds.top;
+        }
+    });
+
+    Object.defineProperty(this, 'boundsTop', {
+        get: function() { return imageAlphaBounds.top; },
+        set: function(value)
+        {
+            imageAlphaBounds.top = value;
+            imageAlphaBounds.height = imageAlphaBounds.bottom - imageAlphaBounds.top;
+        }
+    });
+
+    Object.defineProperty(this, 'boundsLeft', {
+        get: function() { return imageAlphaBounds.left; },
+        set: function(value)
+        {
+            imageAlphaBounds.left = value;
+            imageAlphaBounds.width = imageAlphaBounds.right - imageAlphaBounds.left;
+        }
+    });
+
+    Object.defineProperty(this, 'boundsRight', {
+        get: function() { return imageAlphaBounds; },
+        set: function(value)
+        {
+            imageAlphaBounds.right = value;
+            imageAlphaBounds.width = imageAlphaBounds.right - imageAlphaBounds.left;
+        }
+    });
 
     me.getImage = function()
     {
@@ -53,13 +93,7 @@ function FacePart(groupName, image)
 
     me.getInnerDebugBounds = function()
     {
-        var imageData = CanvasUtil.getImageDataFromTag(image.image);
-        var imageData8ClampedView = imageData.data;
-        var imageData32View = new Uint32Array(imageData8ClampedView.buffer);
-
-        var bounds = ImageDataUtil.getBounds(imageData32View, imageData.width, imageData.height, BITMAP_ALPHA_TOLERANCE);
-
-        bounds = localToGlobal(bounds);
+        var bounds = localToGlobal(imageAlphaBounds);
 
         var shape = new createjs.Shape();
 
@@ -98,6 +132,15 @@ function FacePart(groupName, image)
     function getRandomInt(min, max)
     {
       return Math.floor(Math.random() * (max - min)) + min;
+    }
+
+    function getBitmapAlphaBounds()
+    {
+        var imageData = CanvasUtil.getImageDataFromTag(image.image);
+        var imageData8ClampedView = imageData.data;
+        var imageData32View = new Uint32Array(imageData8ClampedView.buffer);
+
+        return ImageDataUtil.getBounds(imageData32View, imageData.width, imageData.height, BITMAP_ALPHA_TOLERANCE);
     }
 
     init();

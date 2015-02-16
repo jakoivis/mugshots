@@ -19,8 +19,8 @@ function Mugshots()
         chin: new FacePartStack()
     };
 
-    var stage = undefined;
-    var debug = undefined;
+    var stage;
+    var debug;
 
     function init()
     {
@@ -43,6 +43,12 @@ function Mugshots()
         {
             var bitmap = new createjs.Bitmap(item.tag);
             var facePart = new FacePart(item.groupName, bitmap);
+
+            facePart.boundsBottom = item.boundsBottom;
+            facePart.boundsTop = item.boundsTop;
+            facePart.boundsLeft = item.boundsLeft;
+            facePart.boundsRight = item.boundsRight;
+
             stacks[item.groupName].push(facePart);
         }
     }
@@ -128,7 +134,26 @@ function Mugshots()
 
     function setRandomMouthPosition()
     {
+        // var mouth = stacks.mouth.current();
+        // var nose = stacks.nose.current();
+        // var chin = stacks..current();
 
+        // var mouthRange:int = chin.bitmapAbsoluteBottom - nose.bitmapAbsoluteBottom;
+        // var mouthAvailableMovement:int = mouthRange - mouth.bitmapVisibleHeight;
+
+        // if(mouthAvailableMovement < 0)
+        // {
+        //     // adjust mouth and nose so that mouth fits inside the chin image and nose and mouth are not overlapping
+        //     mouth.top = chin.bitmapAbsoluteBottom - mouth.bitmapBottom;
+        //     nose.top = mouth.bitmapAbsoluteTop - nose.bitmapBottom;
+        // }
+        // else
+        // {
+        //     // freely position mouth in the designated area
+        //     var sizeRatio:Number = mouth.bitmapVisibleHeight / mouthRange;
+        //     var offset:int = Math.round(Math.random() * (mouthAvailableMovement * sizeRatio));
+        //     mouth.top = nose.bitmapAbsoluteBottom - mouth.bitmapTop + offset;
+        // }
     }
 
     function setRandomEyePosition()
