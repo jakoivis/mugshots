@@ -1,22 +1,29 @@
 
 'use strict';
 
-var Rect = function(left, top, right, bottom)
+var Bounds = function(bounds)
 {
-    if (!(this instanceof Rect))
+    if (!(this instanceof Bounds))
     {
-        return new Rect(left, top, right, bottom);
+        return new Bounds(bounds);
     }
 
-    var _left = left;
-    var _right = right;
-    var _top = top;
-    var _bottom = bottom;
+    var me = this;
+
+    var _left;
+    var _right;
+    var _top;
+    var _bottom;
     var _width;
     var _height;
 
-    updateWidth();
-    updateHeight();
+    function init(bounds)
+    {
+        me.left = bounds.left;
+        me.top = bounds.top;
+        me.bottom = bounds.bottom;
+        me.right = bounds.right;
+    }
 
     Object.defineProperty(this, 'bottom', {
         get: function() { return _bottom; },
@@ -66,6 +73,14 @@ var Rect = function(left, top, right, bottom)
         }
     });
 
+    Object.defineProperty(this, 'width', {
+        get: function() { return _width; }
+    });
+
+    Object.defineProperty(this, 'height', {
+        get: function() { return _height; }
+    });
+
     function updateHeight()
     {
         _height = _bottom - _top;
@@ -76,7 +91,22 @@ var Rect = function(left, top, right, bottom)
         _width = _right - _left;
     }
 
+    me.translate = function(x, y)
+    {
+        me.left = bounds.left + x;
+        me.top = bounds.top + y;
+        me.bottom = bounds.bottom + y;
+        me.right = bounds.right + x;
+    };
+
+    me.clone = function()
+    {
+        return new Bounds(me);
+    };
+
+    init(bounds);
+
     return this;
 };
 
-module.exports = Rect;
+module.exports = Bounds;
