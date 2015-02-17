@@ -20,12 +20,12 @@ function Mugshots()
     };
 
     var stage;
-    var debug;
+
+    var debug = true;
 
     function init()
     {
         stage = new createjs.Stage('face');
-        debug = new createjs.Stage('debug');
 
         new ImageLoader({
             images: preloaderList,
@@ -55,13 +55,13 @@ function Mugshots()
 
     function onComplete()
     {
-        stage.addChild(stacks.various.current().getImage());
-
         setDefaultFaceParts();
         setDefaultPositions();
         addFacePartsToStage();
 
         drawDebugBounds();
+
+        stage.update();
     }
 
     function randomize()
@@ -72,16 +72,19 @@ function Mugshots()
         addFacePartsToStage();
 
         drawDebugBounds();
+
+        stage.update();
     }
 
     function addFacePartsToStage()
     {
+        stage.addChild(stacks.various.current().getImage());
+
         stage.addChild(stacks.chin.current().getImage());
-        stage.addChild(stacks.nose.current().getImage());
         stage.addChild(stacks.mouth.current().getImage());
+        stage.addChild(stacks.nose.current().getImage());
         stage.addChild(stacks.lefteye.current().getImage());
         stage.addChild(stacks.righteye.current().getImage());
-        stage.update();
     }
 
     function setDefaultFaceParts()
@@ -104,11 +107,8 @@ function Mugshots()
 
     function removeAllFacePartsFromStage()
     {
-        stage.removeChild(stacks.lefteye.current().getImage());
-        stage.removeChild(stacks.righteye.current().getImage());
-        stage.removeChild(stacks.nose.current().getImage());
-        stage.removeChild(stacks.mouth.current().getImage());
-        stage.removeChild(stacks.chin.current().getImage());
+        stage.removeAllChildren();
+        stage.clear();
     }
 
     function setDefaultPositions()
@@ -134,29 +134,26 @@ function Mugshots()
 
     function setRandomMouthPosition()
     {
-        // var mouth = stacks.mouth.current();
-        // var nose = stacks.nose.current();
-        // var chin = stacks.chin.current();
+        var mouth = stacks.mouth.current();
+        var nose = stacks.nose.current();
+        var chin = stacks.chin.current();
 
-        // var mouthRange = chin.getGlobalBounds().bottom - nose.getGlobalBounds().bottom;
-        // var mouthAvailableMovement = mouthRange - mouth.bounds.height;
+        var mouthRange = chin.getGlobalBounds().bottom - nose.getGlobalBounds().bottom;
+        var mouthAvailableMovement = mouthRange - mouth.bounds.height;
 
-        // console.log(mouthRange, mouthAvailableMovement);
-        // if(mouthAvailableMovement < 0)
-        // {
-        //     // adjust mouth and nose so that mouth fits inside the chin image and nose and mouth are not overlapping
-        //     mouth.y = chin.getGlobalBounds().bottom - mouth.bounds.bottom;
-        //     nose.y = mouth.getGlobalBounds().top - nose.bounds.bottom;
-        //     console.log("1");
-        // }
-        // else
-        // {
-        //     // freely position mouth in the designated area
-        //     var sizeRatio = mouth.bounds.height / mouthRange;
-        //     var offset = Math.round(Math.random() * (mouthAvailableMovement * sizeRatio));
-        //     mouth.y = nose.getGlobalBounds().bottom - mouth.bounds.top + offset;
-        //     console.log("2");
-        // }
+        if(mouthAvailableMovement < 0)
+        {
+            // adjust mouth and nose so that mouth fits inside the chin image and nose and mouth are not overlapping
+            mouth.y = chin.getGlobalBounds().bottom - mouth.bounds.bottom;
+            nose.y = mouth.getGlobalBounds().top - nose.bounds.bottom;
+        }
+        else
+        {
+            // freely position mouth in the designated area
+            var sizeRatio = mouth.bounds.height / mouthRange;
+            var offset = Math.round(Math.random() * (mouthAvailableMovement * sizeRatio));
+            mouth.y = nose.getGlobalBounds().bottom - mouth.bounds.top + offset;
+        }
     }
 
     function setRandomEyePosition()
@@ -166,21 +163,19 @@ function Mugshots()
 
     function drawDebugBounds()
     {
-        debug.removeAllChildren();
-        debug.clear();
-
-        debug.addChild(stacks.chin.current().getInnerDebugBounds());
-        debug.addChild(stacks.chin.current().getOuterDebugBounds());
-        debug.addChild(stacks.nose.current().getInnerDebugBounds());
-        debug.addChild(stacks.nose.current().getOuterDebugBounds());
-        debug.addChild(stacks.mouth.current().getInnerDebugBounds());
-        debug.addChild(stacks.mouth.current().getOuterDebugBounds());
-        debug.addChild(stacks.lefteye.current().getInnerDebugBounds());
-        debug.addChild(stacks.lefteye.current().getOuterDebugBounds());
-        debug.addChild(stacks.righteye.current().getInnerDebugBounds());
-        debug.addChild(stacks.righteye.current().getOuterDebugBounds());
-
-        debug.update();
+        if(debug)
+        {
+            stage.addChild(stacks.chin.current().getInnerDebugBounds());
+            stage.addChild(stacks.chin.current().getOuterDebugBounds());
+            stage.addChild(stacks.nose.current().getInnerDebugBounds());
+            stage.addChild(stacks.nose.current().getOuterDebugBounds());
+            stage.addChild(stacks.mouth.current().getInnerDebugBounds());
+            stage.addChild(stacks.mouth.current().getOuterDebugBounds());
+            stage.addChild(stacks.lefteye.current().getInnerDebugBounds());
+            stage.addChild(stacks.lefteye.current().getOuterDebugBounds());
+            stage.addChild(stacks.righteye.current().getInnerDebugBounds());
+            stage.addChild(stacks.righteye.current().getOuterDebugBounds());
+        }
     }
 
     init();
