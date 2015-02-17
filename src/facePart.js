@@ -1,6 +1,8 @@
 
 'use strict';
 
+var Bounds = require('./bounds.js');
+
 var CanvasUtil = require('./utils/canvasUtil.js');
 
 var ImageDataUtil = require('./utils/imageDataUtil.js');
@@ -22,63 +24,19 @@ function FacePart(groupName, image)
     var width;
     var height;
 
-    var imageAlphaBounds;
+    var bounds;
 
     function init()
     {
         settings = defaultFacePartSettings[groupName];
 
-        imageAlphaBounds = getBitmapAlphaBounds();
+        bounds = new Bounds(getBitmapAlphaBounds());
 
         me.reset();
     }
 
-    Object.defineProperty(this, 'boundsBottom', {
-        get: function() { return imageAlphaBounds.bottom; },
-        set: function(value)
-        {
-            if(value !== undefined)
-            {
-                imageAlphaBounds.bottom = value;
-                imageAlphaBounds.height = imageAlphaBounds.bottom - imageAlphaBounds.top;
-            }
-        }
-    });
-
-    Object.defineProperty(this, 'boundsTop', {
-        get: function() { return imageAlphaBounds.top; },
-        set: function(value)
-        {
-            if(value !== undefined)
-            {
-                imageAlphaBounds.top = value;
-                imageAlphaBounds.height = imageAlphaBounds.bottom - imageAlphaBounds.top;
-            }
-        }
-    });
-
-    Object.defineProperty(this, 'boundsLeft', {
-        get: function() { return imageAlphaBounds.left; },
-        set: function(value)
-        {
-            if(value !== undefined)
-            {
-                imageAlphaBounds.left = value;
-                imageAlphaBounds.width = imageAlphaBounds.right - imageAlphaBounds.left;
-            }
-        }
-    });
-
-    Object.defineProperty(this, 'boundsRight', {
-        get: function() { return imageAlphaBounds; },
-        set: function(value)
-        {
-            if(value !== undefined)
-            {
-                imageAlphaBounds.right = value;
-                imageAlphaBounds.width = imageAlphaBounds.right - imageAlphaBounds.left;
-            }
-        }
+    Object.defineProperty(this, 'bounds', {
+        get: function() { return bounds; }
     });
 
     me.getImage = function()
@@ -105,14 +63,14 @@ function FacePart(groupName, image)
 
     me.getInnerDebugBounds = function()
     {
-        var bounds = localToGlobal(imageAlphaBounds);
+        var globalBounds = localToGlobal(bounds);
 
         var shape = new createjs.Shape();
 
         shape.graphics
             .setStrokeStyle(1)
             .beginStroke(settings.debugColor)
-            .drawRect(bounds.left, bounds.top, bounds.width, bounds.height);
+            .drawRect(globalBounds.left, globalBounds.top, globalBounds.width, globalBounds.height);
 
         return shape;
     };
@@ -129,21 +87,21 @@ function FacePart(groupName, image)
         return shape;
     };
 
-    function localToGlobal(rect)
+    function localToGlobal(bounds)
     {
-        return {
-            left: rect.left + x,
-            right: rect.right + x,
-            top: rect.top + y,
-            bottom: rect.bottom + y,
-            width: rect.width,
-            height: rect.height
-        };
+        var globalBounds = bounds.clone();
+        globalBounds.translate(x, y);
+        return globalBounds;
     }
+
+    me.getGlobalBounds = function()
+    {
+        return localToGlobal(bounds);
+    };
 
     function getRandomInt(min, max)
     {
-      return Math.floor(Math.random() * (max - min)) + min;
+        return Math.floor(Math.random() * (max - min)) + min;
     }
 
     function getBitmapAlphaBounds()

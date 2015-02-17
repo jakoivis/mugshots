@@ -145,9 +145,6 @@ var ImageDataUtil =
             right: this.getBoundsRight(uint32Array, width, height, alphaTolerance)
         };
 
-        rect.width = rect.right - rect.left;
-        rect.height = rect.bottom - rect.top;
-
         return rect;
     }
 };

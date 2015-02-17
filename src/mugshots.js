@@ -44,10 +44,10 @@ function Mugshots()
             var bitmap = new createjs.Bitmap(item.tag);
             var facePart = new FacePart(item.groupName, bitmap);
 
-            facePart.boundsBottom = item.boundsBottom;
-            facePart.boundsTop = item.boundsTop;
-            facePart.boundsLeft = item.boundsLeft;
-            facePart.boundsRight = item.boundsRight;
+            facePart.bounds.bottom = item.boundsBottom;
+            facePart.bounds.top = item.boundsTop;
+            facePart.bounds.left = item.boundsLeft;
+            facePart.bounds.right = item.boundsRight;
 
             stacks[item.groupName].push(facePart);
         }
@@ -136,47 +136,32 @@ function Mugshots()
     {
         // var mouth = stacks.mouth.current();
         // var nose = stacks.nose.current();
-        // var chin = stacks..current();
+        // var chin = stacks.chin.current();
 
-        // var mouthRange:int = chin.bitmapAbsoluteBottom - nose.bitmapAbsoluteBottom;
-        // var mouthAvailableMovement:int = mouthRange - mouth.bitmapVisibleHeight;
+        // var mouthRange = chin.getGlobalBounds().bottom - nose.getGlobalBounds().bottom;
+        // var mouthAvailableMovement = mouthRange - mouth.bounds.height;
 
+        // console.log(mouthRange, mouthAvailableMovement);
         // if(mouthAvailableMovement < 0)
         // {
         //     // adjust mouth and nose so that mouth fits inside the chin image and nose and mouth are not overlapping
-        //     mouth.top = chin.bitmapAbsoluteBottom - mouth.bitmapBottom;
-        //     nose.top = mouth.bitmapAbsoluteTop - nose.bitmapBottom;
+        //     mouth.y = chin.getGlobalBounds().bottom - mouth.bounds.bottom;
+        //     nose.y = mouth.getGlobalBounds().top - nose.bounds.bottom;
+        //     console.log("1");
         // }
         // else
         // {
         //     // freely position mouth in the designated area
-        //     var sizeRatio:Number = mouth.bitmapVisibleHeight / mouthRange;
-        //     var offset:int = Math.round(Math.random() * (mouthAvailableMovement * sizeRatio));
-        //     mouth.top = nose.bitmapAbsoluteBottom - mouth.bitmapTop + offset;
+        //     var sizeRatio = mouth.bounds.height / mouthRange;
+        //     var offset = Math.round(Math.random() * (mouthAvailableMovement * sizeRatio));
+        //     mouth.y = nose.getGlobalBounds().bottom - mouth.bounds.top + offset;
+        //     console.log("2");
         // }
     }
 
     function setRandomEyePosition()
     {
 
-    }
-
-    function getDefaultFacePart(facePartName)
-    {
-        return stacks[facePartName][0];
-    }
-
-    function getRandomFacePart(facePartName)
-    {
-        var faceParts = stacks[facePartName];
-        var randomNumber = getRandomInt(0, faceParts.length);
-        var facePart = faceParts[randomNumber];
-        return facePart;
-    }
-
-    function getRandomInt(min, max)
-    {
-      return Math.floor(Math.random() * (max - min)) + min;
     }
 
     function drawDebugBounds()
