@@ -39,6 +39,30 @@ function FacePart(groupName, image)
         get: function() { return bounds; }
     });
 
+    Object.defineProperty(this, 'x', {
+        get: function() { return x; },
+        set: function(value)
+        {
+            if(value !== undefined)
+            {
+                x = Number(value);
+                image.x = x;
+            }
+        }
+    });
+
+    Object.defineProperty(this, 'y', {
+        get: function() { return y; },
+        set: function(value)
+        {
+            if(value !== undefined)
+            {
+                y = Number(value);
+                image.y = y;
+            }
+        }
+    });
+
     me.getImage = function()
     {
         return image;
