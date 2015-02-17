@@ -73,16 +73,13 @@ function FacePart(groupName, image)
         width = image.image.width;
         height = image.image.height;
 
-        x = settings.defaultRect.x;
-        y = settings.defaultRect.y;
-
-        image.x = x;
-        image.y = y;
+        me.x = settings.defaultRect.x;
+        me.y = settings.defaultRect.y;
     };
 
     me.setRandomYPosition = function()
     {
-        y = settings.defaultRect.y + getRandomInt(settings.rangeY.min, settings.rangeY.max);
+        me.y = settings.defaultRect.y + getRandomInt(settings.rangeY.min, settings.rangeY.max);
     };
 
     me.getInnerDebugBounds = function()
@@ -141,6 +138,18 @@ function FacePart(groupName, image)
 
     return this;
 }
+
+FacePart.getFacePartWithLowerBitmap = function(facepart1, facepart2)
+{
+    if(facepart1.getGlobalBounds().bottom < facepart2.getGlobalBounds().bottom)
+    {
+        return facepart1;
+    }
+    else
+    {
+        return facepart2;
+    }
+};
 
 var BITMAP_ALPHA_TOLERANCE = 230;
 
