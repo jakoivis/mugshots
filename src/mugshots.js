@@ -21,7 +21,7 @@ function Mugshots()
 
     var stage;
 
-    var debug = true;
+    var debug = false;
 
     function init()
     {
@@ -158,7 +158,23 @@ function Mugshots()
 
     function setRandomEyePosition()
     {
+        var lefteye = stacks.lefteye.current();
+        var righteye = stacks.righteye.current();
+        var nose = stacks.nose.current();
 
+        lefteye.setRandomYPosition();
+        righteye.y = lefteye.y;
+
+        var lowerEye = FacePart.getFacePartWithLowerBitmap(lefteye, righteye);
+        var eyeLimit = lowerEye.getGlobalBounds().top + (lowerEye.bounds.height / 4);
+        var correctionRequired = nose.getGlobalBounds().top - eyeLimit;
+
+        // check that nose and eyes don't overlap too much
+        if(correctionRequired < 0)
+        {
+            lefteye.y = nose.y - (lowerEye.bounds.height / 4);
+            righteye.y = nose.y - (lowerEye.bounds.height / 4);
+        }
     }
 
     function drawDebugBounds()
