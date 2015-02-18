@@ -2,7 +2,7 @@
 'use strict';
 
 var FacePartStack = require('./facePartStack.js');
-var preloaderList = require('./preloaderList.js');
+var PreloaderList = require('./preloaderList.js');
 require('imageLoader');
 var FacePart = require('./facePart.js');
 
@@ -28,7 +28,7 @@ function Mugshots()
         stage = new createjs.Stage('face');
 
         new ImageLoader({
-            images: preloaderList,
+            images: PreloaderList.getList(),
             onFileComplete: onFileComplete,
             onComplete: onComplete
         });

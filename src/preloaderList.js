@@ -1,6 +1,6 @@
 'use strict';
 
-var preloaderList = [
+var list = [
     {src:'assets/images/background/00.png', groupName:'various', name:'faceBackground'},
 
     {src:'assets/images/chin/00.png', groupName:'chin', boundsBottom:'285'},
@@ -304,4 +304,85 @@ var preloaderList = [
     {src:'assets/images/righteye/65.png', groupName:'righteye'}
 ];
 
-module.exports = preloaderList;
+function PreloaderList(list)
+{
+    // returns the list sorted so that loader loads items
+    // from all groups in parallel instead of one group at a time
+    function getList()
+    {
+        var groups = createFacePartGroups(list);
+        var sortedList = createSortedList(groups);
+        return sortedList;
+    }
+
+    function createFacePartGroups(facePartList)
+    {
+        var result = [];
+        var groupNames = [];
+        var groupName;
+        var groupIndex;
+        var item;
+
+        for(var i = 0; i < facePartList.length; i++)
+        {
+            item = facePartList[i];
+            groupName = item.groupName;
+            groupIndex = groupNames.indexOf(groupName);
+
+            if(groupIndex < 0)
+            {
+                groupNames.push(groupName);
+                result.push([]);
+                groupIndex = groupNames.indexOf(groupName);
+            }
+
+            result[groupIndex].push(item);
+        }
+
+        return result;
+    }
+
+    function createSortedList(facePartGroups)
+    {
+        var length = getHighestGroupLength(facePartGroups);
+        var numberOfGroups = facePartGroups.length;
+        var result = [];
+        var item;
+
+        for(var i = 0; i < length; i++)
+        {
+            for(var j = 0; j < numberOfGroups; j++)
+            {
+                item = facePartGroups[j][i];
+
+                if(item)
+                {
+                    result.push(item);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    function getHighestGroupLength(facePartGroups)
+    {
+        var highestLength = 0;
+
+        for(var i = 0; i < facePartGroups.length; i++)
+        {
+            if(facePartGroups[i].length > highestLength)
+            {
+                highestLength = facePartGroups[i].length;
+            }
+        }
+
+        return highestLength;
+    }
+
+    return {
+        getList: getList
+    };
+}
+
+module.exports = new PreloaderList(list);
