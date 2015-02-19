@@ -3,8 +3,11 @@
 
 var FacePartStack = require('./facePartStack.js');
 var PreloaderList = require('./preloaderList.js');
-require('imageLoader');
 var FacePart = require('./facePart.js');
+var ImageLoader = require('ImageLoader');
+var CanvasUtil = require('CanvasUtil');
+var Layer = require('Layer');
+var Graphic = require('Graphic');
 
 module.exports = Mugshots;
 
@@ -19,13 +22,17 @@ function Mugshots()
         chin: new FacePartStack()
     };
 
-    var stage;
+    var layer;
 
     var debug = false;
 
     function init()
     {
-        stage = new createjs.Stage('face');
+        layer = new Layer({
+            appendToBody: true,
+            width: 500,
+            height: 600
+        });
 
         new ImageLoader({
             images: PreloaderList.getList(),
@@ -41,8 +48,13 @@ function Mugshots()
     {
         if(!item.isFailed())
         {
-            var bitmap = new createjs.Bitmap(item.tag);
-            var facePart = new FacePart(item.groupName, bitmap);
+            var imageData = CanvasUtil.getImageDataFromTag(item.tag);
+            var graphic = new Graphic({
+                imageData: imageData
+            })
+
+            // var bitmap = new createjs.Bitmap(item.tag);
+            var facePart = new FacePart(item.groupName, graphic);
 
             facePart.bounds.bottom = item.boundsBottom;
             facePart.bounds.top = item.boundsTop;
@@ -61,7 +73,7 @@ function Mugshots()
 
         drawDebugBounds();
 
-        stage.update();
+        layer.render();
     }
 
     function randomize()
@@ -73,18 +85,18 @@ function Mugshots()
 
         drawDebugBounds();
 
-        stage.update();
+        layer.render();
     }
 
     function addFacePartsToStage()
     {
-        stage.addChild(stacks.various.current().getImage());
+        layer.addGraphic(stacks.various.current().getImage());
 
-        stage.addChild(stacks.chin.current().getImage());
-        stage.addChild(stacks.mouth.current().getImage());
-        stage.addChild(stacks.nose.current().getImage());
-        stage.addChild(stacks.lefteye.current().getImage());
-        stage.addChild(stacks.righteye.current().getImage());
+        layer.addGraphic(stacks.chin.current().getImage());
+        layer.addGraphic(stacks.mouth.current().getImage());
+        layer.addGraphic(stacks.nose.current().getImage());
+        layer.addGraphic(stacks.lefteye.current().getImage());
+        layer.addGraphic(stacks.righteye.current().getImage());
     }
 
     function setDefaultFaceParts()
@@ -107,8 +119,7 @@ function Mugshots()
 
     function removeAllFacePartsFromStage()
     {
-        stage.removeAllChildren();
-        stage.clear();
+        layer.removeAllGraphics();
     }
 
     function setDefaultPositions()

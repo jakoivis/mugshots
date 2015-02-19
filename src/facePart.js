@@ -70,8 +70,8 @@ function FacePart(groupName, image)
 
     me.reset = function()
     {
-        width = image.image.width;
-        height = image.image.height;
+        width = image.getImageData().width;
+        height = image.getImageData().height;
 
         me.x = settings.defaultRect.x;
         me.y = settings.defaultRect.y;
@@ -127,7 +127,7 @@ function FacePart(groupName, image)
 
     function getBitmapAlphaBounds()
     {
-        var imageData = CanvasUtil.getImageDataFromTag(image.image);
+        var imageData = image.getImageData();
         var imageData8ClampedView = imageData.data;
         var imageData32View = new Uint32Array(imageData8ClampedView.buffer);
 
