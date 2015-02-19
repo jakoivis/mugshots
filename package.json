@@ -29,7 +29,10 @@
     "vinyl-source-stream": "^1.0.0"
   },
   "browser": {
-    "imageLoader": "./bower_components/imageLoader/build/imageLoader.js",
-    "easeljs": "./bower_components/easeljs/lib/easeljs-0.8.0.combined.js"
+    "ImageLoader": "./bower_components/canvasFW/src/imageLoader/imageLoader.js",
+    "Layer": "./bower_components/canvasFW/src/layer.js",
+    "Graphic": "./bower_components/canvasFW/src/graphic.js",
+    "CanvasUtil": "./bower_components/canvasFW/src/canvasUtil.js",
+    "Transform": "./bower_components/canvasFW/src/transform.js"
   }
 }
