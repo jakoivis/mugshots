@@ -1,6 +1,5 @@
 <html>
 <head>
-    <script src="easeljs-0.8.0.min.js"></script>
     <style>
 
     canvas {
@@ -13,14 +12,14 @@
         position: absolute;
         left: 0;
         top: 0;
+        z-index: 1000;
     }
     </style>
 </head>
 
 <body oncontextmenu="return false;">
 
-    <canvas id="face" width="600" height="700"></canvas>
-    <input id="randomButton" type="button" value="random" />
+    <input id="randomButton" type="button" value="random"/>
 
     <script src="mugshots.js"></script>
 

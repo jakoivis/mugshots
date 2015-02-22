@@ -14,7 +14,7 @@
     "tests"
   ],
   "dependencies": {
-    "easeljs": "~0.8.0",
-    "imageLoader": "https://github.com/jakoivis/imageLoader.git#~1.0.0"
+    "canvasFW": "https://github.com/jakoivis/canvas-framework.git#~0.1.4",
+    "extend": "~0.1.0"
   }
 }
