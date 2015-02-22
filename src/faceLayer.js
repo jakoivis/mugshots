@@ -1,15 +1,14 @@
 
-'use strict';
+"use strict";
 
 var extend = require("extend");
-var FacePartStack = require('./facePartStack.js');
-var PreloaderList = require('./preloaderList.js');
-var PreloadLayer = require('./preloadLayer.js');
-var FacePart = require('./facePart.js');
-var ImageLoader = require('ImageLoader');
-var CanvasUtil = require('CanvasUtil');
-var Layer = require('Layer');
-var Graphic = require('Graphic');
+var FacePartStack = require("./facePartStack.js");
+var PreloaderList = require("./preloaderList.js");
+var FacePart = require("./facePart.js");
+var ImageLoader = require("ImageLoader");
+var CanvasUtil = require("CanvasUtil");
+var Layer = require("Layer");
+var Graphic = require("Graphic");
 
 module.exports = FaceLayer;
 
@@ -40,8 +39,8 @@ function FaceLayer(options)
             onComplete: onComplete
         });
 
-        var randomButton = document.getElementById('randomButton');
-        randomButton.addEventListener('click', randomize);
+        var randomButton = document.getElementById("randomButton");
+        randomButton.addEventListener("click", randomize);
     }
 
     function onFileComplete(item)
@@ -180,7 +179,7 @@ function FaceLayer(options)
         var eyeLimit = lowerEye.getGlobalBounds().top + (lowerEye.bounds.height / 4);
         var correctionRequired = nose.getGlobalBounds().top - eyeLimit;
 
-        // check that nose and eyes don't overlap too much
+        // check that nose and eyes don"t overlap too much
         if(correctionRequired < 0)
         {
             lefteye.y = nose.y - (lowerEye.bounds.height / 4);
