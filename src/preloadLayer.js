@@ -20,9 +20,17 @@ function PreloadLayer(options)
     {
         spinner = new Spinner();
 
-
         me.addGraphic(spinner);
+
+        animate();
+    }
+
+    function animate()
+    {
+        me.update();
         me.render();
+
+        window.requestAnimationFrame(animate);
     }
 
     init();
