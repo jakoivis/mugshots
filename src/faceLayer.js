@@ -31,8 +31,16 @@ function FaceLayer(options)
 
     var debug = false;
 
+    var onCompleteCallback;
+    var onBackgroundPreload;
+
+    var backgroundPreload = false;
+
     function init()
     {
+        onCompleteCallback = options.onComplete;
+        onBackgroundPreload = options.onBackgroundPreload;
+
         new ImageLoader({
             images: PreloaderList.getList(),
             onFileComplete: onFileComplete,
@@ -52,7 +60,6 @@ function FaceLayer(options)
                 imageData: imageData
             });
 
-            // var bitmap = new createjs.Bitmap(item.tag);
             var facePart = new FacePart(item.groupName, graphic);
 
             facePart.bounds.bottom = item.boundsBottom;
@@ -62,17 +69,30 @@ function FaceLayer(options)
 
             stacks[item.groupName].push(facePart);
         }
+
+        if(canSwitchToBackgroundLoading())
+        {
+            setDefaultFaceParts();
+            setDefaultPositions();
+            addFacePartsToStage();
+
+            drawDebugBounds();
+
+            me.render();
+
+            if(onBackgroundPreload)
+            {
+                onBackgroundPreload();
+            }
+        }
     }
 
     function onComplete()
     {
-        setDefaultFaceParts();
-        setDefaultPositions();
-        addFacePartsToStage();
-
-        drawDebugBounds();
-
-        me.render();
+        if(onCompleteCallback)
+        {
+            onCompleteCallback();
+        }
     }
 
     function randomize()
@@ -185,6 +205,24 @@ function FaceLayer(options)
             lefteye.y = nose.y - (lowerEye.bounds.height / 4);
             righteye.y = nose.y - (lowerEye.bounds.height / 4);
         }
+    }
+
+    function canSwitchToBackgroundLoading()
+    {
+        var minAmountLoaded = 10;
+
+        if(backgroundPreload === false &&
+            stacks.chin.length >= minAmountLoaded &&
+            stacks.nose.length >= minAmountLoaded &&
+            stacks.mouth.length >= minAmountLoaded &&
+            stacks.lefteye.length >= minAmountLoaded &&
+            stacks.righteye.length >= minAmountLoaded)
+        {
+            backgroundPreload = true;
+            return true;
+        }
+
+        return false;
     }
 
     function drawDebugBounds()

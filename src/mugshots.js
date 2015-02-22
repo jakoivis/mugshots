@@ -8,19 +8,33 @@ module.exports = Mugshots;
 
 function Mugshots()
 {
+    var preloadLayer;
+
     function init()
     {
         var face = new FaceLayer({
             appendToBody: true,
             width: 500,
-            height: 700
+            height: 700,
+            onComplete: loadComplete,
+            onBackgroundPreload: onBackgroundPreload
         });
 
-        var preload = new PreloadLayer({
+        preloadLayer = new PreloadLayer({
             appendToBody: true,
             width: 500,
             height: 700
         });
+    }
+
+    function loadComplete()
+    {
+        preloadLayer.remove();
+    }
+
+    function onBackgroundPreload()
+    {
+
     }
 
     init();

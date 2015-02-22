@@ -16,6 +16,10 @@ function FacePartStack()
 
     var _position = 0;
 
+    Object.defineProperty(this, "length", {
+        get: function() { return stack.length; },
+    });
+
     me.getPosition = function()
     {
         return _position;

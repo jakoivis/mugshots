@@ -16,6 +16,8 @@ function PreloadLayer(options)
     var me = this;
     var spinner;
 
+    var isAnimating = true;
+
     function init()
     {
         spinner = new Spinner();
@@ -30,8 +32,17 @@ function PreloadLayer(options)
         me.update();
         me.render();
 
-        window.requestAnimationFrame(animate);
+        if(isAnimating)
+        {
+            window.requestAnimationFrame(animate);
+        }
     }
+
+    me.remove = function()
+    {
+        isAnimating = false;
+
+    };
 
     init();
 
