@@ -14,6 +14,7 @@
     "tests"
   ],
   "dependencies": {
-    "canvasFW": "https://github.com/jakoivis/canvas-framework.git#~0.1.2"
+    "canvasFW": "https://github.com/jakoivis/canvas-framework.git#~0.1.4",
+    "extend": "~0.1.0"
   }
 }

@@ -29,6 +29,7 @@
     "vinyl-source-stream": "^1.0.0"
   },
   "browser": {
+    "extend": "./bower_components/extend/dist/extend.min.js",
     "ImageLoader": "./bower_components/canvasFW/src/imageLoader/imageLoader.js",
     "Layer": "./bower_components/canvasFW/src/layer.js",
     "Graphic": "./bower_components/canvasFW/src/graphic.js",
