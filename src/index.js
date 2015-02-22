@@ -1,4 +1,4 @@
 
 var Mugshots = require("./mugshots.js");
 
-Mugshots();
+new Mugshots();

@@ -13,65 +13,44 @@ function Spinner()
     var me = this;
     var renderContext;
 
-    var _colors;
-    var _stepRadians;
-    var _tickCaps;
-    var _highLightRotation;
+    var _colorCache;
+    var _highLightRotation = 0;
     var _rotation = 0;
 
-    var numberOfTicks;
-    var tickWidth;
-    var innerRadius;
-    var outerRadius;
-    var updateSpeed;
-    var rotationSpeed;
-    var roundEdges;
-    var tickHighLightColor;
-    var tickColor;
-    var tickAlpha;
-    var fadeDistance;
-    var center;
-
-    var defaults = {
-        numberOfTicks: 17,
-        tickWidth: 4,
-        innerRadius: 15,
-        outerRadius: 40,
-        updateSpeed: 40,
-        rotationSpeed: 0.03,
-        roundEdges: true,
-        tickHighLightColor: 0xFFEEEE,
-        tickColor: 0xFF6666,
-        tickAlpha: 0.5,
-        fadeDistance: 15,
-        center: {x:100, y:100}
-    };
+    var numberOfTicks = 17;
+    var tickWidth = 4;
+    var innerRadius = 15;
+    var outerRadius = 20;
+    var rotationSpeed = 0.03;
+    var roundEdges = true;
+    var tickHighLightColor = 0xFFEEEE;
+    var tickColor = 0xFF6666;
+    var tickAlpha = 0.5;
+    var fadeDistance = 15;
+    var center = {x:100, y:100};
 
     function init()
     {
-        numberOfTicks = defaults.numberOfTicks;
-        numberOfTicks = defaults.numberOfTicks;
-        tickWidth = defaults.tickWidth;
-        innerRadius = defaults.innerRadius;
-        outerRadius = defaults.outerRadius;
-        updateSpeed = defaults.updateSpeed;
-        rotationSpeed = defaults.rotationSpeed;
-        roundEdges = defaults.roundEdges;
-        tickHighLightColor = defaults.tickHighLightColor;
-        tickColor = defaults.tickColor;
-        tickAlpha = defaults.tickAlpha;
-        fadeDistance = defaults.fadeDistance;
-        center = defaults.center;
+        _colorCache = getColorCache(
+            fadeDistance,
+            numberOfTicks,
+            tickHighLightColor,
+            tickColor);
     }
 
     me.update = function()
     {
-
+        updateRotation();
     };
 
     me.clear = function()
     {
+        var left = center.x - outerRadius - tickWidth;
+        var top = center.y - outerRadius - tickWidth;
+        var width = outerRadius + outerRadius + tickWidth +2;
+        var height = width;
 
+        renderContext.clearRect(left, top, width, height);
     };
 
     me.setRenderContext = function(context)
@@ -86,11 +65,14 @@ function Spinner()
 
     function drawAllTicks()
     {
-        var rotation = 0;
-
         var stepRadians = (Math.PI*2) / numberOfTicks;
 
-        var radians = rotation;
+        var radians = _rotation;
+
+        renderContext.lineCap = roundEdges ? "round" : "square";
+        renderContext.lineWidth = tickWidth;
+        renderContext.globalAlpha = tickAlpha;
+        renderContext.globalCompositeOperation = "source-over";
 
         for(var i = 0; i < numberOfTicks; i++)
         {
@@ -99,33 +81,18 @@ function Spinner()
         }
     }
 
-    function drawTick(radians)
+    function drawTick(radians, tickIndex)
     {
         var innerPoint = pointOnACircle(innerRadius, center, radians);
         var outerPoint = pointOnACircle(outerRadius, center, radians);
 
-        renderContext.lineCap = roundEdges ? "round" : "square";
-        renderContext.lineWidth = tickWidth;
-        renderContext.globalAlpha = 1.0;
-        renderContext.globalCompositeOperation = "source-over";
-        renderContext.strokeStyle = "#660066";
+        renderContext.strokeStyle = "#" + getColor(tickIndex).toString(16);
 
         renderContext.beginPath();
         renderContext.moveTo(innerPoint.x, innerPoint.y);
         renderContext.lineTo(outerPoint.x, outerPoint.y);
-        renderContext.closePath();
 
         renderContext.stroke();
-
-    }
-
-    function updateColors()
-    {
-
-    }
-
-    function updateRotation()
-    {
 
     }
 
@@ -139,17 +106,75 @@ function Spinner()
         return result;
     }
 
-    // private function getColor(indexOfTick)
-    // {
-    //     var colorIndex = indexOfTick + _highLightRotation;
+    function getColor(tickIndex)
+    {
+        var colorIndex = tickIndex + _highLightRotation;
 
-    //     if(colorIndex > numberOfTicks)
-    //     {
-    //         colorIndex = colorIndex - numberOfTicks;
-    //     }
+        if(colorIndex > numberOfTicks)
+        {
+            colorIndex = colorIndex - numberOfTicks;
+        }
 
-    //     return _colors[colorIndex];
-    // }
+        return _colorCache[colorIndex];
+    }
+
+    function getColorCache(fadeDistance, numberOfTicks, color1, color2)
+    {
+        var result = [];
+        var i = 0;
+
+        if(fadeDistance > numberOfTicks)
+        {
+            fadeDistance = numberOfTicks;
+        }
+
+        var step = 100 / (fadeDistance-1);
+        var gradientPosition = 0;
+
+        for(i = 0; i < fadeDistance; i++)
+        {
+            result.push(getColorFromGradient(color1, color2, gradientPosition));
+            gradientPosition += step;
+        }
+
+        for(i = fadeDistance-1; i < numberOfTicks; i++)
+        {
+            result.push(tickColor);
+        }
+
+        return result;
+    }
+
+    function getColorFromGradient(color1, color2, value)
+    {
+        value = value<0?0:value>100?100:value;
+        var rgb1 = hexToRgb(color1);
+        var rgb2 = hexToRgb(color2);
+        var scale = {r:(rgb1.r-rgb2.r)/100, g:(rgb1.g-rgb2.g)/100, b:(rgb1.b-rgb2.b)/100};
+        return ((rgb1.r-value*scale.r)<<16|(rgb1.g-value*scale.g)<<8|(rgb1.b-value*scale.b));
+    }
+
+    function hexToRgb(hex)
+    {
+        return {r:(hex & 0xff0000) >> 16, g:(hex & 0x00ff00) >> 8, b:hex & 0x0000ff};
+    }
+
+    function rgbToHex(r, g, b)
+    {
+        return (r<<16 | g<<8 | b);
+    }
+
+    function updateRotation()
+    {
+        _highLightRotation ++;
+
+        if(_highLightRotation >= numberOfTicks)
+        {
+            _highLightRotation = 0;
+        }
+
+        _rotation += rotationSpeed;
+    }
 
     init();
 

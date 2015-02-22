@@ -4,7 +4,6 @@
 var FaceLayer = require('./faceLayer.js');
 var PreloadLayer = require('./preloadLayer.js');
 
-
 module.exports = Mugshots;
 
 function Mugshots()
