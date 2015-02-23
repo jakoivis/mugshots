@@ -19,36 +19,39 @@ function PreloadLayer(options)
 
     var isAnimating = true;
 
+    var spinnerHidden = {
+        alpha: 0,
+        outerRadius: 60,
+        innerRadius: 40,
+        rotationSpeed: 0.1,
+        tickWidth: 8
+    };
+
+    var spinnerVisible = {
+        alpha: 0.5,
+        outerRadius: 20,
+        innerRadius: 15,
+        rotationSpeed: 0.03,
+        tickWidth: 4
+    };
+
     function init()
     {
         spinner = new Spinner();
         spinner.tickColor = 0x444444;
         spinner.tickHighLightColor = 0xEEEEEE;
-        spinner.tickAlpha = 0.5;
         spinner.center = {x: 100, y: 100};
+        spinner.outerRadius = spinnerVisible.outerRadius;
+        spinner.innerRadius = spinnerVisible.innerRadius;
+        spinner.tickAlpha = spinnerVisible.alpha;
+        spinner.rotationSpeed = spinnerVisible.rotationSpeed;
+        spinner.tickWidth = spinnerVisible.tickWidth;
 
         me.addGraphic(spinner);
 
         animate();
 
-        new TWEEN.Tween({
-                alpha: 0,
-                outerRadius: 60,
-                innerRadius: 40,
-                rotationSpeed: 0.1,
-                tickWidth: 8
-            })
-            .to({
-                alpha: 0.5,
-                outerRadius: 20,
-                innerRadius: 15,
-                rotationSpeed: 0.03,
-                tickWidth: 4
-            }, 2000)
-            .easing(TWEEN.Easing.Elastic.InOut)
-            .onUpdate(fadeUpdate)
-            // .onComplete(fadeInCompleteComplete)
-            .start();
+        doTransition(spinnerHidden, spinnerVisible, 2000);
     }
 
     function animate(time)
@@ -66,25 +69,23 @@ function PreloadLayer(options)
 
     me.remove = function()
     {
-        new TWEEN.Tween({
-                alpha: 0.5,
-                outerRadius: 20,
-                innerRadius: 15,
-                rotationSpeed: 0.03,
-                tickWidth: 4
-            })
-            .to({
-                alpha: 0,
-                outerRadius: 60,
-                innerRadius: 40,
-                rotationSpeed: 0.1,
-                tickWidth: 8
-            }, 4000)
+        doTransition(spinnerVisible, spinnerHidden, 4000, function() {
+            isAnimating = false;
+            document.body.removeChild(me.getCanvas());
+        });
+    };
+
+    function doTransition(from, to, duration, onComplete)
+    {
+        onComplete = onComplete || function() {};
+
+        new TWEEN.Tween(clone(from))
+            .to(clone(to), duration)
             .easing(TWEEN.Easing.Elastic.InOut)
             .onUpdate(fadeUpdate)
-            .onComplete(fadeOutComplete)
+            .onComplete(onComplete)
             .start();
-    };
+    }
 
     function fadeUpdate()
     {
@@ -95,9 +96,16 @@ function PreloadLayer(options)
         spinner.tickAlpha = this.alpha;
     }
 
-    function fadeOutComplete()
-    {
-        isAnimating = false;
+    function clone(obj) {
+
+        var copy = {};
+
+        for (var attr in obj)
+        {
+            copy[attr] = obj[attr];
+        }
+
+        return copy;
     }
 
     init();

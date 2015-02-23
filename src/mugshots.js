@@ -14,8 +14,8 @@ function Mugshots()
     {
         var face = new FaceLayer({
             appendToBody: true,
-            width: 500,
-            height: 700,
+            width: 613,
+            height: 920,
             onComplete: loadComplete,
             onBackgroundPreload: onBackgroundPreload
         });
@@ -30,6 +30,7 @@ function Mugshots()
     function loadComplete()
     {
         preloadLayer.remove();
+        preloadLayer = null;
     }
 
     function onBackgroundPreload()
