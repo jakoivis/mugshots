@@ -25,9 +25,84 @@ function Spinner()
     var roundEdges = true;
     var tickHighLightColor = 0xFFEEEE;
     var tickColor = 0xFF6666;
-    var tickAlpha = 0.5;
+    var tickAlpha = 1;
     var fadeDistance = 15;
     var center = {x:100, y:100};
+
+    Object.defineProperty(this, "center", {
+        get: function() { return center; },
+        set: function(value)
+        {
+            center = value;
+        }
+    });
+
+    Object.defineProperty(this, "tickColor", {
+        get: function() { return tickColor; },
+        set: function(value)
+        {
+            tickColor = Number(value);
+            _colorCache = getColorCache(
+                fadeDistance,
+                numberOfTicks,
+                tickHighLightColor,
+                tickColor);
+        }
+    });
+
+    Object.defineProperty(this, "tickHighLightColor", {
+        get: function() { return tickHighLightColor; },
+        set: function(value)
+        {
+            tickHighLightColor = Number(value);
+            _colorCache = getColorCache(
+                fadeDistance,
+                numberOfTicks,
+                tickHighLightColor,
+                tickColor);
+        }
+    });
+
+    Object.defineProperty(this, "tickWidth", {
+        get: function() { return tickWidth; },
+        set: function(value)
+        {
+            tickWidth = Number(value);
+        }
+    });
+
+    Object.defineProperty(this, "rotationSpeed", {
+        get: function() { return rotationSpeed; },
+        set: function(value)
+        {
+            rotationSpeed = Number(value);
+        }
+    });
+
+    Object.defineProperty(this, "outerRadius", {
+        get: function() { return outerRadius; },
+        set: function(value)
+        {
+            outerRadius = Number(value);
+        }
+    });
+
+    Object.defineProperty(this, "innerRadius", {
+        get: function() { return innerRadius; },
+        set: function(value)
+        {
+            innerRadius = Number(value);
+        }
+    });
+
+    Object.defineProperty(this, "tickAlpha", {
+        get: function() { return tickAlpha; },
+        set: function(value)
+        {
+            tickAlpha = Number(value);
+            tickAlpha = tickAlpha > 1 ? 1 : tickAlpha < 0 ? 0 : tickAlpha;
+        }
+    });
 
     function init()
     {

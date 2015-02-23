@@ -4,6 +4,7 @@
 var extend = require("extend");
 var Layer = require("Layer");
 var Spinner = require("./spinner.js");
+var TWEEN = require("tween.js");
 
 module.exports = PreloadLayer;
 
@@ -21,14 +22,20 @@ function PreloadLayer(options)
     function init()
     {
         spinner = new Spinner();
+        spinner.tickColor = 0x444444;
+        spinner.tickHighLightColor = 0xEEEEEE;
+        spinner.tickAlpha = 0.5;
+        spinner.center = {x: 400, y: 400};
 
         me.addGraphic(spinner);
 
         animate();
     }
 
-    function animate()
+    function animate(time)
     {
+        TWEEN.update(time);
+
         me.update();
         me.render();
 
@@ -40,9 +47,39 @@ function PreloadLayer(options)
 
     me.remove = function()
     {
-        isAnimating = false;
-
+        new TWEEN.Tween({
+                alpha: 0.5,
+                outerRadius: 20,
+                innerRadius: 15,
+                rotationSpeed: 0.03,
+                tickWidth: 4
+            })
+            .to({
+                alpha: 0,
+                outerRadius: 60,
+                innerRadius: 40,
+                rotationSpeed: 0.1,
+                tickWidth: 8
+            }, 4000)
+            .easing(TWEEN.Easing.Elastic.InOut)
+            .onUpdate(fadeOutUpdate)
+            .onComplete(fadeOutComplete)
+            .start();
     };
+
+    function fadeOutUpdate()
+    {
+        spinner.outerRadius = this.outerRadius;
+        spinner.innerRadius = this.innerRadius;
+        spinner.rotationSpeed = this.rotationSpeed;
+        spinner.tickWidth = this.tickWidth;
+        spinner.tickAlpha = this.alpha;
+    }
+
+    function fadeOutComplete()
+    {
+        isAnimating = false;
+    }
 
     init();
 
