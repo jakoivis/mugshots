@@ -120,9 +120,9 @@ function Spinner()
 
     me.clear = function()
     {
-        var left = center.x - outerRadius - tickWidth;
-        var top = center.y - outerRadius - tickWidth;
-        var width = outerRadius + outerRadius + tickWidth +2;
+        var left = center.x - outerRadius - tickWidth -10 ;
+        var top = center.y - outerRadius - tickWidth -10;
+        var width = outerRadius + outerRadius + tickWidth +20;
         var height = width;
 
         renderContext.clearRect(left, top, width, height);

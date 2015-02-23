@@ -25,11 +25,30 @@ function PreloadLayer(options)
         spinner.tickColor = 0x444444;
         spinner.tickHighLightColor = 0xEEEEEE;
         spinner.tickAlpha = 0.5;
-        spinner.center = {x: 400, y: 400};
+        spinner.center = {x: 100, y: 100};
 
         me.addGraphic(spinner);
 
         animate();
+
+        new TWEEN.Tween({
+                alpha: 0,
+                outerRadius: 60,
+                innerRadius: 40,
+                rotationSpeed: 0.1,
+                tickWidth: 8
+            })
+            .to({
+                alpha: 0.5,
+                outerRadius: 20,
+                innerRadius: 15,
+                rotationSpeed: 0.03,
+                tickWidth: 4
+            }, 2000)
+            .easing(TWEEN.Easing.Elastic.InOut)
+            .onUpdate(fadeUpdate)
+            // .onComplete(fadeInCompleteComplete)
+            .start();
     }
 
     function animate(time)
@@ -62,12 +81,12 @@ function PreloadLayer(options)
                 tickWidth: 8
             }, 4000)
             .easing(TWEEN.Easing.Elastic.InOut)
-            .onUpdate(fadeOutUpdate)
+            .onUpdate(fadeUpdate)
             .onComplete(fadeOutComplete)
             .start();
     };
 
-    function fadeOutUpdate()
+    function fadeUpdate()
     {
         spinner.outerRadius = this.outerRadius;
         spinner.innerRadius = this.innerRadius;
