@@ -40,7 +40,7 @@ function PreloadLayer(options)
         spinner = new Spinner();
         spinner.tickColor = 0x444444;
         spinner.tickHighLightColor = 0xEEEEEE;
-        spinner.center = {x: 100, y: 100};
+        spinner.center = {x: 80, y: 620};
         spinner.outerRadius = spinnerVisible.outerRadius;
         spinner.innerRadius = spinnerVisible.innerRadius;
         spinner.tickAlpha = spinnerVisible.alpha;
