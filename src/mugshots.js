@@ -13,17 +13,18 @@ function Mugshots()
     function init()
     {
         var face = new FaceLayer({
-            appendToBody: true,
-            width: 613,
-            height: 920,
+            target: "face",
+            width: 600,
+            height: 800,
             onComplete: loadComplete,
             onBackgroundPreload: onBackgroundPreload
         });
 
         preloadLayer = new PreloadLayer({
-            appendToBody: true,
-            width: 500,
-            height: 700
+            target: "loader",
+            clickThrough: true,
+            width: 600,
+            height: 800
         });
     }
 

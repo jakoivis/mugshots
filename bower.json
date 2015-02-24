@@ -14,7 +14,7 @@
     "tests"
   ],
   "dependencies": {
-    "canvasFW": "https://github.com/jakoivis/canvas-framework.git#~0.1.5",
+    "canvasFW": "https://github.com/jakoivis/canvas-framework.git#~0.1.6",
     "extend": "~0.1.0",
     "tween.js": "https://github.com/tweenjs/tween.js.git"
   },
