@@ -46,9 +46,6 @@ function FaceLayer(options)
             onFileComplete: onFileComplete,
             onComplete: onComplete
         });
-
-        var randomButton = document.getElementById("randomButton");
-        randomButton.addEventListener("click", randomize);
     }
 
     function onFileComplete(item)
@@ -79,6 +76,8 @@ function FaceLayer(options)
             drawDebugBounds();
 
             me.render();
+
+            addLayerClickHandler();
 
             if(onBackgroundPreload)
             {
@@ -223,6 +222,12 @@ function FaceLayer(options)
         }
 
         return false;
+    }
+
+    function addLayerClickHandler()
+    {
+        me.getCanvas().addEventListener("click", randomize);
+        me.getCanvas().style.cursor = "pointer";
     }
 
     function drawDebugBounds()
