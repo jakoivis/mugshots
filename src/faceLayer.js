@@ -173,15 +173,15 @@ function FaceLayer(options)
         if(mouthAvailableMovement < 0)
         {
             // adjust mouth and nose so that mouth fits inside the chin image and nose and mouth are not overlapping
-            mouth.y = chin.getGlobalBounds().bottom - mouth.bounds.bottom;
-            nose.y = mouth.getGlobalBounds().top - nose.bounds.bottom;
+            mouth.y = Math.round(chin.getGlobalBounds().bottom - mouth.bounds.bottom);
+            nose.y = Math.round(mouth.getGlobalBounds().top - nose.bounds.bottom);
         }
         else
         {
             // freely position mouth in the designated area
             var sizeRatio = mouth.bounds.height / mouthRange;
             var offset = Math.round(Math.random() * (mouthAvailableMovement * sizeRatio));
-            mouth.y = nose.getGlobalBounds().bottom - mouth.bounds.top + offset;
+            mouth.y = Math.round(nose.getGlobalBounds().bottom - mouth.bounds.top + offset);
         }
     }
 
@@ -201,8 +201,9 @@ function FaceLayer(options)
         // check that nose and eyes don"t overlap too much
         if(correctionRequired < 0)
         {
-            lefteye.y = nose.y - (lowerEye.bounds.height / 4);
-            righteye.y = nose.y - (lowerEye.bounds.height / 4);
+            var eyeYPosition = Math.round(nose.y - (lowerEye.bounds.height / 4));
+            lefteye.y = eyeYPosition;
+            righteye.y = eyeYPosition;
         }
     }
 
