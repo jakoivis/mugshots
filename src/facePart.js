@@ -182,14 +182,14 @@ var defaultFacePartSettings = {
 
     lefteye: {
         defaultRect: {x:133, y:233, width:168, height:141},
-        rangeY: {min: -10, max: 20},
+        rangeY: {min: -15, max: 30},
         rangeX: {min: 0, max: 0},
         debugColor: "#FFFF00"
     },
 
     righteye: {
         defaultRect: {x:265, y:233, width:160, height:141},
-        rangeY: {min: -10, max: 20},
+        rangeY: {min: -15, max: 30},
         rangeX: {min: 0, max: 0},
         debugColor: "#00FFFF"
     }

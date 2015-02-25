@@ -113,28 +113,47 @@ function Face()
         stacks.nose.current().setRandomYPosition();
     }
 
+
+
     function setRandomMouthPosition()
     {
         var mouth = stacks.mouth.current();
         var nose = stacks.nose.current();
+
+        changeMouthIfItDoesntFit();
+
+        // freely position mouth in the designated area
+        var sizeRatio = mouth.bounds.height / getMouthRange();
+        var offset = Math.round(Math.random() * (getMouthAvailableMovement() * sizeRatio));
+        mouth.y = Math.round(nose.getGlobalBounds().bottom - mouth.bounds.top + offset);
+    }
+
+    function changeMouthIfItDoesntFit()
+    {
+        while(canMouthFit())
+        {
+            stacks.mouth.random();
+        }
+    }
+
+    function canMouthFit()
+    {
+        return getMouthAvailableMovement() < 0;
+    }
+
+    function getMouthAvailableMovement()
+    {
+        var mouth = stacks.mouth.current();
+
+        return getMouthRange() - mouth.bounds.height;
+    }
+
+    function getMouthRange()
+    {
+        var nose = stacks.nose.current();
         var chin = stacks.chin.current();
 
-        var mouthRange = chin.getGlobalBounds().bottom - nose.getGlobalBounds().bottom;
-        var mouthAvailableMovement = mouthRange - mouth.bounds.height;
-
-        if(mouthAvailableMovement < 0)
-        {
-            // adjust mouth and nose so that mouth fits inside the chin image and nose and mouth are not overlapping
-            mouth.y = Math.round(chin.getGlobalBounds().bottom - mouth.bounds.bottom);
-            nose.y = Math.round(mouth.getGlobalBounds().top - nose.bounds.bottom);
-        }
-        else
-        {
-            // freely position mouth in the designated area
-            var sizeRatio = mouth.bounds.height / mouthRange;
-            var offset = Math.round(Math.random() * (mouthAvailableMovement * sizeRatio));
-            mouth.y = Math.round(nose.getGlobalBounds().bottom - mouth.bounds.top + offset);
-        }
+        return chin.getGlobalBounds().bottom - nose.getGlobalBounds().bottom;
     }
 
     function setRandomEyePosition()
