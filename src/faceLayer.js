@@ -75,23 +75,10 @@ function FaceLayer(options)
 
     function randomize()
     {
-        me.removeAllGraphics();
         face.setRandomFaceParts();
         face.setRandomPositions();
-        addFacePartsToLayer();
 
-        me.render();
-    }
-
-    function addFacePartsToLayer()
-    {
-        me.addGraphic(face.getBackgroundImage());
-
-        me.addGraphic(face.getChinImage());
-        me.addGraphic(face.getMouthImage());
-        me.addGraphic(face.getNoseImage());
-        me.addGraphic(face.getLefteyeImage());
-        me.addGraphic(face.getRighteyeImage());
+        updateGraphics();
     }
 
     function canSwitchToBackgroundLoading()
@@ -112,9 +99,8 @@ function FaceLayer(options)
     {
         face.setDefaultFaceParts();
         face.setDefaultPositions();
-        addFacePartsToLayer();
 
-        me.render();
+        updateGraphics();
 
         addLayerClickHandler();
 
@@ -122,6 +108,21 @@ function FaceLayer(options)
         {
             onBackgroundPreload();
         }
+    }
+
+    function updateGraphics()
+    {
+        me.removeAllGraphics();
+
+        me.addGraphic(face.getBackgroundImage());
+
+        me.addGraphic(face.getChinImage());
+        me.addGraphic(face.getMouthImage());
+        me.addGraphic(face.getNoseImage());
+        me.addGraphic(face.getLefteyeImage());
+        me.addGraphic(face.getRighteyeImage());
+
+        me.render();
     }
 
     function addLayerClickHandler()
