@@ -2,9 +2,6 @@
 "use strict";
 
 var Bounds = require("./bounds.js");
-
-var CanvasUtil = require("./utils/canvasUtil.js");
-
 var ImageDataUtil = require("./utils/imageDataUtil.js");
 
 module.exports = FacePart;
@@ -82,30 +79,28 @@ function FacePart(groupName, image)
         me.y = settings.defaultRect.y + getRandomInt(settings.rangeY.min, settings.rangeY.max);
     };
 
-    me.getInnerDebugBounds = function()
+    me.getInnerDebugBoundSettings = function()
     {
         var globalBounds = localToGlobal(bounds);
 
-        var shape = new createjs.Shape();
-
-        shape.graphics
-            .setStrokeStyle(1)
-            .beginStroke(settings.debugColor)
-            .drawRect(globalBounds.left, globalBounds.top, globalBounds.width, globalBounds.height);
-
-        return shape;
+        return {
+            x: globalBounds.left,
+            y: globalBounds.top,
+            width: globalBounds.width,
+            height: globalBounds.height,
+            color: settings.debugColor1
+        };
     };
 
-    me.getOuterDebugBounds = function()
+    me.getOuterDebugBoundSettings = function()
     {
-        var shape = new createjs.Shape();
-
-        shape.graphics
-            .setStrokeStyle(1)
-            .beginStroke(settings.debugColor)
-            .drawRect(x, y, width, height);
-
-        return shape;
+        return {
+            x: x,
+            y: y,
+            width: width,
+            height: height,
+            color: settings.debugColor2
+        };
     };
 
     function localToGlobal(bounds)
@@ -151,46 +146,51 @@ FacePart.getFacePartWithLowerBitmap = function(facepart1, facepart2)
     }
 };
 
-var BITMAP_ALPHA_TOLERANCE = 230;
+var BITMAP_ALPHA_TOLERANCE = 210;
 
 var defaultFacePartSettings = {
     various: {
         defaultRect: {x:0, y:0},
-        debugColor: "#000000"
+        debugColor1: "#000000"
     },
 
     nose: {
         defaultRect: {x:217, y:278, width:126, height:172},
         rangeY: {min: -20, max: 20},
         rangeX: {min: 0, max: 0},
-        debugColor: "#00FF00"
+        debugColor1: "#00FF00",
+        debugColor2: "#90FF90"
     },
 
     mouth: {
         defaultRect: {x:187, y:399, width:199, height:214},
         rangeY: {min: 0, max: 0},
         rangeX: {min: 0, max: 0},
-        debugColor: "#FF0000"
+        debugColor1: "#FF0000",
+        debugColor2: "#FF9090"
     },
 
     chin: {
         defaultRect: {x:82, y:254, width:397, height:401},
         rangeY: {min: 0, max: 0},
         rangeX: {min: 0, max: 0},
-        debugColor: "#0000FF"
+        debugColor1: "#0000FF",
+        debugColor2: "#9090FF"
     },
 
     lefteye: {
         defaultRect: {x:133, y:233, width:168, height:141},
         rangeY: {min: -15, max: 30},
         rangeX: {min: 0, max: 0},
-        debugColor: "#FFFF00"
+        debugColor1: "#FFFF00",
+        debugColor2: "#FFFF90"
     },
 
     righteye: {
         defaultRect: {x:265, y:233, width:160, height:141},
         rangeY: {min: -15, max: 30},
         rangeX: {min: 0, max: 0},
-        debugColor: "#00FFFF"
+        debugColor1: "#00FFFF",
+        debugColor2: "#90FFFF"
     }
 };

@@ -22,6 +22,7 @@ function FaceLayer(options)
     var onCompleteCallback;
     var onBackgroundPreload;
     var backgroundPreload = false;
+    var debug = true;
 
     function init()
     {
@@ -121,6 +122,11 @@ function FaceLayer(options)
         me.addGraphic(face.getNoseImage());
         me.addGraphic(face.getLefteyeImage());
         me.addGraphic(face.getRighteyeImage());
+
+        if(debug)
+        {
+            me.addGraphic(face.getDebugBounds());
+        }
 
         me.render();
     }

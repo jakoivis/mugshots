@@ -35,6 +35,7 @@
     "Layer": "./bower_components/canvasFW/src/layer.js",
     "Graphic": "./bower_components/canvasFW/src/graphic.js",
     "CanvasUtil": "./bower_components/canvasFW/src/canvasUtil.js",
-    "Transform": "./bower_components/canvasFW/src/transform.js"
+    "Transform": "./bower_components/canvasFW/src/transform.js",
+    "Shape": "./bower_components/canvasFW/src/shape.js"
   }
 }

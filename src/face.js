@@ -3,6 +3,7 @@
 
 var FacePart = require("./facePart.js");
 var FacePartStack = require("./facePartStack.js");
+var Shape = require("Shape");
 
 module.exports = Face;
 
@@ -113,8 +114,6 @@ function Face()
         stacks.nose.current().setRandomYPosition();
     }
 
-
-
     function setRandomMouthPosition()
     {
         var mouth = stacks.mouth.current();
@@ -178,20 +177,44 @@ function Face()
         }
     }
 
-    // function drawDebugBounds()
-    // {
-    //     if(debug)
-    //     {
-    //         me.addGraphic(face.stacks.chin.current().getInnerDebugBounds());
-    //         me.addGraphic(face.stacks.chin.current().getOuterDebugBounds());
-    //         me.addGraphic(face.stacks.nose.current().getInnerDebugBounds());
-    //         me.addGraphic(face.stacks.nose.current().getOuterDebugBounds());
-    //         me.addGraphic(face.stacks.mouth.current().getInnerDebugBounds());
-    //         me.addGraphic(face.stacks.mouth.current().getOuterDebugBounds());
-    //         me.addGraphic(face.stacks.lefteye.current().getInnerDebugBounds());
-    //         me.addGraphic(face.stacks.lefteye.current().getOuterDebugBounds());
-    //         me.addGraphic(face.stacks.righteye.current().getInnerDebugBounds());
-    //         me.addGraphic(face.stacks.righteye.current().getOuterDebugBounds());
-    //     }
-    // }
+    me.getDebugBounds = function()
+    {
+        var shape = new Shape();
+
+        var test = stacks.chin.current();
+
+        console.log(test.getOuterDebugBoundSettings());
+
+        drawFacePartToShape(shape, stacks.chin.current());
+        drawFacePartToShape(shape, stacks.nose.current());
+        drawFacePartToShape(shape, stacks.mouth.current());
+        drawFacePartToShape(shape, stacks.lefteye.current());
+        drawFacePartToShape(shape, stacks.righteye.current());
+
+        return shape;
+    }
+
+    function drawFacePartToShape(shape, facePart)
+    {
+        var innerSettings = facePart.getInnerDebugBoundSettings();
+        var outerSettings = facePart.getOuterDebugBoundSettings();
+
+        shape.box(
+            innerSettings.x,
+            innerSettings.y,
+            innerSettings.width,
+            innerSettings.height);
+
+        shape.strokeStyle = innerSettings.color;
+        shape.stroke();
+
+        shape.box(
+            outerSettings.x,
+            outerSettings.y,
+            outerSettings.width,
+            outerSettings.height);
+
+        shape.strokeStyle = outerSettings.color;
+        shape.stroke();
+    }
 }
