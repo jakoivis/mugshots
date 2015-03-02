@@ -1,10 +1,11 @@
 
 "use strict";
 
+var TOPICS = require("./topics.js");
+var amplify = require("amplify").amplify;
 var extend = require("extend");
 var Face = require("./face.js");
-var PreloaderList = require("./preloaderList.js");
-var ImageLoader = require("ImageLoader");
+
 var CanvasUtil = require("CanvasUtil");
 var Layer = require("Layer");
 var Graphic = require("Graphic");
@@ -21,19 +22,16 @@ function FaceLayer(options)
     var face = new Face();
     var onCompleteCallback;
     var onBackgroundPreload;
-    var backgroundPreload = false;
-    var debug = true;
+    var debug = false;
 
     function init()
     {
         onCompleteCallback = options.onComplete;
         onBackgroundPreload = options.onBackgroundPreload;
 
-        new ImageLoader({
-            images: PreloaderList.getList(),
-            onFileComplete: onFileComplete,
-            onComplete: onComplete
-        });
+        amplify.subscribe(TOPICS.PRELOAD_COMPLETE, onComplete);
+        amplify.subscribe(TOPICS.PRELOAD_ITEM_COMPLETE, onFileComplete);
+        amplify.subscribe(TOPICS.PRELOAD_BACKGROUND, switchToBackgroundMode);
     }
 
     function onFileComplete(item)
@@ -42,10 +40,13 @@ function FaceLayer(options)
         {
             addLoadedItemToFace(item);
         }
+    }
 
-        if(canSwitchToBackgroundLoading())
+    function onComplete()
+    {
+        if(onCompleteCallback)
         {
-            switchToBackgroundLoading();
+            onCompleteCallback();
         }
     }
 
@@ -66,14 +67,6 @@ function FaceLayer(options)
         face.addGraphic(loadedItem.groupName, graphic, bounds);
     }
 
-    function onComplete()
-    {
-        if(onCompleteCallback)
-        {
-            onCompleteCallback();
-        }
-    }
-
     function randomize()
     {
         face.setRandomFaceParts();
@@ -82,21 +75,7 @@ function FaceLayer(options)
         updateGraphics();
     }
 
-    function canSwitchToBackgroundLoading()
-    {
-        var minAmountLoaded = 50;
-
-        if(backgroundPreload === false &&
-            face.getTotalNumberOfItems() >= minAmountLoaded)
-        {
-            backgroundPreload = true;
-            return true;
-        }
-
-        return false;
-    }
-
-    function switchToBackgroundLoading()
+    function switchToBackgroundMode()
     {
         face.setDefaultFaceParts();
         face.setDefaultPositions();

@@ -1,6 +1,7 @@
 
 "use strict";
 
+var PreloadService = require("./preloadService.js");
 var FaceLayer = require("./faceLayer.js");
 var PreloadLayer = require("./preloadLayer.js");
 var TWEEN = require("tween.js");
@@ -18,7 +19,9 @@ function Mugshots()
             width: 600,
             height: 800,
             onComplete: loadComplete,
-            onBackgroundPreload: onBackgroundPreload
+            onBackgroundPreload: onBackgroundPreload,
+            enableOnClickEvents: true,
+            enableOnRollEvents: true
         });
 
         preloadLayer = new PreloadLayer({
@@ -27,6 +30,8 @@ function Mugshots()
             width: 600,
             height: 800
         });
+
+        PreloadService.load();
     }
 
     function loadComplete()
