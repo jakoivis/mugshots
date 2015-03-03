@@ -20,16 +20,10 @@ function FaceLayer(options)
 
     var me = this;
     var face = new Face();
-    var onCompleteCallback;
-    var onBackgroundPreload;
     var debug = false;
 
     function init()
     {
-        onCompleteCallback = options.onComplete;
-        onBackgroundPreload = options.onBackgroundPreload;
-
-        amplify.subscribe(TOPICS.PRELOAD_COMPLETE, onComplete);
         amplify.subscribe(TOPICS.PRELOAD_ITEM_COMPLETE, onFileComplete);
         amplify.subscribe(TOPICS.PRELOAD_BACKGROUND, switchToBackgroundMode);
     }
@@ -39,14 +33,6 @@ function FaceLayer(options)
         if(!item.isFailed())
         {
             addLoadedItemToFace(item);
-        }
-    }
-
-    function onComplete()
-    {
-        if(onCompleteCallback)
-        {
-            onCompleteCallback();
         }
     }
 
@@ -83,11 +69,6 @@ function FaceLayer(options)
         updateGraphics();
 
         addLayerClickHandler();
-
-        if(onBackgroundPreload)
-        {
-            onBackgroundPreload();
-        }
     }
 
     function updateGraphics()

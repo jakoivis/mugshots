@@ -1,11 +1,14 @@
 
 "use strict";
 
+var amplify = require("amplify").amplify;
 var extend = require("extend");
 var Layer = require("Layer");
 var TWEEN = require("tween.js");
 
 var Spinner = require("../components/spinner.js");
+
+var TOPICS = require("../topics.js");
 
 module.exports = PreloadLayer;
 
@@ -38,6 +41,8 @@ function PreloadLayer(options)
 
     function init()
     {
+        amplify.subscribe(TOPICS.PRELOAD_COMPLETE, remove);
+
         spinner = new Spinner();
         spinner.tickColor = 0x444444;
         spinner.tickHighLightColor = 0xEEEEEE;
@@ -68,13 +73,13 @@ function PreloadLayer(options)
         }
     }
 
-    me.remove = function()
+    function remove()
     {
         doTransition(spinnerVisible, spinnerHidden, 4000, function() {
             isAnimating = false;
             document.body.removeChild(me.getCanvas());
         });
-    };
+    }
 
     function doTransition(from, to, duration, onComplete)
     {

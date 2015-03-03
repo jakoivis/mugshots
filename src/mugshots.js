@@ -1,11 +1,14 @@
 
 "use strict";
 
+var amplify = require("amplify").amplify;
 var TWEEN = require("tween.js");
 
 var PreloadService = require("./services/preloadService.js");
 var PreloadLayer = require("./layers/preloadLayer.js");
 var FaceLayer = require("./layers/faceLayer.js");
+
+var TOPICS = require("./topics.js");
 
 module.exports = Mugshots;
 
@@ -19,8 +22,6 @@ function Mugshots()
             target: "face",
             width: 600,
             height: 800,
-            onComplete: loadComplete,
-            onBackgroundPreload: onBackgroundPreload,
             enableOnClickEvents: true,
             enableOnRollEvents: true
         });
@@ -32,16 +33,12 @@ function Mugshots()
             height: 800
         });
 
+        amplify.subscribe(TOPICS.PRELOAD_BACKGROUND, onSwitchToBackgroundMode);
+
         PreloadService.load();
     }
 
-    function loadComplete()
-    {
-        preloadLayer.remove();
-        preloadLayer = null;
-    }
-
-    function onBackgroundPreload()
+    function onSwitchToBackgroundMode()
     {
         removeOverlay();
     }
