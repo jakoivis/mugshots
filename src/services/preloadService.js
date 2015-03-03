@@ -1,7 +1,7 @@
 
 "use strict";
 
-var TOPICS = require("./topics.js");
+var TOPICS = require("../topics.js");
 var amplify = require("amplify").amplify;
 var PreloaderList = require("./preloaderList.js");
 var ImageLoader = require("ImageLoader");

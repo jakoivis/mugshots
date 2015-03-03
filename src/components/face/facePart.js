@@ -2,7 +2,7 @@
 "use strict";
 
 var Bounds = require("./bounds.js");
-var ImageDataUtil = require("./utils/imageDataUtil.js");
+var ImageDataUtil = require("../../utils/imageDataUtil.js");
 
 module.exports = FacePart;
 

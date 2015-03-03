@@ -1,14 +1,14 @@
 
 "use strict";
 
-var TOPICS = require("./topics.js");
 var amplify = require("amplify").amplify;
 var extend = require("extend");
-var Face = require("./face.js");
-
 var CanvasUtil = require("CanvasUtil");
 var Layer = require("Layer");
 var Graphic = require("Graphic");
+
+var Face = require("../components/face.js");
+var TOPICS = require("../topics.js");
 
 module.exports = FaceLayer;
 

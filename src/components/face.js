@@ -1,9 +1,10 @@
 
 "use strict";
 
-var FacePart = require("./facePart.js");
-var FacePartStack = require("./facePartStack.js");
 var Shape = require("Shape");
+
+var FacePartStack = require("./face/facePartStack.js");
+var FacePart = require("./face/facePart.js");
 
 module.exports = Face;
 
@@ -20,18 +21,29 @@ function Face()
         chin: new FacePartStack()
     };
 
+    me.onFacePartChange;
+    me.onFacePartRollOver;
+    me.onFacePartRollOut;
+
     Object.defineProperty(this, "stacks", {
         get: function() { return stacks; }
     });
 
     me.addGraphic = function(groupName, graphic, bounds)
     {
+        graphic.onClick = facePartClick;
+        graphic.onRollOver = facePartRollOver;
+        graphic.onRollOut = facePartRollOut;
+
+        graphic.groupName = groupName;
+
         var facePart = new FacePart(groupName, graphic);
 
         facePart.bounds.bottom = bounds.bottom;
         facePart.bounds.top = bounds.top;
         facePart.bounds.left = bounds.left;
         facePart.bounds.right = bounds.right;
+
 
         stacks[groupName].push(facePart);
     };
@@ -176,6 +188,33 @@ function Face()
             righteye.y = eyeYPosition;
         }
     }
+
+    function facePartClick()
+    {
+        stacks[this.groupName].random();
+
+        if(me.onFacePartChange)
+        {
+            me.onFacePartChange(this.groupName);
+        }
+    }
+
+    function facePartRollOver()
+    {
+        if(me.onFacePartRollOver)
+        {
+            me.onFacePartRollOver(this.groupName);
+        }
+    }
+
+    function facePartRollOut()
+    {
+        if(me.onFacePartRollOver)
+        {
+            me.onFacePartRollOver(this.groupName);
+        }
+    }
+
 
     me.getDebugBounds = function()
     {

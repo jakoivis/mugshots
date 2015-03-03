@@ -1,10 +1,11 @@
 
 "use strict";
 
-var PreloadService = require("./preloadService.js");
-var FaceLayer = require("./faceLayer.js");
-var PreloadLayer = require("./preloadLayer.js");
 var TWEEN = require("tween.js");
+
+var PreloadService = require("./services/preloadService.js");
+var PreloadLayer = require("./layers/preloadLayer.js");
+var FaceLayer = require("./layers/faceLayer.js");
 
 module.exports = Mugshots;
 

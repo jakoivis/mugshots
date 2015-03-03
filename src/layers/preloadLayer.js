@@ -3,8 +3,9 @@
 
 var extend = require("extend");
 var Layer = require("Layer");
-var Spinner = require("./spinner.js");
 var TWEEN = require("tween.js");
+
+var Spinner = require("../components/spinner.js");
 
 module.exports = PreloadLayer;
 
