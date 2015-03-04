@@ -2,6 +2,7 @@
 "use strict";
 
 var Shape = require("Shape");
+var CanvasUtil = require("CanvasUtil");
 
 var FacePartStack = require("./face/facePartStack.js");
 var FacePart = require("./face/facePart.js");
@@ -29,53 +30,55 @@ function Face()
         get: function() { return stacks; }
     });
 
-    me.addGraphic = function(groupName, graphic, bounds)
+    me.createFacePart = function(imageSettings)
     {
-        graphic.onClick = facePartClick;
-        graphic.onRollOver = facePartRollOver;
-        graphic.onRollOut = facePartRollOut;
+        var imageData = CanvasUtil.getImageDataFromTag(imageSettings.tag);
 
-        graphic.groupName = groupName;
+        var facePart = new FacePart({
+            imageData: imageData,
+            groupName: imageSettings.groupName
+        });
 
-        var facePart = new FacePart(groupName, graphic);
+        facePart.bounds.bottom = imageSettings.boundsBottom;
+        facePart.bounds.top = imageSettings.boundsTop;
+        facePart.bounds.left = imageSettings.boundsLeft;
+        facePart.bounds.right = imageSettings.boundsRight;
 
-        facePart.bounds.bottom = bounds.bottom;
-        facePart.bounds.top = bounds.top;
-        facePart.bounds.left = bounds.left;
-        facePart.bounds.right = bounds.right;
+        facePart.onClick = facePartClick;
+        facePart.onRollOver = facePartRollOver;
+        facePart.onRollOut = facePartRollOut;
 
-
-        stacks[groupName].push(facePart);
+        stacks[imageSettings.groupName].push(facePart);
     };
 
     me.getBackgroundImage = function()
     {
-        return stacks.various.current().getImage();
+        return stacks.various.current();
     };
 
     me.getChinImage = function()
     {
-        return stacks.chin.current().getImage();
+        return stacks.chin.current();
     };
 
     me.getMouthImage = function()
     {
-        return stacks.mouth.current().getImage();
+        return stacks.mouth.current();
     };
 
     me.getNoseImage = function()
     {
-        return stacks.nose.current().getImage();
+        return stacks.nose.current();
     };
 
     me.getLefteyeImage = function()
     {
-        return stacks.lefteye.current().getImage();
+        return stacks.lefteye.current();
     };
 
     me.getRighteyeImage = function()
     {
-        return stacks.righteye.current().getImage();
+        return stacks.righteye.current();
     };
 
     me.setDefaultFaceParts = function()
@@ -209,9 +212,9 @@ function Face()
 
     function facePartRollOut()
     {
-        if(me.onFacePartRollOver)
+        if(me.onFacePartRollOut)
         {
-            me.onFacePartRollOver(this.groupName);
+            me.onFacePartRollOut(this.groupName);
         }
     }
 

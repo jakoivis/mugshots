@@ -1,74 +1,51 @@
 
 "use strict";
 
+var extend = require("extend");
+var Graphic = require("Graphic");
 var Bounds = require("./bounds.js");
 var ImageDataUtil = require("../../utils/imageDataUtil.js");
 
 module.exports = FacePart;
 
-function FacePart(groupName, image)
+extend(FacePart, Graphic);
+
+function FacePart(options)
 {
+    FacePart.superconstructor.call(this, options);
+
     if (!(this instanceof FacePart))
     {
-        return new FacePart(groupName, image);
+        return new FacePart(options);
     }
 
     var me = this;
     var settings;
 
-    var x;
-    var y;
     var width;
     var height;
 
-    var bounds;
-
     function init()
     {
-        settings = defaultFacePartSettings[groupName];
+        me.groupName = options.groupName;
+
+        settings = defaultFacePartSettings[options.groupName];
 
         bounds = new Bounds(getBitmapAlphaBounds());
 
         me.reset();
     }
 
+    var bounds;
+
     Object.defineProperty(this, "bounds", {
         get: function() { return bounds; }
     });
 
-    Object.defineProperty(this, "x", {
-        get: function() { return x; },
-        set: function(value)
-        {
-            if(value !== undefined)
-            {
-                x = Number(value);
-                image.x = x;
-            }
-        }
-    });
-
-    Object.defineProperty(this, "y", {
-        get: function() { return y; },
-        set: function(value)
-        {
-            if(value !== undefined)
-            {
-                y = Number(value);
-                image.y = y;
-            }
-        }
-    });
-
-    me.getImage = function()
-    {
-        return image;
-    };
-
     me.reset = function()
     {
-        width = image.getImageData().width;
-        height = image.getImageData().height;
+        width = me.getImageData().width;
+        height = me.getImageData().height;
 
         me.x = settings.defaultRect.x;
         me.y = settings.defaultRect.y;
@@ -95,8 +72,8 @@ function FacePart(groupName, image)
     me.getOuterDebugBoundSettings = function()
     {
         return {
-            x: x,
-            y: y,
+            x: me.x,
+            y: me.y,
             width: width,
             height: height,
             color: settings.debugColor2
@@ -106,7 +83,7 @@ function FacePart(groupName, image)
     function localToGlobal(bounds)
     {
         var globalBounds = bounds.clone();
-        globalBounds.translate(x, y);
+        globalBounds.translate(me.x, me.y);
         return globalBounds;
     }
 
@@ -122,7 +99,7 @@ function FacePart(groupName, image)
 
     function getBitmapAlphaBounds()
     {
-        var imageData = image.getImageData();
+        var imageData = me.getImageData();
         var imageData8ClampedView = imageData.data;
         var imageData32View = new Uint32Array(imageData8ClampedView.buffer);
 

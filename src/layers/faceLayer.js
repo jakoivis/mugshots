@@ -3,9 +3,8 @@
 
 var amplify = require("amplify").amplify;
 var extend = require("extend");
-var CanvasUtil = require("CanvasUtil");
+
 var Layer = require("Layer");
-var Graphic = require("Graphic");
 
 var Face = require("../components/face.js");
 var TOPICS = require("../topics.js");
@@ -26,6 +25,9 @@ function FaceLayer(options)
     {
         amplify.subscribe(TOPICS.PRELOAD_ITEM_COMPLETE, onFileComplete);
         amplify.subscribe(TOPICS.PRELOAD_BACKGROUND, switchToBackgroundMode);
+
+        face.onFacePartRollOver = facePartRollOver;
+        face.onFacePartRollOut = facePartRollOut;
     }
 
     function onFileComplete(item)
@@ -38,19 +40,17 @@ function FaceLayer(options)
 
     function addLoadedItemToFace(loadedItem)
     {
-        var imageData = CanvasUtil.getImageDataFromTag(loadedItem.tag);
-        var graphic = new Graphic({
-            imageData: imageData
-        });
+        face.createFacePart(loadedItem);
+    }
 
-        var bounds = {
-            bottom: loadedItem.boundsBottom,
-            top: loadedItem.boundsTop,
-            left: loadedItem.boundsLeft,
-            right: loadedItem.boundsRight
-        };
+    function facePartRollOver(groupName)
+    {
+        // amplify.publish(TOPICS.FACE_PART_ROLL_OVER, {groupName:groupName});
+    }
 
-        face.addGraphic(loadedItem.groupName, graphic, bounds);
+    function facePartRollOut()
+    {
+        // amplify.publish(TOPICS.FACE_PART_ROLL_OUT, {groupName:groupName});
     }
 
     function randomize()
