@@ -1,8 +1,11 @@
 
 "use strict";
 
+var amplify = require("amplify").amplify;
 var extend = require("extend");
 var Layer = require("Layer");
+
+var TOPICS = require("../topics.js");
 
 module.exports = HighlightLayer;
 
@@ -15,6 +18,17 @@ function HighlightLayer(options)
     var me = this;
 
     function init()
+    {
+        amplify.subscribe(TOPICS.FACE_PART_ROLL_OVER, itemRollOver);
+        amplify.subscribe(TOPICS.FACE_PART_ROLL_OUT, itemRollOut);
+    }
+
+    function itemRollOver(data)
+    {
+
+    }
+
+    function itemRollOut(data)
     {
 
     }

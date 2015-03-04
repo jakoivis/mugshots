@@ -43,14 +43,14 @@ function FaceLayer(options)
         face.createFacePart(loadedItem);
     }
 
-    function facePartRollOver(groupName)
+    function facePartRollOver(groupName, bounds)
     {
-        // amplify.publish(TOPICS.FACE_PART_ROLL_OVER, {groupName:groupName});
+        amplify.publish(TOPICS.FACE_PART_ROLL_OVER, {groupName:groupName, bounds:bounds});
     }
 
-    function facePartRollOut()
+    function facePartRollOut(groupName, bounds)
     {
-        // amplify.publish(TOPICS.FACE_PART_ROLL_OUT, {groupName:groupName});
+        amplify.publish(TOPICS.FACE_PART_ROLL_OUT, {groupName:groupName, bounds:bounds});
     }
 
     function randomize()

@@ -206,7 +206,7 @@ function Face()
     {
         if(me.onFacePartRollOver)
         {
-            me.onFacePartRollOver(this.groupName);
+            me.onFacePartRollOver(this.groupName, this.getGlobalBounds());
         }
     }
 
@@ -214,7 +214,7 @@ function Face()
     {
         if(me.onFacePartRollOut)
         {
-            me.onFacePartRollOut(this.groupName);
+            me.onFacePartRollOut(this.groupName, this.getGlobalBounds());
         }
     }
 
