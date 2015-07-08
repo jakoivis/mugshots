@@ -37,6 +37,7 @@
     "Graphic": "./bower_components/canvasFW/src/graphic.js",
     "CanvasUtil": "./bower_components/canvasFW/src/canvasUtil.js",
     "Transform": "./bower_components/canvasFW/src/transform.js",
-    "Shape": "./bower_components/canvasFW/src/shape.js"
+    "Shape": "./bower_components/canvasFW/src/shape.js",
+    "easeljs": "./bower_components/easeljs/lib/easeljs-0.8.1.combined.js"
   }
 }
