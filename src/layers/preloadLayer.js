@@ -1,120 +1,123 @@
 
 "use strict";
 
-var amplify = require("amplify").amplify;
-var extend = require("extend");
-var Layer = require("Layer");
-var TWEEN = require("tween.js");
 
-var Spinner = require("../components/spinner.js");
+// var amplify = require("amplify").amplify;
+// var extend = require("extend");
+// var Layer = require("Layer");
+// var TWEEN = require("tween.js");
 
-var TOPICS = require("../topics.js");
+// var Spinner = require("../components/spinner.js");
+
+// var TOPICS = require("../topics.js");
 
 module.exports = PreloadLayer;
 
-extend(PreloadLayer, Layer);
+// extend(PreloadLayer, Layer);
 
 function PreloadLayer(options)
 {
-    PreloadLayer.superconstructor.call(this, options);
+    var stage = new easeljs.Stage(options.target);
 
-    var me = this;
-    var spinner;
+    // PreloadLayer.superconstructor.call(this, options);
 
-    var isAnimating = true;
+    // var me = this;
+    // var spinner;
 
-    var spinnerHidden = {
-        alpha: 0,
-        outerRadius: 60,
-        innerRadius: 40,
-        rotationSpeed: 0.1,
-        tickWidth: 8
-    };
+    // var isAnimating = true;
 
-    var spinnerVisible = {
-        alpha: 0.5,
-        outerRadius: 20,
-        innerRadius: 15,
-        rotationSpeed: 0.03,
-        tickWidth: 4
-    };
+    // var spinnerHidden = {
+    //     alpha: 0,
+    //     outerRadius: 60,
+    //     innerRadius: 40,
+    //     rotationSpeed: 0.1,
+    //     tickWidth: 8
+    // };
 
-    function init()
-    {
-        amplify.subscribe(TOPICS.PRELOAD_COMPLETE, remove);
+    // var spinnerVisible = {
+    //     alpha: 0.5,
+    //     outerRadius: 20,
+    //     innerRadius: 15,
+    //     rotationSpeed: 0.03,
+    //     tickWidth: 4
+    // };
 
-        spinner = new Spinner();
-        spinner.tickColor = 0x444444;
-        spinner.tickHighLightColor = 0xEEEEEE;
-        spinner.center = {x: 80, y: 620};
-        spinner.outerRadius = spinnerVisible.outerRadius;
-        spinner.innerRadius = spinnerVisible.innerRadius;
-        spinner.tickAlpha = spinnerVisible.alpha;
-        spinner.rotationSpeed = spinnerVisible.rotationSpeed;
-        spinner.tickWidth = spinnerVisible.tickWidth;
+    // function init()
+    // {
+    //     amplify.subscribe(TOPICS.PRELOAD_COMPLETE, remove);
 
-        me.addGraphic(spinner);
+    //     spinner = new Spinner();
+    //     spinner.tickColor = 0x444444;
+    //     spinner.tickHighLightColor = 0xEEEEEE;
+    //     spinner.center = {x: 80, y: 620};
+    //     spinner.outerRadius = spinnerVisible.outerRadius;
+    //     spinner.innerRadius = spinnerVisible.innerRadius;
+    //     spinner.tickAlpha = spinnerVisible.alpha;
+    //     spinner.rotationSpeed = spinnerVisible.rotationSpeed;
+    //     spinner.tickWidth = spinnerVisible.tickWidth;
 
-        animate();
+    //     me.addGraphic(spinner);
 
-        doTransition(spinnerHidden, spinnerVisible, 2000);
-    }
+    //     animate();
 
-    function animate(time)
-    {
-        TWEEN.update(time);
+    //     doTransition(spinnerHidden, spinnerVisible, 2000);
+    // }
 
-        me.update();
-        me.render();
+    // function animate(time)
+    // {
+    //     TWEEN.update(time);
 
-        if(isAnimating)
-        {
-            window.requestAnimationFrame(animate);
-        }
-    }
+    //     me.update();
+    //     me.render();
 
-    function remove()
-    {
-        doTransition(spinnerVisible, spinnerHidden, 4000, function() {
-            isAnimating = false;
-            document.body.removeChild(me.getCanvas());
-        });
-    }
+    //     if(isAnimating)
+    //     {
+    //         window.requestAnimationFrame(animate);
+    //     }
+    // }
 
-    function doTransition(from, to, duration, onComplete)
-    {
-        onComplete = onComplete || function() {};
+    // function remove()
+    // {
+    //     doTransition(spinnerVisible, spinnerHidden, 4000, function() {
+    //         isAnimating = false;
+    //         document.body.removeChild(me.getCanvas());
+    //     });
+    // }
 
-        new TWEEN.Tween(clone(from))
-            .to(clone(to), duration)
-            .easing(TWEEN.Easing.Elastic.InOut)
-            .onUpdate(fadeUpdate)
-            .onComplete(onComplete)
-            .start();
-    }
+    // function doTransition(from, to, duration, onComplete)
+    // {
+    //     onComplete = onComplete || function() {};
 
-    function fadeUpdate()
-    {
-        spinner.outerRadius = this.outerRadius;
-        spinner.innerRadius = this.innerRadius;
-        spinner.rotationSpeed = this.rotationSpeed;
-        spinner.tickWidth = this.tickWidth;
-        spinner.tickAlpha = this.alpha;
-    }
+    //     new TWEEN.Tween(clone(from))
+    //         .to(clone(to), duration)
+    //         .easing(TWEEN.Easing.Elastic.InOut)
+    //         .onUpdate(fadeUpdate)
+    //         .onComplete(onComplete)
+    //         .start();
+    // }
 
-    function clone(obj) {
+    // function fadeUpdate()
+    // {
+    //     spinner.outerRadius = this.outerRadius;
+    //     spinner.innerRadius = this.innerRadius;
+    //     spinner.rotationSpeed = this.rotationSpeed;
+    //     spinner.tickWidth = this.tickWidth;
+    //     spinner.tickAlpha = this.alpha;
+    // }
 
-        var copy = {};
+    // function clone(obj) {
 
-        for (var attr in obj)
-        {
-            copy[attr] = obj[attr];
-        }
+    //     var copy = {};
 
-        return copy;
-    }
+    //     for (var attr in obj)
+    //     {
+    //         copy[attr] = obj[attr];
+    //     }
 
-    init();
+    //     return copy;
+    // }
+
+    // init();
 
     return this;
 }

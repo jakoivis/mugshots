@@ -1,10 +1,14 @@
 
 "use strict";
 
+// easeljs is not commonjs module. import it once
+window.createjs = window.createjs || {};
+window.easeljs = createjs;
+require("easeljs");
+
 var PreloadService = require("./services/preloadService.js");
 var PreloadLayer = require("./layers/preloadLayer.js");
 var FaceLayer = require("./layers/faceLayer.js");
-var HighlightLayer = require("./layers/highlightLayer.js");
 var OverlayLayer = require("./layers/overlayLayer.js");
 
 var layerWidth = 600;
@@ -16,13 +20,6 @@ new FaceLayer({
     height: layerHeight,
     enableOnClickEvents: true,
     enableOnRollEvents: true
-});
-
-new HighlightLayer({
-    target: "highlight",
-    width: layerWidth,
-    height: layerHeight,
-    clickThrough: true
 });
 
 new PreloadLayer({

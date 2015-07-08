@@ -1,5 +1,9 @@
 
-// run 'gulp build' first. makes a release build
+// first run
+//      npm install
+//      bower install
+//      gulp build
+//
 // then 'gulp watch' to start editing
 // after 'gulp clean' you need to update the build dir again by calling 'gulp build'
 
