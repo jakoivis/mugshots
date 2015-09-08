@@ -7,7 +7,7 @@
 // var Layer = require("Layer");
 // var TWEEN = require("tween.js");
 
-// var Spinner = require("../components/spinner.js");
+var Spinner = require("../components/spinner.js");
 
 // var TOPICS = require("../topics.js");
 
@@ -15,14 +15,19 @@ module.exports = PreloadLayer;
 
 // extend(PreloadLayer, Layer);
 
+/**
+ * @param           options
+ * @param {string}  options.target      Canvas id
+ * @param {number}  [options.width]     Canvas width
+ * @param {number}  [options.height]    Canvas height
+ */
 function PreloadLayer(options)
 {
-    var stage = new easeljs.Stage(options.target);
-
     // PreloadLayer.superconstructor.call(this, options);
 
-    // var me = this;
-    // var spinner;
+    var me = this;
+    var stage;
+    var spinner;
 
     // var isAnimating = true;
 
@@ -42,26 +47,53 @@ function PreloadLayer(options)
     //     tickWidth: 4
     // };
 
-    // function init()
-    // {
+    function init()
+    {
+        var canvas = document.getElementById(options.target);
+
+        if(options.width)
+        {
+            canvas.width = options.width;
+        }
+
+        if(options.height)
+        {
+            canvas.height = options.height;
+        }
+
+        stage = new createjs.Stage(canvas);
     //     amplify.subscribe(TOPICS.PRELOAD_COMPLETE, remove);
 
-    //     spinner = new Spinner();
-    //     spinner.tickColor = 0x444444;
-    //     spinner.tickHighLightColor = 0xEEEEEE;
-    //     spinner.center = {x: 80, y: 620};
-    //     spinner.outerRadius = spinnerVisible.outerRadius;
-    //     spinner.innerRadius = spinnerVisible.innerRadius;
-    //     spinner.tickAlpha = spinnerVisible.alpha;
-    //     spinner.rotationSpeed = spinnerVisible.rotationSpeed;
-    //     spinner.tickWidth = spinnerVisible.tickWidth;
+        spinner = new Spinner();
+        // spinner.numberOfTicks = 17;
+        // spinner.tickColor = 0x444444;
+        // spinner.tickHighLightColor = 0xEEEEEE;
+        // spinner.center = {x: 80, y: 620};
+        // spinner.outerRadius = spinnerVisible.outerRadius;
+        // spinner.innerRadius = spinnerVisible.innerRadius;
+        // spinner.tickAlpha = spinnerVisible.alpha;
+        // spinner.rotationSpeed = spinnerVisible.rotationSpeed;
+        // spinner.tickWidth = spinnerVisible.tickWidth;
+
+        stage.addChild(spinner.container);
+
+        // spinner.update();
+        stage.update();
+
+        createjs.Ticker.setFPS(30);
+        createjs.Ticker.on("tick", function(event) {
+            // circle.x = circle.x + 5;
+            // if (circle.x > stage.canvas.width) { circle.x = 0; }
+            spinner.update();
+            stage.update(event); // important!!
+        });
 
     //     me.addGraphic(spinner);
 
     //     animate();
 
     //     doTransition(spinnerHidden, spinnerVisible, 2000);
-    // }
+    }
 
     // function animate(time)
     // {
@@ -117,7 +149,7 @@ function PreloadLayer(options)
     //     return copy;
     // }
 
-    // init();
+    init();
 
     return this;
 }

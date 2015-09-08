@@ -6,21 +6,21 @@ window.createjs = window.createjs || {};
 window.easeljs = createjs;
 require("easeljs");
 
-var PreloadService = require("./services/preloadService.js");
+// var PreloadService = require("./services/preloadService.js");
 var PreloadLayer = require("./layers/preloadLayer.js");
-var FaceLayer = require("./layers/faceLayer.js");
-var OverlayLayer = require("./layers/overlayLayer.js");
+// var FaceLayer = require("./layers/faceLayer.js");
+// var OverlayLayer = require("./layers/overlayLayer.js");
 
 var layerWidth = 600;
 var layerHeight = 800;
 
-new FaceLayer({
-    target: "face",
-    width: layerWidth,
-    height: layerHeight,
-    enableOnClickEvents: true,
-    enableOnRollEvents: true
-});
+// new FaceLayer({
+//     target: "face",
+//     width: layerWidth,
+//     height: layerHeight,
+//     enableOnClickEvents: true,
+//     enableOnRollEvents: true
+// });
 
 new PreloadLayer({
     target: "loader",
@@ -29,6 +29,6 @@ new PreloadLayer({
     height: layerHeight
 });
 
-new OverlayLayer();
+// new OverlayLayer();
 
-PreloadService.load();
+// PreloadService.load();
