@@ -5,8 +5,9 @@
 window.createjs = window.createjs || {};
 window.easeljs = createjs;
 require("easeljs");
+require("tweenjs");
 
-// var PreloadService = require("./services/preloadService.js");
+var PreloadService = require("./services/preloadService.js");
 var PreloadLayer = require("./layers/preloadLayer.js");
 // var FaceLayer = require("./layers/faceLayer.js");
 // var OverlayLayer = require("./layers/overlayLayer.js");
@@ -31,4 +32,4 @@ new PreloadLayer({
 
 // new OverlayLayer();
 
-// PreloadService.load();
+PreloadService.load();

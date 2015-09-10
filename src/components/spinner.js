@@ -3,7 +3,10 @@
 
 module.exports = Spinner;
 
-function Spinner()
+/**
+ * Spinning loading indicator
+ */
+function Spinner(options)
 {
     if (!(this instanceof Spinner))
     {
@@ -18,27 +21,47 @@ function Spinner()
     var container = new createjs.Container();
 
     Object.defineProperty(this, "container", {
+
+        /**
+         * @return {object} Easeljs Container
+         */
         get: function() { return container; },
     });
 
     var numberOfTicks = 17;
 
     Object.defineProperty(this, "numberOfTicks", {
+
         get: function() { return numberOfTicks; },
         set: function(value)
         {
-            numberOfTicks = value;
-            updateColorCache();
+            var castedValue = Number(value);
+
+            if(numberOfTicks !== castedValue)
+            {
+                numberOfTicks = castedValue;
+                updateColorCache();
+            }
         }
     });
 
-    var center = {x:100, y:100};
+    var x = 0;
 
-    Object.defineProperty(this, "center", {
-        get: function() { return center; },
+    Object.defineProperty(this, "x", {
+        get: function() { return x; },
         set: function(value)
         {
-            center = value;
+            x = Number(value);
+        }
+    });
+
+    var y = 0;
+
+    Object.defineProperty(this, "y", {
+        get: function() { return y; },
+        set: function(value)
+        {
+            y = Number(value);
         }
     });
 
@@ -58,8 +81,13 @@ function Spinner()
         get: function() { return tickColor; },
         set: function(value)
         {
-            tickColor = Number(value);
-            updateColorCache();
+            var castedValue = Number(value);
+
+            if(tickColor !== castedValue)
+            {
+                tickColor = castedValue;
+                updateColorCache();
+            }
         }
     });
 
@@ -69,8 +97,13 @@ function Spinner()
         get: function() { return tickHighLightColor; },
         set: function(value)
         {
-            tickHighLightColor = Number(value);
-            updateColorCache();
+            var castedValue = Number(value);
+
+            if(tickHighLightColor !== castedValue)
+            {
+                tickHighLightColor = castedValue;
+                updateColorCache();
+            }
         }
     });
 
@@ -114,14 +147,14 @@ function Spinner()
         }
     });
 
-    var tickAlpha = 1;
+    var alpha = 1;
 
-    Object.defineProperty(this, "tickAlpha", {
-        get: function() { return tickAlpha; },
+    Object.defineProperty(this, "alpha", {
+        get: function() { return alpha; },
         set: function(value)
         {
-            tickAlpha = Number(value);
-            tickAlpha = tickAlpha > 1 ? 1 : tickAlpha < 0 ? 0 : tickAlpha;
+            alpha = Number(value);
+            alpha = alpha > 1 ? 1 : alpha < 0 ? 0 : alpha;
         }
     });
 
@@ -131,16 +164,36 @@ function Spinner()
         get: function() { return fadeDistance; },
         set: function(value)
         {
-            fadeDistance = Number(value);
-            updateColorCache();
+            var castedValue = Number(value);
+
+            if(fadeDistance !== castedValue)
+            {
+                fadeDistance = castedValue;
+                updateColorCache();
+            }
         }
     });
 
     function init()
     {
+        me.setOptions(options);
         updateColorCache();
     }
 
+    me.setOptions = function(opts)
+    {
+        for(var propertyName in opts)
+        {
+            if(me.hasOwnProperty(propertyName))
+            {
+                me[propertyName] = opts[propertyName];
+            }
+        }
+    };
+
+    /**
+     * Update spinner animation
+     */
     me.update = function()
     {
         updateRotation();
@@ -183,11 +236,12 @@ function Spinner()
     function createTickShape(radians, tickIndex)
     {
         var tickShape = new createjs.Shape();
+        var center = {x: x, y: y};
         var innerPoint = pointOnACircle(innerRadius, center, radians);
         var outerPoint = pointOnACircle(outerRadius, center, radians);
         var color = "#" + getColor(tickIndex).toString(16);
 
-        tickShape.alpha = tickAlpha;
+        tickShape.alpha = alpha;
 
         tickShape
             .graphics
@@ -223,14 +277,14 @@ function Spinner()
 
     function updateColorCache()
     {
-        colorCache = getColorCache(
+        colorCache = createColorCache(
                         fadeDistance,
                         numberOfTicks,
                         tickHighLightColor,
                         tickColor);
     }
 
-    function getColorCache(fadeDistance, numberOfTicks, color1, color2)
+    function createColorCache(fadeDistance, numberOfTicks, color1, color2)
     {
         var result = [];
         var i = 0;

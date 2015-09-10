@@ -18,7 +18,8 @@ function PreloadService()
         loader = new ImageLoader({
             images: PreloaderList.getList(),
             onFileComplete: onFileComplete,
-            onComplete: onComplete
+            onComplete: onComplete,
+            simulationDelayMin: 10,
         });
     };
 
