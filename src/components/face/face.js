@@ -41,35 +41,35 @@ function Face()
         stacks[imageSettings.groupName].push(facePart);
     };
 
-    // me.getBackgroundImage = function()
-    // {
-    //     return stacks.various.current();
-    // };
+    me.getBackgroundImage = function()
+    {
+        return stacks.various.current();
+    };
 
-    // me.getChinImage = function()
-    // {
-    //     return stacks.chin.current();
-    // };
+    me.getChinImage = function()
+    {
+        return stacks.chin.current();
+    };
 
-    // me.getMouthImage = function()
-    // {
-    //     return stacks.mouth.current();
-    // };
+    me.getMouthImage = function()
+    {
+        return stacks.mouth.current();
+    };
 
-    // me.getNoseImage = function()
-    // {
-    //     return stacks.nose.current();
-    // };
+    me.getNoseImage = function()
+    {
+        return stacks.nose.current();
+    };
 
-    // me.getLefteyeImage = function()
-    // {
-    //     return stacks.lefteye.current();
-    // };
+    me.getLefteyeImage = function()
+    {
+        return stacks.lefteye.current();
+    };
 
-    // me.getRighteyeImage = function()
-    // {
-    //     return stacks.righteye.current();
-    // };
+    me.getRighteyeImage = function()
+    {
+        return stacks.righteye.current();
+    };
 
     me.setDefaultFaceParts = function()
     {
@@ -80,14 +80,14 @@ function Face()
         stacks.righteye.setPosition(0);
     };
 
-    me.setDefaultPositions = function()
-    {
-        stacks.chin.current().reset();
-        stacks.nose.current().reset();
-        stacks.mouth.current().reset();
-        stacks.lefteye.current().reset();
-        stacks.righteye.current().reset();
-    };
+    // me.setDefaultPositions = function()
+    // {
+    //     stacks.chin.current().reset();
+    //     stacks.nose.current().reset();
+    //     stacks.mouth.current().reset();
+    //     stacks.lefteye.current().reset();
+    //     stacks.righteye.current().reset();
+    // };
 
     // me.setRandomFaceParts = function()
     // {

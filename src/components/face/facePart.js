@@ -1,23 +1,17 @@
 
 "use strict";
 
-var extend = require("extend");
-var Graphic = require("Graphic");
 var Bounds = require("./bounds.js");
 var ImageDataUtil = require("../../utils/imageDataUtil.js");
 var CanvasUtil = require("../../utils/canvasUtil.js");
 
 module.exports = FacePart;
 
-// extend(FacePart, Graphic);
-
 /**
  * @param {object} options  ImageLoaderItem
  */
 function FacePart(options)
 {
-    // FacePart.superconstructor.call(this, options);
-
     if (!(this instanceof FacePart))
     {
         return new FacePart(options);
@@ -25,7 +19,7 @@ function FacePart(options)
 
     var me = this;
 
-    // var settings;
+    var settings;
 
     // var width;
     // var height;
@@ -35,6 +29,12 @@ function FacePart(options)
     // Object.defineProperty(this, "bounds", {
     //     get: function() { return bounds; }
     // });
+
+    var bitmap;
+
+    Object.defineProperty(this, "bitmap", {
+        get: function() { return bitmap; }
+    });
 
     function init()
     {
@@ -47,14 +47,13 @@ function FacePart(options)
         // bounds.left = options.boundsLeft;
         // bounds.right = options.boundsRight;
 
-        console.log(bounds.width, bounds.height);
-
         me.groupName = options.groupName;
 
-        var bitmap = new createjs.Bitmap(options.tag);
+        bitmap = new createjs.Bitmap(options.tag);
 
-        // settings = defaultFacePartSettings[options.groupName];
-    //     me.reset();
+        settings = defaultFacePartSettings[options.groupName];
+
+        me.reset();
     }
 
     function getBitmapAlphaBounds(imageData)
@@ -69,14 +68,14 @@ function FacePart(options)
                             BITMAP_ALPHA_TOLERANCE);
     }
 
-    // me.reset = function()
-    // {
-    //     width = me.getImageData().width;
-    //     height = me.getImageData().height;
+    me.reset = function()
+    {
+        // width = me.getImageData().width;
+        // height = me.getImageData().height;
 
-    //     me.x = settings.defaultRect.x;
-    //     me.y = settings.defaultRect.y;
-    // };
+        bitmap.x = settings.defaultRect.x;
+        bitmap.y = settings.defaultRect.y;
+    };
 
     // me.setRandomYPosition = function()
     // {

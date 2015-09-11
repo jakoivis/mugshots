@@ -2,20 +2,13 @@
 "use strict";
 
 var amplify = require("amplify").amplify;
-// var extend = require("extend");
-
-// var Layer = require("Layer");
-
 var Face = require("../components/face/face.js");
 var TOPICS = require("../topics.js");
 
 module.exports = FaceLayer;
 
-// extend(FaceLayer, Layer);
-
 function FaceLayer(options)
 {
-    // var me = this;
     var face = new Face();
     // var debug = false;
     var canvas;
@@ -83,22 +76,21 @@ function FaceLayer(options)
     function updateGraphics()
     {
         stage.removeAllChildren();
-        // me.removeAllGraphics();
 
-        // me.addGraphic(face.getBackgroundImage());
+        stage.addChild(face.getBackgroundImage().bitmap);
 
-        // me.addGraphic(face.getChinImage());
-        // me.addGraphic(face.getMouthImage());
-        // me.addGraphic(face.getNoseImage());
-        // me.addGraphic(face.getLefteyeImage());
-        // me.addGraphic(face.getRighteyeImage());
+        stage.addChild(face.getChinImage().bitmap);
+        stage.addChild(face.getMouthImage().bitmap);
+        stage.addChild(face.getNoseImage().bitmap);
+        stage.addChild(face.getLefteyeImage().bitmap);
+        stage.addChild(face.getRighteyeImage().bitmap);
+
+        stage.update();
 
         // if(debug)
         // {
         //     me.addGraphic(face.getDebugBounds());
         // }
-
-        // me.render();
     }
 
     // function addLayerClickHandler()
