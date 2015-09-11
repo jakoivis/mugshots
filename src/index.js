@@ -25,7 +25,7 @@ var layerHeight = 800;
 
 new PreloadLayer({
     target: "loader",
-    clickThrough: true,
+    pointerEvents: false,
     width: layerWidth,
     height: layerHeight
 });

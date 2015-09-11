@@ -1,34 +1,28 @@
 
 "use strict";
 
-
 var amplify = require("amplify").amplify;
-// var extend = require("extend");
-// var Layer = require("Layer");
-// var TWEEN = require("tween.js");
-
 var Spinner = require("../components/spinner.js");
-
 var TOPICS = require("../topics.js");
 
 module.exports = PreloadLayer;
 
 /**
  * @param           options
- * @param {string}  options.target      Canvas id
- * @param {number}  [options.width]     Canvas width
- * @param {number}  [options.height]    Canvas height
+ * @param {string}  options.target          Canvas id
+ * @param {number}  [options.width]         Canvas width
+ * @param {number}  [options.height]        Canvas height
+ * @param {boolean} [options.pointerEvents]
+ *
+ * @listens TOPICS.PRELOAD_COMPLETE
  */
 function PreloadLayer(options)
 {
-    // PreloadLayer.superconstructor.call(this, options);
-
-    var me = this;
     var canvas;
     var stage;
     var spinner;
 
-    var spinnerFadeSettings = {
+    var spinnerSettings = {
 
         fadeInStart: {
             alpha: 0,
@@ -62,8 +56,10 @@ function PreloadLayer(options)
     function init()
     {
         initOptions();
-        initStage();
-        initSubscriptions();
+
+        stage = new createjs.Stage(canvas);
+
+        amplify.subscribe(TOPICS.PRELOAD_COMPLETE, removeSpinner);
 
         createjs.Ticker.setFPS(60);
         createjs.Ticker.on("tick", timerTickHandler);
@@ -75,11 +71,17 @@ function PreloadLayer(options)
     {
         canvas = document.getElementById(options.target);
 
+        if(typeof options.pointerEvents !== "undefined" &&
+            Boolean(options.pointerEvents) === false)
+        {
+            canvas.style["pointer-events"] = "none";
+        }
+
         if(options.width)
         {
             canvas.width = options.width;
 
-            spinnerFadeSettings.fadeInStart.x = options.width >> 1;
+            spinnerSettings.fadeInStart.x = options.width >> 1;
         }
 
         if(options.height)
@@ -88,10 +90,6 @@ function PreloadLayer(options)
         }
     }
 
-    function initStage()
-    {
-        stage = new createjs.Stage(canvas);
-    }
 
     function timerTickHandler(event)
     {
@@ -99,22 +97,15 @@ function PreloadLayer(options)
         stage.update(event);
     }
 
-    function initSubscriptions()
-    {
-        amplify.subscribe(TOPICS.PRELOAD_COMPLETE, removeSpinner);
-    }
-
     function showSpinner()
     {
-        spinner = new Spinner();
+        spinner = new Spinner(spinnerSettings.fadeInStart);
 
         stage.addChild(spinner.container);
 
-        spinner.setOptions(spinnerFadeSettings.fadeInStart);
-
         createjs.Tween
             .get(spinner)
-            .to(spinnerFadeSettings.fadeInEnd, 1000,
+            .to(spinnerSettings.fadeInEnd, 1000,
                 createjs.Ease.bounceOut);
     }
 
@@ -122,7 +113,7 @@ function PreloadLayer(options)
     {
         createjs.Tween
             .get(spinner)
-            .to(spinnerFadeSettings.fadeOutEnd, 1000,
+            .to(spinnerSettings.fadeOutEnd, 1000,
                 createjs.Ease.bounceOut);
     }
 
