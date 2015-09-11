@@ -16,11 +16,27 @@ module.exports = FaceLayer;
 function FaceLayer(options)
 {
     // var me = this;
-    // var face = new Face();
+    var face = new Face();
     // var debug = false;
+    var canvas;
+    var stage;
 
     function init()
     {
+        canvas = document.getElementById(options.target);
+
+        if(options.width)
+        {
+            canvas.width = options.width;
+        }
+
+        if(options.height)
+        {
+            canvas.height = options.height;
+        }
+
+        stage = new createjs.Stage(canvas);
+
         amplify.subscribe(TOPICS.PRELOAD_ITEM_COMPLETE, onFileComplete);
         amplify.subscribe(TOPICS.PRELOAD_BACKGROUND, switchToBackgroundMode);
 
@@ -32,16 +48,16 @@ function FaceLayer(options)
     {
         if(!item.isFailed())
         {
-            // face.createFacePart(item);
+            face.createFacePart(item);
         }
     }
 
     function switchToBackgroundMode()
     {
-    //     face.setDefaultFaceParts();
-    //     face.setDefaultPositions();
+        face.setDefaultFaceParts();
+        // face.setDefaultPositions();
 
-    //     updateGraphics();
+        updateGraphics();
 
     //     addLayerClickHandler();
     }
@@ -64,25 +80,26 @@ function FaceLayer(options)
     //     updateGraphics();
     // }
 
-    // function updateGraphics()
-    // {
-    //     me.removeAllGraphics();
+    function updateGraphics()
+    {
+        stage.removeAllChildren();
+        // me.removeAllGraphics();
 
-    //     me.addGraphic(face.getBackgroundImage());
+        // me.addGraphic(face.getBackgroundImage());
 
-    //     me.addGraphic(face.getChinImage());
-    //     me.addGraphic(face.getMouthImage());
-    //     me.addGraphic(face.getNoseImage());
-    //     me.addGraphic(face.getLefteyeImage());
-    //     me.addGraphic(face.getRighteyeImage());
+        // me.addGraphic(face.getChinImage());
+        // me.addGraphic(face.getMouthImage());
+        // me.addGraphic(face.getNoseImage());
+        // me.addGraphic(face.getLefteyeImage());
+        // me.addGraphic(face.getRighteyeImage());
 
-    //     if(debug)
-    //     {
-    //         me.addGraphic(face.getDebugBounds());
-    //     }
+        // if(debug)
+        // {
+        //     me.addGraphic(face.getDebugBounds());
+        // }
 
-    //     me.render();
-    // }
+        // me.render();
+    }
 
     // function addLayerClickHandler()
     // {

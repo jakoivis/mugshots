@@ -5,14 +5,18 @@ var extend = require("extend");
 var Graphic = require("Graphic");
 var Bounds = require("./bounds.js");
 var ImageDataUtil = require("../../utils/imageDataUtil.js");
+var CanvasUtil = require("../../utils/canvasUtil.js");
 
 module.exports = FacePart;
 
-extend(FacePart, Graphic);
+// extend(FacePart, Graphic);
 
+/**
+ * @param {object} options  ImageLoaderItem
+ */
 function FacePart(options)
 {
-    FacePart.superconstructor.call(this, options);
+    // FacePart.superconstructor.call(this, options);
 
     if (!(this instanceof FacePart))
     {
@@ -20,91 +24,105 @@ function FacePart(options)
     }
 
     var me = this;
-    var settings;
 
-    var width;
-    var height;
+    // var settings;
 
-    function init()
-    {
-        me.groupName = options.groupName;
-
-        settings = defaultFacePartSettings[options.groupName];
-
-        bounds = new Bounds(getBitmapAlphaBounds());
-
-        me.reset();
-    }
+    // var width;
+    // var height;
 
     var bounds;
 
-    Object.defineProperty(this, "bounds", {
-        get: function() { return bounds; }
-    });
+    // Object.defineProperty(this, "bounds", {
+    //     get: function() { return bounds; }
+    // });
 
-    me.reset = function()
+    function init()
     {
-        width = me.getImageData().width;
-        height = me.getImageData().height;
+        var imageData = CanvasUtil.getImageDataFromTag(options.tag);
 
-        me.x = settings.defaultRect.x;
-        me.y = settings.defaultRect.y;
-    };
+        bounds = new Bounds(getBitmapAlphaBounds(imageData));
 
-    me.setRandomYPosition = function()
-    {
-        me.y = settings.defaultRect.y + getRandomInt(settings.rangeY.min, settings.rangeY.max);
-    };
+        // bounds.bottom = options.boundsBottom;
+        // bounds.top = options.boundsTop;
+        // bounds.left = options.boundsLeft;
+        // bounds.right = options.boundsRight;
 
-    me.getInnerDebugBoundSettings = function()
-    {
-        var globalBounds = localToGlobal(bounds);
+        console.log(bounds.width, bounds.height);
 
-        return {
-            x: globalBounds.left,
-            y: globalBounds.top,
-            width: globalBounds.width,
-            height: globalBounds.height,
-            color: settings.debugColor1
-        };
-    };
+        me.groupName = options.groupName;
 
-    me.getOuterDebugBoundSettings = function()
-    {
-        return {
-            x: me.x,
-            y: me.y,
-            width: width,
-            height: height,
-            color: settings.debugColor2
-        };
-    };
+        var bitmap = new createjs.Bitmap(options.tag);
 
-    function localToGlobal(bounds)
-    {
-        var globalBounds = bounds.clone();
-        globalBounds.translate(me.x, me.y);
-        return globalBounds;
+        // settings = defaultFacePartSettings[options.groupName];
+    //     me.reset();
     }
 
-    me.getGlobalBounds = function()
+    function getBitmapAlphaBounds(imageData)
     {
-        return localToGlobal(bounds);
-    };
-
-    function getRandomInt(min, max)
-    {
-        return Math.floor(Math.random() * (max - min)) + min;
-    }
-
-    function getBitmapAlphaBounds()
-    {
-        var imageData = me.getImageData();
         var imageData8ClampedView = imageData.data;
         var imageData32View = new Uint32Array(imageData8ClampedView.buffer);
 
-        return ImageDataUtil.getBounds(imageData32View, imageData.width, imageData.height, BITMAP_ALPHA_TOLERANCE);
+        return ImageDataUtil.getBounds(
+                            imageData32View,
+                            imageData.width,
+                            imageData.height,
+                            BITMAP_ALPHA_TOLERANCE);
     }
+
+    // me.reset = function()
+    // {
+    //     width = me.getImageData().width;
+    //     height = me.getImageData().height;
+
+    //     me.x = settings.defaultRect.x;
+    //     me.y = settings.defaultRect.y;
+    // };
+
+    // me.setRandomYPosition = function()
+    // {
+    //     me.y = settings.defaultRect.y + getRandomInt(settings.rangeY.min, settings.rangeY.max);
+    // };
+
+    // me.getInnerDebugBoundSettings = function()
+    // {
+    //     var globalBounds = localToGlobal(bounds);
+
+    //     return {
+    //         x: globalBounds.left,
+    //         y: globalBounds.top,
+    //         width: globalBounds.width,
+    //         height: globalBounds.height,
+    //         color: settings.debugColor1
+    //     };
+    // };
+
+    // me.getOuterDebugBoundSettings = function()
+    // {
+    //     return {
+    //         x: me.x,
+    //         y: me.y,
+    //         width: width,
+    //         height: height,
+    //         color: settings.debugColor2
+    //     };
+    // };
+
+    // function localToGlobal(bounds)
+    // {
+    //     var globalBounds = bounds.clone();
+    //     globalBounds.translate(me.x, me.y);
+    //     return globalBounds;
+    // }
+
+    // me.getGlobalBounds = function()
+    // {
+    //     return localToGlobal(bounds);
+    // };
+
+    // function getRandomInt(min, max)
+    // {
+    //     return Math.floor(Math.random() * (max - min)) + min;
+    // }
 
     init();
 
@@ -113,14 +131,14 @@ function FacePart(options)
 
 FacePart.getFacePartWithLowerBitmap = function(facepart1, facepart2)
 {
-    if(facepart1.getGlobalBounds().bottom < facepart2.getGlobalBounds().bottom)
-    {
-        return facepart1;
-    }
-    else
-    {
-        return facepart2;
-    }
+    // if(facepart1.getGlobalBounds().bottom < facepart2.getGlobalBounds().bottom)
+    // {
+    //     return facepart1;
+    // }
+    // else
+    // {
+    //     return facepart2;
+    // }
 };
 
 var BITMAP_ALPHA_TOLERANCE = 210;

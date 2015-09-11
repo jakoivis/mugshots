@@ -11,16 +11,16 @@ module.exports = Face;
 
 function Face()
 {
-    // var me = this;
+    var me = this;
 
-    // var stacks = {
-    //     various: new FacePartStack(),
-    //     lefteye: new FacePartStack(),
-    //     righteye: new FacePartStack(),
-    //     nose: new FacePartStack(),
-    //     mouth: new FacePartStack(),
-    //     chin: new FacePartStack()
-    // };
+    var stacks = {
+        various: new FacePartStack(),
+        lefteye: new FacePartStack(),
+        righteye: new FacePartStack(),
+        nose: new FacePartStack(),
+        mouth: new FacePartStack(),
+        chin: new FacePartStack()
+    };
 
     // me.onFacePartChange;
     // me.onFacePartRollOver;
@@ -30,26 +30,16 @@ function Face()
     //     get: function() { return stacks; }
     // });
 
-    // me.createFacePart = function(imageSettings)
-    // {
-    //     var imageData = CanvasUtil.getImageDataFromTag(imageSettings.tag);
+    me.createFacePart = function(imageSettings)
+    {
+        var facePart = new FacePart(imageSettings);
 
-    //     var facePart = new FacePart({
-    //         imageData: imageData,
-    //         groupName: imageSettings.groupName
-    //     });
+        // facePart.onClick = facePartClick;
+        // facePart.onRollOver = facePartRollOver;
+        // facePart.onRollOut = facePartRollOut;
 
-    //     facePart.bounds.bottom = imageSettings.boundsBottom;
-    //     facePart.bounds.top = imageSettings.boundsTop;
-    //     facePart.bounds.left = imageSettings.boundsLeft;
-    //     facePart.bounds.right = imageSettings.boundsRight;
-
-    //     facePart.onClick = facePartClick;
-    //     facePart.onRollOver = facePartRollOver;
-    //     facePart.onRollOut = facePartRollOut;
-
-    //     stacks[imageSettings.groupName].push(facePart);
-    // };
+        stacks[imageSettings.groupName].push(facePart);
+    };
 
     // me.getBackgroundImage = function()
     // {
@@ -81,23 +71,23 @@ function Face()
     //     return stacks.righteye.current();
     // };
 
-    // me.setDefaultFaceParts = function()
-    // {
-    //     stacks.chin.setPosition(0);
-    //     stacks.nose.setPosition(0);
-    //     stacks.mouth.setPosition(0);
-    //     stacks.lefteye.setPosition(0);
-    //     stacks.righteye.setPosition(0);
-    // };
+    me.setDefaultFaceParts = function()
+    {
+        stacks.chin.setPosition(0);
+        stacks.nose.setPosition(0);
+        stacks.mouth.setPosition(0);
+        stacks.lefteye.setPosition(0);
+        stacks.righteye.setPosition(0);
+    };
 
-    // me.setDefaultPositions = function()
-    // {
-    //     stacks.chin.current().reset();
-    //     stacks.nose.current().reset();
-    //     stacks.mouth.current().reset();
-    //     stacks.lefteye.current().reset();
-    //     stacks.righteye.current().reset();
-    // };
+    me.setDefaultPositions = function()
+    {
+        stacks.chin.current().reset();
+        stacks.nose.current().reset();
+        stacks.mouth.current().reset();
+        stacks.lefteye.current().reset();
+        stacks.righteye.current().reset();
+    };
 
     // me.setRandomFaceParts = function()
     // {
