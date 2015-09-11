@@ -12,7 +12,7 @@ module.exports = PreloadLayer;
  * @param {string}  options.target          Canvas id
  * @param {number}  [options.width]         Canvas width
  * @param {number}  [options.height]        Canvas height
- * @param {boolean} [options.pointerEvents]
+ * @param {boolean} [options.pointerEvents] Canvas pointer events
  *
  * @listens TOPICS.PRELOAD_COMPLETE
  */
