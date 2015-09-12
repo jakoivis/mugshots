@@ -1,9 +1,6 @@
 
 "use strict";
 
-// var Shape = require("Shape");
-// var CanvasUtil = require("CanvasUtil");
-
 var FacePartStack = require("./facePartStack.js");
 var FacePart = require("./facePart.js");
 
@@ -21,10 +18,6 @@ function Face()
         mouth: new FacePartStack(),
         chin: new FacePartStack()
     };
-
-    // Object.defineProperty(this, "stacks", {
-    //     get: function() { return stacks; }
-    // });
 
     me.createFacePart = function(imageSettings)
     {
@@ -74,11 +67,11 @@ function Face()
 
     // me.setDefaultPositions = function()
     // {
-    //     stacks.chin.current().reset();
-    //     stacks.nose.current().reset();
-    //     stacks.mouth.current().reset();
-    //     stacks.lefteye.current().reset();
-    //     stacks.righteye.current().reset();
+    //     stacks.chin.current().resetPosition();
+    //     stacks.nose.current().resetPosition();
+    //     stacks.mouth.current().resetPosition();
+    //     stacks.lefteye.current().resetPosition();
+    //     stacks.righteye.current().resetPosition();
     // };
 
     me.setRandomFaceParts = function()
@@ -96,15 +89,6 @@ function Face()
         // setRandomMouthPosition();
         // setRandomEyePosition();
     };
-
-    // me.getTotalNumberOfItems = function()
-    // {
-    //     return stacks.chin.length +
-    //         stacks.nose.length +
-    //         stacks.mouth.length +
-    //         stacks.lefteye.length +
-    //         stacks.righteye.length;
-    // };
 
     function setRandomNosePosition()
     {
