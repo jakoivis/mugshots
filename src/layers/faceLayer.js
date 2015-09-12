@@ -10,7 +10,7 @@ module.exports = FaceLayer;
 function FaceLayer(options)
 {
     var face = new Face();
-    // var debug = false;
+    var debug = true;
     var canvas;
     var stage;
 
@@ -55,7 +55,7 @@ function FaceLayer(options)
     function randomize()
     {
         face.setRandomFaceParts();
-    //     face.setRandomPositions();
+        face.setRandomPositions();
 
         updateGraphics();
     }
@@ -72,12 +72,16 @@ function FaceLayer(options)
         stage.addChild(face.getLefteyeImage().bitmap);
         stage.addChild(face.getRighteyeImage().bitmap);
 
-        stage.update();
+        if(debug)
+        {
+            stage.addChild(face.getChinImage().getDebugBounds());
+            stage.addChild(face.getMouthImage().getDebugBounds());
+            stage.addChild(face.getNoseImage().getDebugBounds());
+            stage.addChild(face.getLefteyeImage().getDebugBounds());
+            stage.addChild(face.getRighteyeImage().getDebugBounds());
+        }
 
-        // if(debug)
-        // {
-        //     me.addGraphic(face.getDebugBounds());
-        // }
+        stage.update();
     }
 
     function addLayerClickHandler()

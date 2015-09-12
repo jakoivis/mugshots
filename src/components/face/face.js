@@ -22,10 +22,6 @@ function Face()
         chin: new FacePartStack()
     };
 
-    // me.onFacePartChange;
-    // me.onFacePartRollOver;
-    // me.onFacePartRollOut;
-
     // Object.defineProperty(this, "stacks", {
     //     get: function() { return stacks; }
     // });
@@ -33,10 +29,6 @@ function Face()
     me.createFacePart = function(imageSettings)
     {
         var facePart = new FacePart(imageSettings);
-
-        // facePart.onClick = facePartClick;
-        // facePart.onRollOver = facePartRollOver;
-        // facePart.onRollOut = facePartRollOut;
 
         stacks[imageSettings.groupName].push(facePart);
     };
@@ -100,9 +92,9 @@ function Face()
 
     me.setRandomPositions = function()
     {
-        setRandomNosePosition();
-        setRandomMouthPosition();
-        setRandomEyePosition();
+        // setRandomNosePosition();
+        // setRandomMouthPosition();
+        // setRandomEyePosition();
     };
 
     // me.getTotalNumberOfItems = function()
@@ -181,72 +173,4 @@ function Face()
             righteye.y = eyeYPosition;
         }
     }
-
-    // function facePartClick()
-    // {
-    //     stacks[this.groupName].random();
-
-    //     if(me.onFacePartChange)
-    //     {
-    //         me.onFacePartChange(this.groupName);
-    //     }
-    // }
-
-    // function facePartRollOver()
-    // {
-    //     if(me.onFacePartRollOver)
-    //     {
-    //         me.onFacePartRollOver(this.groupName, this.getGlobalBounds());
-    //     }
-    // }
-
-    // function facePartRollOut()
-    // {
-    //     if(me.onFacePartRollOut)
-    //     {
-    //         me.onFacePartRollOut(this.groupName, this.getGlobalBounds());
-    //     }
-    // }
-
-
-    // me.getDebugBounds = function()
-    // {
-    //     var shape = new Shape();
-
-    //     var test = stacks.chin.current();
-
-    //     console.log(test.getOuterDebugBoundSettings());
-
-    //     drawFacePartToShape(shape, stacks.chin.current());
-    //     drawFacePartToShape(shape, stacks.nose.current());
-    //     drawFacePartToShape(shape, stacks.mouth.current());
-    //     drawFacePartToShape(shape, stacks.lefteye.current());
-    //     drawFacePartToShape(shape, stacks.righteye.current());
-
-    //     return shape;
-    // }
-
-    // function drawFacePartToShape(shape, facePart)
-    // {
-    //     var innerSettings = facePart.getInnerDebugBoundSettings();
-    //     var outerSettings = facePart.getOuterDebugBoundSettings();
-
-    //     shape.box(
-    //         innerSettings.x,
-    //         innerSettings.y,
-    //         innerSettings.width,
-    //         innerSettings.height);
-
-    //     shape.strokeStyle = innerSettings.color;
-    //     shape.stroke();
-
-    //     shape.box(
-    //         outerSettings.x,
-    //         outerSettings.y,
-    //         outerSettings.width,
-    //         outerSettings.height);
-
-    //     shape.strokeStyle = outerSettings.color;
-    //     shape.stroke();
-    // }
 }
