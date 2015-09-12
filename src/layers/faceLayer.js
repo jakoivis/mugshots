@@ -32,9 +32,6 @@ function FaceLayer(options)
 
         amplify.subscribe(TOPICS.PRELOAD_ITEM_COMPLETE, onFileComplete);
         amplify.subscribe(TOPICS.PRELOAD_BACKGROUND, switchToBackgroundMode);
-
-    //     face.onFacePartRollOver = facePartRollOver;
-    //     face.onFacePartRollOut = facePartRollOut;
     }
 
     function onFileComplete(item)
@@ -52,26 +49,16 @@ function FaceLayer(options)
 
         updateGraphics();
 
-    //     addLayerClickHandler();
+        addLayerClickHandler();
     }
 
-    // function facePartRollOver(groupName, bounds)
-    // {
-    //     amplify.publish(TOPICS.FACE_PART_ROLL_OVER, {groupName:groupName, bounds:bounds});
-    // }
-
-    // function facePartRollOut(groupName, bounds)
-    // {
-    //     amplify.publish(TOPICS.FACE_PART_ROLL_OUT, {groupName:groupName, bounds:bounds});
-    // }
-
-    // function randomize()
-    // {
-    //     face.setRandomFaceParts();
+    function randomize()
+    {
+        face.setRandomFaceParts();
     //     face.setRandomPositions();
 
-    //     updateGraphics();
-    // }
+        updateGraphics();
+    }
 
     function updateGraphics()
     {
@@ -93,11 +80,11 @@ function FaceLayer(options)
         // }
     }
 
-    // function addLayerClickHandler()
-    // {
-    //     me.getCanvas().addEventListener("click", randomize);
-    //     me.getCanvas().style.cursor = "pointer";
-    // }
+    function addLayerClickHandler()
+    {
+        canvas.style.cursor = "pointer";
+        canvas.addEventListener("click", randomize);
+    }
 
     init();
 }

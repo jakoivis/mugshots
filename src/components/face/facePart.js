@@ -42,10 +42,25 @@ function FacePart(options)
 
         bounds = new Bounds(getBitmapAlphaBounds(imageData));
 
-        // bounds.bottom = options.boundsBottom;
-        // bounds.top = options.boundsTop;
-        // bounds.left = options.boundsLeft;
-        // bounds.right = options.boundsRight;
+        if(typeof options.boundsBottom !== "undefined")
+        {
+            bounds.bottom = options.boundsBottom;
+        }
+
+        if(typeof options.boundsTop !== "undefined")
+        {
+            bounds.top = options.boundsTop;
+        }
+
+        if(typeof options.boundsLeft !== "undefined")
+        {
+            bounds.left = options.boundsLeft;
+        }
+
+        if(typeof options.boundsRight !== "undefined")
+        {
+            bounds.right = options.boundsRight;
+        }
 
         me.groupName = options.groupName;
 
@@ -77,10 +92,10 @@ function FacePart(options)
         bitmap.y = settings.defaultRect.y;
     };
 
-    // me.setRandomYPosition = function()
-    // {
-    //     me.y = settings.defaultRect.y + getRandomInt(settings.rangeY.min, settings.rangeY.max);
-    // };
+    me.setRandomYPosition = function()
+    {
+        me.y = settings.defaultRect.y + getRandomInt(settings.rangeY.min, settings.rangeY.max);
+    };
 
     // me.getInnerDebugBoundSettings = function()
     // {
@@ -118,10 +133,10 @@ function FacePart(options)
     //     return localToGlobal(bounds);
     // };
 
-    // function getRandomInt(min, max)
-    // {
-    //     return Math.floor(Math.random() * (max - min)) + min;
-    // }
+    function getRandomInt(min, max)
+    {
+        return Math.floor(Math.random() * (max - min)) + min;
+    }
 
     init();
 
