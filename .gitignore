@@ -6,6 +6,7 @@ bower_components
 build/*
 *.png
 *.jpg
+assets_old/*
 
 # Windows image file caches
 Thumbs.db
