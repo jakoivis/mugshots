@@ -21,7 +21,7 @@ var clean = require('gulp-clean');
 var mainSourceFile = './src/index.js';
 var sourceFiles = './src/**/*.js';
 var htmlFiles = './src/**/*.html';
-var imageFiles = './assets/**/*.png';
+var imageFiles = ['./assets/**/*.png', './assets/**/*.jpg'];
 
 var buildFolder = './build/';
 var coverageFolder = './coverage/';
