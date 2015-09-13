@@ -10,7 +10,8 @@ module.exports = FaceLayer;
 function FaceLayer(options)
 {
     var face = new Face();
-    var debug = true;
+    var debugDrawImageBounds = false;
+    var debugLogImageNames = true;
     var canvas;
     var stage;
 
@@ -72,7 +73,7 @@ function FaceLayer(options)
         stage.addChild(face.getLefteyeImage().bitmap);
         stage.addChild(face.getRighteyeImage().bitmap);
 
-        if(debug)
+        if(debugDrawImageBounds)
         {
             stage.addChild(face.getBackgroundImage().getDebugBounds());
             // stage.addChild(face.getChinImage().getDebugBounds());
@@ -80,14 +81,15 @@ function FaceLayer(options)
             stage.addChild(face.getNoseImage().getDebugBounds());
             stage.addChild(face.getLefteyeImage().getDebugBounds());
             stage.addChild(face.getRighteyeImage().getDebugBounds());
+        }
 
-            var selectedImages = "bg: " + face.getBackgroundImage().name + ", " +
-                                "mouth: " + face.getMouthImage().name +  ", " +
-                                "nose: " + face.getNoseImage().name + ", " +
-                                "lefteye: " + face.getLefteyeImage().name + ", " +
-                                "righteye: " + face.getRighteyeImage().name;
-
-            console.log(selectedImages);
+        if(debugLogImageNames)
+        {
+            console.log("bg: " + face.getBackgroundImage().name + ", " +
+                        "mouth: " + face.getMouthImage().name +  ", " +
+                        "nose: " + face.getNoseImage().name + ", " +
+                        "lefteye: " + face.getLefteyeImage().name + ", " +
+                        "righteye: " + face.getRighteyeImage().name);
         }
 
         stage.update();
