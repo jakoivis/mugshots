@@ -27,9 +27,14 @@ function FacePart(options)
     var settings;
     var bitmapAlphaBounds;
     var bitmap;
+    var name;
 
     Object.defineProperty(this, "bitmap", {
         get: function() { return bitmap; }
+    });
+
+    Object.defineProperty(this, "name", {
+        get: function() { return name; }
     });
 
     function init()
@@ -38,6 +43,7 @@ function FacePart(options)
 
         initBitmap();
         initBounds();
+        initName();
     }
 
     function initBitmap()
@@ -73,6 +79,19 @@ function FacePart(options)
         {
             bitmapAlphaBounds.right = options.boundsRight;
         }
+    }
+
+    function initName()
+    {
+        var result = options.groupName + "_";
+        var fileNameDigits = /\d{4}/g.exec(options.src);
+
+        if(fileNameDigits && fileNameDigits.length)
+        {
+            result += fileNameDigits[0];
+        }
+
+        name = result;
     }
 
     function getBitmapAlphaBounds(imageData)

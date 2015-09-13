@@ -66,7 +66,7 @@ function FaceLayer(options)
 
         stage.addChild(face.getBackgroundImage().bitmap);
 
-        stage.addChild(face.getChinImage().bitmap);
+        // stage.addChild(face.getChinImage().bitmap);
         stage.addChild(face.getMouthImage().bitmap);
         stage.addChild(face.getNoseImage().bitmap);
         stage.addChild(face.getLefteyeImage().bitmap);
@@ -74,11 +74,20 @@ function FaceLayer(options)
 
         if(debug)
         {
-            stage.addChild(face.getChinImage().getDebugBounds());
+            stage.addChild(face.getBackgroundImage().getDebugBounds());
+            // stage.addChild(face.getChinImage().getDebugBounds());
             stage.addChild(face.getMouthImage().getDebugBounds());
             stage.addChild(face.getNoseImage().getDebugBounds());
             stage.addChild(face.getLefteyeImage().getDebugBounds());
             stage.addChild(face.getRighteyeImage().getDebugBounds());
+
+            var selectedImages = "bg: " + face.getBackgroundImage().name + ", " +
+                                "mouth: " + face.getMouthImage().name +  ", " +
+                                "nose: " + face.getNoseImage().name + ", " +
+                                "lefteye: " + face.getLefteyeImage().name + ", " +
+                                "righteye: " + face.getRighteyeImage().name;
+
+            console.log(selectedImages);
         }
 
         stage.update();
