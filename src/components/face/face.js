@@ -12,6 +12,7 @@ function Face()
 
     var stacks = {
         various: new FacePartStack(),
+        background: new FacePartStack(),
         lefteye: new FacePartStack(),
         righteye: new FacePartStack(),
         nose: new FacePartStack(),
@@ -28,7 +29,7 @@ function Face()
 
     me.getBackgroundImage = function()
     {
-        return stacks.various.current();
+        return stacks.background.current();
     };
 
     me.getChinImage = function()
@@ -76,6 +77,7 @@ function Face()
 
     me.setRandomFaceParts = function()
     {
+        stacks.background.random();
         stacks.chin.random();
         stacks.nose.random();
         stacks.mouth.random();
