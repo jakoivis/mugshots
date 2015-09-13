@@ -25,7 +25,8 @@ var Bounds = function(bounds)
         me.right = bounds.right;
     }
 
-    Object.defineProperty(this, "bottom", {
+    Object.defineProperty(this, "bottom",
+    {
         get: function() { return _bottom; },
         set: function(value)
         {
@@ -37,7 +38,8 @@ var Bounds = function(bounds)
         }
     });
 
-    Object.defineProperty(this, "top", {
+    Object.defineProperty(this, "top",
+    {
         get: function() { return _top; },
         set: function(value)
         {
@@ -49,7 +51,8 @@ var Bounds = function(bounds)
         }
     });
 
-    Object.defineProperty(this, "left", {
+    Object.defineProperty(this, "left",
+    {
         get: function() { return _left; },
         set: function(value)
         {
@@ -61,7 +64,8 @@ var Bounds = function(bounds)
         }
     });
 
-    Object.defineProperty(this, "right", {
+    Object.defineProperty(this, "right",
+    {
         get: function() { return _right; },
         set: function(value)
         {
@@ -73,11 +77,13 @@ var Bounds = function(bounds)
         }
     });
 
-    Object.defineProperty(this, "width", {
+    Object.defineProperty(this, "width",
+    {
         get: function() { return _width; }
     });
 
-    Object.defineProperty(this, "height", {
+    Object.defineProperty(this, "height",
+    {
         get: function() { return _height; }
     });
 

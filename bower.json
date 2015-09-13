@@ -14,10 +14,10 @@
     "tests"
   ],
   "dependencies": {
-    "canvasFW": "https://github.com/jakoivis/canvas-framework.git#~0.1.6",
-    "extend": "~0.1.0",
-    "tween.js": "https://github.com/tweenjs/tween.js.git",
-    "amplify": "~1.1.2"
+    "amplify": "~1.1.2",
+    "easeljs": "https://github.com/CreateJS/EaselJS.git#~0.8.1",
+    "TweenJS": "~0.6.1",
+    "imageLoader": "https://github.com/jakoivis/imageLoader.git#1.0.0"
   },
   "devDependencies": {}
 }

@@ -2,55 +2,55 @@
 "use strict";
 
 var amplify = require("amplify").amplify;
-var extend = require("extend");
-
-var Layer = require("Layer");
-
-var Face = require("../components/face.js");
+var Face = require("../components/face/face.js");
 var TOPICS = require("../topics.js");
 
 module.exports = FaceLayer;
 
-extend(FaceLayer, Layer);
-
 function FaceLayer(options)
 {
-    FaceLayer.superconstructor.call(this, options);
-
-    var me = this;
     var face = new Face();
-    var debug = false;
+    var debugDrawImageBounds = false;
+    var debugLogImageNames = true;
+    var canvas;
+    var stage;
 
     function init()
     {
+        canvas = document.getElementById(options.target);
+
+        if(options.width)
+        {
+            canvas.width = options.width;
+        }
+
+        if(options.height)
+        {
+            canvas.height = options.height;
+        }
+
+        stage = new createjs.Stage(canvas);
+
         amplify.subscribe(TOPICS.PRELOAD_ITEM_COMPLETE, onFileComplete);
         amplify.subscribe(TOPICS.PRELOAD_BACKGROUND, switchToBackgroundMode);
-
-        face.onFacePartRollOver = facePartRollOver;
-        face.onFacePartRollOut = facePartRollOut;
     }
 
     function onFileComplete(item)
     {
         if(!item.isFailed())
         {
-            addLoadedItemToFace(item);
+            face.createFacePart(item);
         }
     }
 
-    function addLoadedItemToFace(loadedItem)
+    function switchToBackgroundMode()
     {
-        face.createFacePart(loadedItem);
-    }
+        face.setDefaultFaceParts();
+        // face.setDefaultPositions();
 
-    function facePartRollOver(groupName, bounds)
-    {
-        amplify.publish(TOPICS.FACE_PART_ROLL_OVER, {groupName:groupName, bounds:bounds});
-    }
+        updateGraphics();
 
-    function facePartRollOut(groupName, bounds)
-    {
-        amplify.publish(TOPICS.FACE_PART_ROLL_OUT, {groupName:groupName, bounds:bounds});
+        addLayerClickHandler();
     }
 
     function randomize()
@@ -61,40 +61,44 @@ function FaceLayer(options)
         updateGraphics();
     }
 
-    function switchToBackgroundMode()
-    {
-        face.setDefaultFaceParts();
-        face.setDefaultPositions();
-
-        updateGraphics();
-
-        addLayerClickHandler();
-    }
-
     function updateGraphics()
     {
-        me.removeAllGraphics();
+        stage.removeAllChildren();
 
-        me.addGraphic(face.getBackgroundImage());
+        stage.addChild(face.getBackgroundImage().bitmap);
 
-        me.addGraphic(face.getChinImage());
-        me.addGraphic(face.getMouthImage());
-        me.addGraphic(face.getNoseImage());
-        me.addGraphic(face.getLefteyeImage());
-        me.addGraphic(face.getRighteyeImage());
+        // stage.addChild(face.getChinImage().bitmap);
+        stage.addChild(face.getMouthImage().bitmap);
+        stage.addChild(face.getNoseImage().bitmap);
+        stage.addChild(face.getLefteyeImage().bitmap);
+        stage.addChild(face.getRighteyeImage().bitmap);
 
-        if(debug)
+        if(debugDrawImageBounds)
         {
-            me.addGraphic(face.getDebugBounds());
+            stage.addChild(face.getBackgroundImage().getDebugBounds());
+            // stage.addChild(face.getChinImage().getDebugBounds());
+            stage.addChild(face.getMouthImage().getDebugBounds());
+            stage.addChild(face.getNoseImage().getDebugBounds());
+            stage.addChild(face.getLefteyeImage().getDebugBounds());
+            stage.addChild(face.getRighteyeImage().getDebugBounds());
         }
 
-        me.render();
+        if(debugLogImageNames)
+        {
+            console.log("bg: " + face.getBackgroundImage().name + ", " +
+                        "mouth: " + face.getMouthImage().name +  ", " +
+                        "nose: " + face.getNoseImage().name + ", " +
+                        "lefteye: " + face.getLefteyeImage().name + ", " +
+                        "righteye: " + face.getRighteyeImage().name);
+        }
+
+        stage.update();
     }
 
     function addLayerClickHandler()
     {
-        me.getCanvas().addEventListener("click", randomize);
-        me.getCanvas().style.cursor = "pointer";
+        canvas.style.cursor = "pointer";
+        canvas.addEventListener("click", randomize);
     }
 
     init();

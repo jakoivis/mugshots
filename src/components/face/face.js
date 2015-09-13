@@ -1,11 +1,8 @@
 
 "use strict";
 
-var Shape = require("Shape");
-var CanvasUtil = require("CanvasUtil");
-
-var FacePartStack = require("./face/facePartStack.js");
-var FacePart = require("./face/facePart.js");
+var FacePartStack = require("./facePartStack.js");
+var FacePart = require("./facePart.js");
 
 module.exports = Face;
 
@@ -15,6 +12,7 @@ function Face()
 
     var stacks = {
         various: new FacePartStack(),
+        background: new FacePartStack(),
         lefteye: new FacePartStack(),
         righteye: new FacePartStack(),
         nose: new FacePartStack(),
@@ -22,38 +20,16 @@ function Face()
         chin: new FacePartStack()
     };
 
-    me.onFacePartChange;
-    me.onFacePartRollOver;
-    me.onFacePartRollOut;
-
-    Object.defineProperty(this, "stacks", {
-        get: function() { return stacks; }
-    });
-
     me.createFacePart = function(imageSettings)
     {
-        var imageData = CanvasUtil.getImageDataFromTag(imageSettings.tag);
-
-        var facePart = new FacePart({
-            imageData: imageData,
-            groupName: imageSettings.groupName
-        });
-
-        facePart.bounds.bottom = imageSettings.boundsBottom;
-        facePart.bounds.top = imageSettings.boundsTop;
-        facePart.bounds.left = imageSettings.boundsLeft;
-        facePart.bounds.right = imageSettings.boundsRight;
-
-        facePart.onClick = facePartClick;
-        facePart.onRollOver = facePartRollOver;
-        facePart.onRollOut = facePartRollOut;
+        var facePart = new FacePart(imageSettings);
 
         stacks[imageSettings.groupName].push(facePart);
     };
 
     me.getBackgroundImage = function()
     {
-        return stacks.various.current();
+        return stacks.background.current();
     };
 
     me.getChinImage = function()
@@ -90,17 +66,18 @@ function Face()
         stacks.righteye.setPosition(0);
     };
 
-    me.setDefaultPositions = function()
-    {
-        stacks.chin.current().reset();
-        stacks.nose.current().reset();
-        stacks.mouth.current().reset();
-        stacks.lefteye.current().reset();
-        stacks.righteye.current().reset();
-    };
+    // me.setDefaultPositions = function()
+    // {
+    //     stacks.chin.current().resetPosition();
+    //     stacks.nose.current().resetPosition();
+    //     stacks.mouth.current().resetPosition();
+    //     stacks.lefteye.current().resetPosition();
+    //     stacks.righteye.current().resetPosition();
+    // };
 
     me.setRandomFaceParts = function()
     {
+        stacks.background.random();
         stacks.chin.random();
         stacks.nose.random();
         stacks.mouth.random();
@@ -108,20 +85,11 @@ function Face()
         stacks.righteye.random();
     };
 
-    me.getTotalNumberOfItems = function()
-    {
-        return stacks.chin.length +
-            stacks.nose.length +
-            stacks.mouth.length +
-            stacks.lefteye.length +
-            stacks.righteye.length;
-    };
-
     me.setRandomPositions = function()
     {
-        setRandomNosePosition();
-        setRandomMouthPosition();
-        setRandomEyePosition();
+        // setRandomNosePosition();
+        // setRandomMouthPosition();
+        // setRandomEyePosition();
     };
 
     function setRandomNosePosition()
@@ -190,73 +158,5 @@ function Face()
             lefteye.y = eyeYPosition;
             righteye.y = eyeYPosition;
         }
-    }
-
-    function facePartClick()
-    {
-        stacks[this.groupName].random();
-
-        if(me.onFacePartChange)
-        {
-            me.onFacePartChange(this.groupName);
-        }
-    }
-
-    function facePartRollOver()
-    {
-        if(me.onFacePartRollOver)
-        {
-            me.onFacePartRollOver(this.groupName, this.getGlobalBounds());
-        }
-    }
-
-    function facePartRollOut()
-    {
-        if(me.onFacePartRollOut)
-        {
-            me.onFacePartRollOut(this.groupName, this.getGlobalBounds());
-        }
-    }
-
-
-    me.getDebugBounds = function()
-    {
-        var shape = new Shape();
-
-        var test = stacks.chin.current();
-
-        console.log(test.getOuterDebugBoundSettings());
-
-        drawFacePartToShape(shape, stacks.chin.current());
-        drawFacePartToShape(shape, stacks.nose.current());
-        drawFacePartToShape(shape, stacks.mouth.current());
-        drawFacePartToShape(shape, stacks.lefteye.current());
-        drawFacePartToShape(shape, stacks.righteye.current());
-
-        return shape;
-    }
-
-    function drawFacePartToShape(shape, facePart)
-    {
-        var innerSettings = facePart.getInnerDebugBoundSettings();
-        var outerSettings = facePart.getOuterDebugBoundSettings();
-
-        shape.box(
-            innerSettings.x,
-            innerSettings.y,
-            innerSettings.width,
-            innerSettings.height);
-
-        shape.strokeStyle = innerSettings.color;
-        shape.stroke();
-
-        shape.box(
-            outerSettings.x,
-            outerSettings.y,
-            outerSettings.width,
-            outerSettings.height);
-
-        shape.strokeStyle = outerSettings.color;
-        shape.stroke();
     }
 }

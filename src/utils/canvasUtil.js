@@ -31,7 +31,7 @@ function CanvasUtil()
     {
         canvas = document.createElement("canvas");
         context = canvas.getContext("2d");
-    }
+    };
 
     me.getImageDataFromTag = function(imageTag)
     {
@@ -39,7 +39,7 @@ function CanvasUtil()
         clearCanvas(imageTag);
         drawImageTag(imageTag);
         return getImageData(imageTag);
-    }
+    };
 
     function updateCanvasSize(imageTag)
     {

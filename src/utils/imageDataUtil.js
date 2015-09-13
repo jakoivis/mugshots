@@ -3,51 +3,6 @@
 
 var ImageDataUtil =
 {
-    getPixel32Alpha: function(imageData, x, y)
-    {
-        // return bmd.getPixel32(x,y) >> 24 & 0xFF;
-    },
-
-    getPixel32AlphaHex: function (imageData, x, y)
-    {
-        // return (bmd.getPixel32(x,y) >> 24 & 0xFF).toString(16);
-    },
-
-    getPixel32Red: function (imageData, x, y)
-    {
-        // return bmd.getPixel32(x,y) >> 16 & 0xFF;
-    },
-
-    getPixel32RedHex: function (imageData, x, y)
-    {
-        // return (bmd.getPixel32(x,y) >> 16 & 0xFF).toString(16);
-    },
-
-    getPixel32Green: function (imageData, x, y)
-    {
-        // return bmd.getPixel32(x,y) >> 8 & 0xFF;
-    },
-
-    getPixel32GreenHex: function (imageData, x, y)
-    {
-        // return (bmd.getPixel32(x,y) >> 8 & 0xFF).toString(16);
-    },
-
-    getPixel32Blue: function (imageData, x, y)
-    {
-        // return bmd.getPixel32(x,y) & 0xFF;
-    },
-
-    getPixel32BlueHex: function (imageData, x, y)
-    {
-        // return (bmd.getPixel32(x,y) & 0xFF).toString(16);
-    },
-
-    getPixel32At: function (uint32Array, width, x, y)
-    {
-        return uint32Array[y * width + x];
-    },
-
     /**
      * Get the bottom position of an image. Lowest non-transparent pixel y position
      */

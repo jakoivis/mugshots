@@ -4,7 +4,7 @@
 var TOPICS = require("../topics.js");
 var amplify = require("amplify").amplify;
 var PreloaderList = require("./preloaderList.js");
-var ImageLoader = require("ImageLoader");
+require("ImageLoader");
 
 function PreloadService()
 {
@@ -18,7 +18,8 @@ function PreloadService()
         loader = new ImageLoader({
             images: PreloaderList.getList(),
             onFileComplete: onFileComplete,
-            onComplete: onComplete
+            onComplete: onComplete,
+            simulationDelayMin: 10,
         });
     };
 

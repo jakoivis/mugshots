@@ -11,13 +11,12 @@ function FacePartStack()
     }
 
     var me = this;
-
-    var stack = [];
-
+    var _stack = [];
     var _position = 0;
 
-    Object.defineProperty(this, "length", {
-        get: function() { return stack.length; },
+    Object.defineProperty(this, "length",
+    {
+        get: function() { return _stack.length; },
     });
 
     me.getPosition = function()
@@ -32,19 +31,19 @@ function FacePartStack()
 
     me.current = function()
     {
-        return stack[_position];
+        return _stack[_position];
     };
 
     me.random = function()
     {
-        _position = Math.round(Math.random() * (stack.length-1));
+        _position = Math.round(Math.random() * (_stack.length-1));
 
         return me.current();
     };
 
     me.push = function(facePart)
     {
-        stack.push(facePart);
+        _stack.push(facePart);
     };
 
     return this;
