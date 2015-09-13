@@ -41,6 +41,18 @@ function FacePartStack()
         return me.current();
     };
 
+    me.next = function()
+    {
+        _position = _position + 1;
+
+        if(_position >= _stack.length)
+        {
+            _position = 0;
+        }
+
+        return me.current();
+    };
+
     me.push = function(facePart)
     {
         _stack.push(facePart);

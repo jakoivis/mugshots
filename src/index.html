@@ -2,11 +2,13 @@
 <head>
     <style>
 
-    body {
+    body
+    {
         background-color: #EAEAEA;
     }
 
-    #face, #loader, #overlay, #highlight {
+    #face, #loader, #overlay, #highlight
+    {
         position: absolute;
         left:0;
         right:0;
@@ -16,7 +18,22 @@
         height: 800px;*/
     }
 
-    #overlay {
+    #debugControls
+    {
+        width: 200px;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        position: absolute;
+    }
+
+    #debugControls > button
+    {
+        width: 200px;
+    }
+
+    #overlay
+    {
         background-color: #EAEAEA;
         opacity: 1;
     }
@@ -32,6 +49,8 @@
     <div id="overlay"></div>
 
     <canvas id="loader"></canvas>
+
+    <div id="debugControls"></div>
 
     <script src="mugshots.js"></script>
 

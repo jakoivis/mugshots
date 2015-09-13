@@ -20,6 +20,10 @@ function Face()
         chin: new FacePartStack()
     };
 
+    Object.defineProperty(this, "stacks", {
+        get: function() { return stacks; }
+    });
+
     me.createFacePart = function(imageSettings)
     {
         var facePart = new FacePart(imageSettings);

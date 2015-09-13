@@ -10,6 +10,7 @@ require("tweenjs");
 var PreloadService = require("./services/preloadService.js");
 var PreloadLayer = require("./layers/preloadLayer.js");
 var FaceLayer = require("./layers/faceLayer.js");
+var DebugControlsLayer = require("./layers/debugControlsLayer.js");
 // var OverlayLayer = require("./layers/overlayLayer.js");
 
 var layerWidth = 600;
@@ -27,6 +28,11 @@ new PreloadLayer({
     width: layerWidth,
     height: layerHeight
 });
+
+new DebugControlsLayer({
+    target: "debugControls"
+});
+
 
 // new OverlayLayer();
 

@@ -33,6 +33,36 @@ function FaceLayer(options)
 
         amplify.subscribe(TOPICS.PRELOAD_ITEM_COMPLETE, onFileComplete);
         amplify.subscribe(TOPICS.PRELOAD_BACKGROUND, switchToBackgroundMode);
+
+        amplify.subscribe(TOPICS.NEXT_BACKGROUND, function()
+        {
+            face.stacks.background.next();
+            updateGraphics();
+        });
+
+        amplify.subscribe(TOPICS.NEXT_NOSE, function()
+        {
+            face.stacks.nose.next();
+            updateGraphics();
+        });
+
+        amplify.subscribe(TOPICS.NEXT_LEFT_EYE, function()
+        {
+            face.stacks.lefteye.next();
+            updateGraphics();
+        });
+
+        amplify.subscribe(TOPICS.NEXT_RIGHT_EYE, function()
+        {
+            face.stacks.righteye.next();
+            updateGraphics();
+        });
+
+        amplify.subscribe(TOPICS.NEXT_MOUTH, function()
+        {
+            face.stacks.mouth.next();
+            updateGraphics();
+        });
     }
 
     function onFileComplete(item)
