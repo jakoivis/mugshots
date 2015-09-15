@@ -24,22 +24,80 @@ function FacePart(options)
     }
 
     var me = this;
-    var settings;
-    var bitmapAlphaBounds;
-    var bitmap;
-    var name;
+    var _settings;
+    var _bitmap;
+    var _name;
+    var _localInnerBounds;
 
-    Object.defineProperty(this, "bitmap", {
-        get: function() { return bitmap; }
+    Object.defineProperty(this, "top",
+    {
+        get: function()
+        {
+            return _bitmap.y + _localInnerBounds.top;
+        },
+        set: function(value)
+        {
+            _bitmap.y = value - _localInnerBounds.top;
+        }
     });
 
-    Object.defineProperty(this, "name", {
-        get: function() { return name; }
+    Object.defineProperty(this, "left",
+    {
+        get: function()
+        {
+            return _bitmap.x + _localInnerBounds.left;
+        },
+        set: function(value)
+        {
+            _bitmap.x = value - _localInnerBounds.left;
+        }
+    });
+
+    Object.defineProperty(this, "bottom",
+    {
+        get: function()
+        {
+            return _bitmap.y + _localInnerBounds.bottom;
+        }
+    });
+
+    Object.defineProperty(this, "right",
+    {
+        get: function()
+        {
+            return _bitmap.x + _localInnerBounds.right;
+        }
+    });
+
+    Object.defineProperty(this, "width",
+    {
+        get: function()
+        {
+            return _localInnerBounds.width;
+        }
+    });
+
+    Object.defineProperty(this, "height",
+    {
+        get: function()
+        {
+            return _localInnerBounds.height;
+        }
+    });
+
+    Object.defineProperty(this, "bitmap",
+    {
+        get: function() { return _bitmap; }
+    });
+
+    Object.defineProperty(this, "name",
+    {
+        get: function() { return _name; }
     });
 
     function init()
     {
-        settings = FacePartSettings[options.groupName];
+        _settings = FacePartSettings[options.groupName];
 
         initBitmap();
         initBounds();
@@ -48,9 +106,9 @@ function FacePart(options)
 
     function initBitmap()
     {
-        bitmap = new createjs.Bitmap(options.tag);
-        bitmap.width = options.tag.width;
-        bitmap.height = options.tag.height;
+        _bitmap = new createjs.Bitmap(options.tag);
+        _bitmap.width = options.tag.width;
+        _bitmap.height = options.tag.height;
         me.resetPosition();
     }
 
@@ -58,26 +116,26 @@ function FacePart(options)
     {
         var imageData = CanvasUtil.getImageDataFromTag(options.tag);
 
-        bitmapAlphaBounds = new Bounds(getBitmapAlphaBounds(imageData));
+        _localInnerBounds = new Bounds(getBitmapAlphaBounds(imageData));
 
         if(typeof options.boundsBottom !== "undefined")
         {
-            bitmapAlphaBounds.bottom = options.boundsBottom;
+            _localInnerBounds.bottom = options.boundsBottom;
         }
 
         if(typeof options.boundsTop !== "undefined")
         {
-            bitmapAlphaBounds.top = options.boundsTop;
+            _localInnerBounds.top = options.boundsTop;
         }
 
         if(typeof options.boundsLeft !== "undefined")
         {
-            bitmapAlphaBounds.left = options.boundsLeft;
+            _localInnerBounds.left = options.boundsLeft;
         }
 
         if(typeof options.boundsRight !== "undefined")
         {
-            bitmapAlphaBounds.right = options.boundsRight;
+            _localInnerBounds.right = options.boundsRight;
         }
     }
 
@@ -91,7 +149,7 @@ function FacePart(options)
             result += fileNameDigits[0];
         }
 
-        name = result;
+        _name = result;
     }
 
     function getBitmapAlphaBounds(imageData)
@@ -108,13 +166,13 @@ function FacePart(options)
 
     me.resetPosition = function()
     {
-        bitmap.x = settings.defaultRect.x;
-        bitmap.y = settings.defaultRect.y;
+        _bitmap.x = _settings.defaultRect.x;
+        _bitmap.y = _settings.defaultRect.y;
     };
 
     me.setRandomYPosition = function()
     {
-        me.y = settings.defaultRect.y + getRandomInt(settings.rangeY.min, settings.rangeY.max);
+        _bitmap.y = _settings.defaultRect.y + getRandomInt(_settings.rangeY.min, _settings.rangeY.max);
     };
 
     function getRandomInt(min, max)
@@ -144,33 +202,31 @@ function FacePart(options)
     function getOuterDebugBoundSettings()
     {
         return {
-            x: bitmap.x,
-            y: bitmap.y,
-            width: bitmap.width,
-            height: bitmap.height,
-            color: settings.debugColor2
+            x: _bitmap.x,
+            y: _bitmap.y,
+            width: _bitmap.width,
+            height: _bitmap.height,
+            color: _settings.debugColor2
         };
     }
 
     function getInnerDebugBoundSettings()
     {
-        var globalBounds = me.getGlobalBounds();
-
         return {
-            x: globalBounds.left,
-            y: globalBounds.top,
-            width: globalBounds.width,
-            height: globalBounds.height,
-            color: settings.debugColor1
+            x: me.left,
+            y: me.top,
+            width: me.width,
+            height: me.height,
+            color: _settings.debugColor1
         };
     }
 
-    me.getGlobalBounds = function()
-    {
-        var globalBounds = bitmapAlphaBounds.clone();
-        globalBounds.translate(bitmap.x, bitmap.y);
-        return globalBounds;
-    };
+    // me.getBounds = function()
+    // {
+    //     var globalInnerBounds = _localInnerBounds.clone();
+    //     globalInnerBounds.translate(_bitmap.x, _bitmap.y);
+    //     return globalInnerBounds;
+    // };
 
     init();
 
@@ -179,7 +235,7 @@ function FacePart(options)
 
 FacePart.getFacePartWithLowerBitmap = function(facepart1, facepart2)
 {
-    if(facepart1.getGlobalBounds().bottom < facepart2.getGlobalBounds().bottom)
+    if(facepart1.bottom < facepart2.bottom)
     {
         return facepart1;
     }

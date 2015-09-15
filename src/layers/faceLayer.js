@@ -10,7 +10,7 @@ module.exports = FaceLayer;
 function FaceLayer(options)
 {
     var face = new Face();
-    var debugDrawImageBounds = false;
+    var debugDrawImageBounds = true;
     var debugLogImageNames = true;
     var canvas;
     var stage;
@@ -31,6 +31,11 @@ function FaceLayer(options)
 
         stage = new createjs.Stage(canvas);
 
+        initTopics();
+    }
+
+    function initTopics()
+    {
         amplify.subscribe(TOPICS.PRELOAD_ITEM_COMPLETE, onFileComplete);
         amplify.subscribe(TOPICS.PRELOAD_BACKGROUND, switchToBackgroundMode);
 
@@ -95,31 +100,30 @@ function FaceLayer(options)
     {
         stage.removeAllChildren();
 
-        stage.addChild(face.getBackgroundImage().bitmap);
+        var stacks = face.stacks;
 
-        // stage.addChild(face.getChinImage().bitmap);
-        stage.addChild(face.getMouthImage().bitmap);
-        stage.addChild(face.getNoseImage().bitmap);
-        stage.addChild(face.getLefteyeImage().bitmap);
-        stage.addChild(face.getRighteyeImage().bitmap);
+        stage.addChild(stacks.background.current().bitmap);
+        stage.addChild(stacks.mouth.current().bitmap);
+        stage.addChild(stacks.nose.current().bitmap);
+        stage.addChild(stacks.lefteye.current().bitmap);
+        stage.addChild(stacks.righteye.current().bitmap);
 
         if(debugDrawImageBounds)
         {
-            stage.addChild(face.getBackgroundImage().getDebugBounds());
-            // stage.addChild(face.getChinImage().getDebugBounds());
-            stage.addChild(face.getMouthImage().getDebugBounds());
-            stage.addChild(face.getNoseImage().getDebugBounds());
-            stage.addChild(face.getLefteyeImage().getDebugBounds());
-            stage.addChild(face.getRighteyeImage().getDebugBounds());
+            stage.addChild(stacks.background.current().getDebugBounds());
+            stage.addChild(stacks.mouth.current().getDebugBounds());
+            stage.addChild(stacks.nose.current().getDebugBounds());
+            stage.addChild(stacks.lefteye.current().getDebugBounds());
+            stage.addChild(stacks.righteye.current().getDebugBounds());
         }
 
         if(debugLogImageNames)
         {
-            console.log("bg: " + face.getBackgroundImage().name + ", " +
-                        "mouth: " + face.getMouthImage().name +  ", " +
-                        "nose: " + face.getNoseImage().name + ", " +
-                        "lefteye: " + face.getLefteyeImage().name + ", " +
-                        "righteye: " + face.getRighteyeImage().name);
+            console.log("bg: " + stacks.background.current().name + ", " +
+                        "mouth: " + stacks.mouth.current().name +  ", " +
+                        "nose: " + stacks.nose.current().name + ", " +
+                        "lefteye: " + stacks.lefteye.current().name + ", " +
+                        "righteye: " + stacks.righteye.current().name);
         }
 
         stage.update();

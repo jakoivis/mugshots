@@ -16,18 +16,17 @@ function FacePartStack()
 
     Object.defineProperty(this, "length",
     {
-        get: function() { return _stack.length; },
+        get: function() { return _stack.length; }
     });
 
-    me.getPosition = function()
+    Object.defineProperty(this, "position",
     {
-        return _position;
-    };
-
-    me.setPosition = function(position)
-    {
-        _position = position;
-    };
+        get: function() { return _position; },
+        set: function(value)
+        {
+            _position = Number(value);
+        }
+    });
 
     me.current = function()
     {

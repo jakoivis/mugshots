@@ -17,7 +17,7 @@ var Bounds = function(bounds)
     var _width;
     var _height;
 
-    function init(bounds)
+    function init()
     {
         me.left = bounds.left;
         me.top = bounds.top;
@@ -99,10 +99,10 @@ var Bounds = function(bounds)
 
     me.translate = function(x, y)
     {
-        me.left = bounds.left + x;
-        me.top = bounds.top + y;
-        me.bottom = bounds.bottom + y;
-        me.right = bounds.right + x;
+        me.left = _left + x;
+        me.top = _top + y;
+        me.bottom = _bottom + y;
+        me.right = _right + x;
     };
 
     me.clone = function()
@@ -110,7 +110,7 @@ var Bounds = function(bounds)
         return new Bounds(me);
     };
 
-    init(bounds);
+    init();
 
     return this;
 };
