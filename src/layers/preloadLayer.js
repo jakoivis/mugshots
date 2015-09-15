@@ -16,8 +16,8 @@ module.exports = PreloadLayer;
  *
  * @listens TOPICS.PRELOAD_COMPLETE
  */
-function PreloadLayer(options)
-{
+function PreloadLayer(options) {
+
     var canvas;
     var stage;
     var spinner;
@@ -53,8 +53,8 @@ function PreloadLayer(options)
         }
     };
 
-    function init()
-    {
+    function init() {
+
         initOptions();
 
         stage = new createjs.Stage(canvas);
@@ -67,38 +67,38 @@ function PreloadLayer(options)
         showSpinner();
     }
 
-    function initOptions()
-    {
+    function initOptions() {
+
         canvas = document.getElementById(options.target);
 
         if(typeof options.pointerEvents !== "undefined" &&
-            Boolean(options.pointerEvents) === false)
-        {
+            Boolean(options.pointerEvents) === false) {
+
             canvas.style["pointer-events"] = "none";
         }
 
-        if(options.width)
-        {
+        if(options.width) {
+
             canvas.width = options.width;
 
             spinnerSettings.fadeInStart.x = options.width >> 1;
         }
 
-        if(options.height)
-        {
+        if(options.height) {
+
             canvas.height = options.height;
         }
     }
 
 
-    function timerTickHandler(event)
-    {
+    function timerTickHandler(event) {
+
         spinner.update();
         stage.update(event);
     }
 
-    function showSpinner()
-    {
+    function showSpinner() {
+
         spinner = new Spinner(spinnerSettings.fadeInStart);
 
         stage.addChild(spinner.container);
@@ -109,8 +109,8 @@ function PreloadLayer(options)
                 createjs.Ease.bounceOut);
     }
 
-    function removeSpinner()
-    {
+    function removeSpinner() {
+
         createjs.Tween
             .get(spinner)
             .to(spinnerSettings.fadeOutEnd, 1000,

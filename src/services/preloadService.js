@@ -6,15 +6,15 @@ var amplify = require("amplify").amplify;
 var PreloaderList = require("./preloaderList.js");
 require("ImageLoader");
 
-function PreloadService()
-{
+function PreloadService() {
+
     var me = this;
     var backgroundModeLimit = 0.2;
     var isBackgroundMode = false;
     var loader;
 
-    me.load = function()
-    {
+    me.load = function() {
+
         loader = new ImageLoader({
             images: PreloaderList.getList(),
             onFileComplete: onFileComplete,
@@ -23,29 +23,29 @@ function PreloadService()
         });
     };
 
-    function onFileComplete(item)
-    {
-        if(!item.isFailed())
-        {
+    function onFileComplete(item) {
+
+        if(!item.isFailed()) {
+
             amplify.publish(TOPICS.PRELOAD_ITEM_COMPLETE, item);
         }
 
-        if(canSwitchToBackgroundLoading())
-        {
+        if(canSwitchToBackgroundLoading()) {
+
             amplify.publish(TOPICS.PRELOAD_BACKGROUND);
         }
     }
 
-    function onComplete()
-    {
+    function onComplete() {
+
         amplify.publish(TOPICS.PRELOAD_COMPLETE);
     }
 
-    function canSwitchToBackgroundLoading()
-    {
+    function canSwitchToBackgroundLoading() {
+
         if(isBackgroundMode === false &&
-            loader.getPercentLoaded() >= backgroundModeLimit)
-        {
+            loader.getPercentLoaded() >= backgroundModeLimit) {
+
             isBackgroundMode = true;
             return true;
         }

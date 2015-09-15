@@ -8,15 +8,15 @@ var TOPICS = require("../topics.js");
 
 module.exports = OverlayLayer;
 
-function OverlayLayer()
-{
-    function init()
-    {
+function OverlayLayer() {
+
+    function init() {
+
         amplify.subscribe(TOPICS.PRELOAD_BACKGROUND, removeOverlay);
     }
 
-    function removeOverlay()
-    {
+    function removeOverlay() {
+
         var overlay = document.getElementById("overlay");
 
         new TWEEN.Tween({opacity:1})

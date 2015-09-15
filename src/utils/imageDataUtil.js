@@ -1,22 +1,22 @@
 
 'use strict';
 
-var ImageDataUtil =
-{
+var ImageDataUtil = {
+
     /**
      * Get the bottom position of an image. Lowest non-transparent pixel y position
      */
-    getBoundsBottom: function (uint32Array, width, height, alphaTolerance)
-    {
+    getBoundsBottom: function (uint32Array, width, height, alphaTolerance) {
+
         var x = 0;
         var y = height-1;
 
-        for(; y>=0; y--)
-        {
-            for(x=0; x<width; x++)
-            {
-                if((uint32Array[y*width+x] >> 24 & 0xFF) >= alphaTolerance)
-                {
+        for(; y>=0; y--) {
+
+            for(x=0; x<width; x++) {
+
+                if((uint32Array[y*width+x] >> 24 & 0xFF) >= alphaTolerance) {
+
                     return y+1;
                 }
             }
@@ -28,17 +28,17 @@ var ImageDataUtil =
     /**
      * Get the top position of an image. Highest non-transparent pixel y position
      */
-    getBoundsTop: function (uint32Array, width, height, alphaTolerance)
-    {
+    getBoundsTop: function (uint32Array, width, height, alphaTolerance) {
+
         var x = 0;
         var y = 0;
 
-        for(; y<height; y++)
-        {
-            for(x=0; x<width; x++)
-            {
-                if((uint32Array[y*width+x] >> 24 & 0xFF) >= alphaTolerance)
-                {
+        for(; y<height; y++) {
+
+            for(x=0; x<width; x++) {
+
+                if((uint32Array[y*width+x] >> 24 & 0xFF) >= alphaTolerance) {
+
                     return y;
                 }
             }
@@ -50,17 +50,17 @@ var ImageDataUtil =
     /**
      * Get the left position of an image. Left-most non-transparent pixel x position
      */
-    getBoundsLeft: function (uint32Array, width, height, alphaTolerance)
-    {
+    getBoundsLeft: function (uint32Array, width, height, alphaTolerance) {
+
         var x = 0;
         var y = 0;
 
-        for(; x<width; x++)
-        {
-            for(y=0; y<height; y++)
-            {
-                if((uint32Array[y*width+x] >> 24 & 0xFF) >= alphaTolerance)
-                {
+        for(; x<width; x++) {
+
+            for(y=0; y<height; y++) {
+
+                if((uint32Array[y*width+x] >> 24 & 0xFF) >= alphaTolerance) {
+
                     return x;
                 }
             }
@@ -72,17 +72,17 @@ var ImageDataUtil =
     /**
      * Get the right position of an image. Right-most non-transparent pixel x position
      */
-    getBoundsRight: function (uint32Array, width, height, alphaTolerance)
-    {
+    getBoundsRight: function (uint32Array, width, height, alphaTolerance) {
+
         var x = width-1;
         var y = 0;
 
-        for(; x>=0; x--)
-        {
-            for(y=0; y<height; y++)
-            {
-                if((uint32Array[y*width+x] >> 24 & 0xFF) >= alphaTolerance)
-                {
+        for(; x>=0; x--) {
+
+            for(y=0; y<height; y++) {
+
+                if((uint32Array[y*width+x] >> 24 & 0xFF) >= alphaTolerance) {
+
                     return x+1;
                 }
             }
@@ -91,8 +91,8 @@ var ImageDataUtil =
         return width;
     },
 
-    getBounds: function (uint32Array, width, height, alphaTolerance)
-    {
+    getBounds: function (uint32Array, width, height, alphaTolerance) {
+
         var rect = {
             top: this.getBoundsTop(uint32Array, width, height, alphaTolerance),
             bottom: this.getBoundsBottom(uint32Array, width, height, alphaTolerance),

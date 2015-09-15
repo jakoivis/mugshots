@@ -3,69 +3,68 @@
 
 module.exports = new CanvasUtil();
 
-function CanvasUtil()
-{
-    if(CanvasUtil.prototype.singletonInstance)
-    {
+function CanvasUtil() {
+
+    if(CanvasUtil.prototype.singletonInstance) {
+
         return CanvasUtil.prototype.singletonInstance;
     }
 
-    if (!(this instanceof CanvasUtil))
-    {
+    if(!(this instanceof CanvasUtil)) {
+
         return new CanvasUtil();
     }
 
     CanvasUtil.prototype.singletonInstance = this;
 
     var me = this;
-
     var canvas;
     var context;
 
-    function init()
-    {
+    function init() {
+
         me.resetTempCanvas();
     }
 
-    me.resetTempCanvas = function()
-    {
+    me.resetTempCanvas = function() {
+
         canvas = document.createElement("canvas");
         context = canvas.getContext("2d");
     };
 
-    me.getImageDataFromTag = function(imageTag)
-    {
+    me.getImageDataFromTag = function(imageTag) {
+
         updateCanvasSize(imageTag);
         clearCanvas(imageTag);
         drawImageTag(imageTag);
         return getImageData(imageTag);
     };
 
-    function updateCanvasSize(imageTag)
-    {
-        if (canvas.width < imageTag.width)
-        {
+    function updateCanvasSize(imageTag) {
+
+        if (canvas.width < imageTag.width) {
+
             canvas.width = imageTag.width;
         }
 
-        if(canvas.height < imageTag.height)
-        {
+        if(canvas.height < imageTag.height) {
+
             canvas.height = imageTag.height;
         }
     }
 
-    function clearCanvas(imageTag)
-    {
+    function clearCanvas(imageTag) {
+
         context.clearRect(0, 0, imageTag.width, imageTag.height);
     }
 
-    function drawImageTag(imageTag)
-    {
+    function drawImageTag(imageTag) {
+
         context.drawImage(imageTag, 0, 0);
     }
 
-    function getImageData(imageTag)
-    {
+    function getImageData(imageTag) {
+
         return context.getImageData(0, 0, imageTag.width, imageTag.height);
     }
 
