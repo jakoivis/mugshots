@@ -16,10 +16,10 @@ module.exports = FacePart;
  * @param {object} options.boundsLef        Explicit alpha bound of image. Overriders the calculated value
  * @param {object} options.boundsRight      Explicit alpha bound of image. Overriders the calculated value
  */
-function FacePart(options)
-{
-    if (!(this instanceof FacePart))
-    {
+function FacePart(options) {
+
+    if(!(this instanceof FacePart)) {
+
         return new FacePart(options);
     }
 
@@ -29,74 +29,76 @@ function FacePart(options)
     var _name;
     var _localInnerBounds;
 
-    Object.defineProperty(this, "top",
-    {
-        get: function()
-        {
+    Object.defineProperty(this, "top", {
+
+        get: function() {
+
             return _bitmap.y + _localInnerBounds.top;
         },
-        set: function(value)
-        {
+
+        set: function(value) {
+
             _bitmap.y = value - _localInnerBounds.top;
         }
     });
 
-    Object.defineProperty(this, "left",
-    {
-        get: function()
-        {
+    Object.defineProperty(this, "left", {
+
+        get: function() {
+
             return _bitmap.x + _localInnerBounds.left;
         },
-        set: function(value)
-        {
+
+        set: function(value) {
+
             _bitmap.x = value - _localInnerBounds.left;
         }
     });
 
-    Object.defineProperty(this, "bottom",
-    {
-        get: function()
-        {
+    Object.defineProperty(this, "bottom", {
+
+        get: function() {
+
             return _bitmap.y + _localInnerBounds.bottom;
         }
     });
 
-    Object.defineProperty(this, "right",
-    {
-        get: function()
-        {
+    Object.defineProperty(this, "right", {
+
+        get: function() {
+
             return _bitmap.x + _localInnerBounds.right;
         }
     });
 
-    Object.defineProperty(this, "width",
-    {
-        get: function()
-        {
+    Object.defineProperty(this, "width", {
+
+        get: function() {
+
             return _localInnerBounds.width;
         }
     });
 
-    Object.defineProperty(this, "height",
-    {
-        get: function()
-        {
+    Object.defineProperty(this, "height", {
+
+        get: function() {
+
             return _localInnerBounds.height;
         }
     });
 
-    Object.defineProperty(this, "bitmap",
-    {
+    Object.defineProperty(this, "bitmap", {
+
         get: function() { return _bitmap; }
     });
 
-    Object.defineProperty(this, "name",
-    {
+    Object.defineProperty(this, "name", {
+
         get: function() { return _name; }
     });
 
-    function init()
-    {
+    function init() {
+
         _settings = FacePartSettings[options.groupName];
 
         initBitmap();
@@ -104,56 +106,57 @@ function FacePart(options)
         initName();
     }
 
-    function initBitmap()
-    {
+    function initBitmap() {
+
         _bitmap = new createjs.Bitmap(options.tag);
         _bitmap.width = options.tag.width;
         _bitmap.height = options.tag.height;
+
         me.resetPosition();
     }
 
-    function initBounds()
-    {
+    function initBounds() {
+
         var imageData = CanvasUtil.getImageDataFromTag(options.tag);
 
         _localInnerBounds = new Bounds(getBitmapAlphaBounds(imageData));
 
-        if(typeof options.boundsBottom !== "undefined")
-        {
+        if(typeof options.boundsBottom !== "undefined") {
+
             _localInnerBounds.bottom = options.boundsBottom;
         }
 
-        if(typeof options.boundsTop !== "undefined")
-        {
+        if(typeof options.boundsTop !== "undefined") {
+
             _localInnerBounds.top = options.boundsTop;
         }
 
-        if(typeof options.boundsLeft !== "undefined")
-        {
+        if(typeof options.boundsLeft !== "undefined") {
+
             _localInnerBounds.left = options.boundsLeft;
         }
 
-        if(typeof options.boundsRight !== "undefined")
-        {
+        if(typeof options.boundsRight !== "undefined") {
+
             _localInnerBounds.right = options.boundsRight;
         }
     }
 
-    function initName()
-    {
+    function initName() {
+
         var result = options.groupName + "_";
         var fileNameDigits = /\d{4}/g.exec(options.src);
 
-        if(fileNameDigits && fileNameDigits.length)
-        {
+        if(fileNameDigits && fileNameDigits.length) {
+
             result += fileNameDigits[0];
         }
 
         _name = result;
     }
 
-    function getBitmapAlphaBounds(imageData)
-    {
+    function getBitmapAlphaBounds(imageData) {
+
         var imageData8ClampedView = imageData.data;
         var imageData32View = new Uint32Array(imageData8ClampedView.buffer);
 
@@ -164,24 +167,24 @@ function FacePart(options)
                             FacePartSettings.BITMAP_ALPHA_TOLERANCE);
     }
 
-    me.resetPosition = function()
-    {
+    me.resetPosition = function() {
+
         _bitmap.x = _settings.defaultRect.x;
         _bitmap.y = _settings.defaultRect.y;
     };
 
-    me.setRandomYPosition = function()
-    {
+    me.setRandomYPosition = function() {
+
         _bitmap.y = _settings.defaultRect.y + getRandomInt(_settings.rangeY.min, _settings.rangeY.max);
     };
 
-    function getRandomInt(min, max)
-    {
+    function getRandomInt(min, max) {
+
         return Math.floor(Math.random() * (max - min)) + min;
     }
 
-    me.getDebugBounds = function()
-    {
+    me.getDebugBounds = function() {
+
         var innerBounds = getInnerDebugBoundSettings();
         var outerBounds = getOuterDebugBoundSettings();
 
@@ -199,8 +202,8 @@ function FacePart(options)
         return shape;
     };
 
-    function getOuterDebugBoundSettings()
-    {
+    function getOuterDebugBoundSettings() {
+
         return {
             x: _bitmap.x,
             y: _bitmap.y,
@@ -210,8 +213,8 @@ function FacePart(options)
         };
     }
 
-    function getInnerDebugBoundSettings()
-    {
+    function getInnerDebugBoundSettings() {
+
         return {
             x: me.left,
             y: me.top,
@@ -221,26 +224,19 @@ function FacePart(options)
         };
     }
 
-    // me.getBounds = function()
-    // {
-    //     var globalInnerBounds = _localInnerBounds.clone();
-    //     globalInnerBounds.translate(_bitmap.x, _bitmap.y);
-    //     return globalInnerBounds;
-    // };
-
     init();
 
     return this;
 }
 
-FacePart.getFacePartWithLowerBitmap = function(facepart1, facepart2)
-{
-    if(facepart1.bottom < facepart2.bottom)
-    {
+FacePart.getFacePartWithLowerBitmap = function(facepart1, facepart2) {
+
+    if(facepart1.bottom < facepart2.bottom) {
+
         return facepart1;
-    }
-    else
-    {
+
+    } else {
+
         return facepart2;
     }
 };

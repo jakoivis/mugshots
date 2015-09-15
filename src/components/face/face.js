@@ -7,8 +7,8 @@ var FacePartPositioningUtil = require("./facePartPositioningUtil.js");
 
 module.exports = Face;
 
-function Face()
-{
+function Face() {
+
     var me = this;
 
     var stacks = {
@@ -22,18 +22,19 @@ function Face()
     };
 
     Object.defineProperty(this, "stacks", {
+
         get: function() { return stacks; }
     });
 
-    me.createFacePart = function(imageSettings)
-    {
+    me.createFacePart = function(imageSettings) {
+
         var facePart = new FacePart(imageSettings);
 
         stacks[imageSettings.groupName].push(facePart);
     };
 
-    me.setDefaultFaceParts = function()
-    {
+    me.setDefaultFaceParts = function() {
+
         stacks.chin.position = 0;
         stacks.nose.position = 0;
         stacks.mouth.position = 0;
@@ -41,8 +42,8 @@ function Face()
         stacks.righteye.position = 0;
     };
 
-    // me.setDefaultPositions = function()
-    // {
+    // me.setDefaultPositions = function() {
+    //
     //     stacks.chin.current().resetPosition();
     //     stacks.nose.current().resetPosition();
     //     stacks.mouth.current().resetPosition();
@@ -50,8 +51,8 @@ function Face()
     //     stacks.righteye.current().resetPosition();
     // };
 
-    me.setRandomFaceParts = function()
-    {
+    me.setRandomFaceParts = function() {
+
         stacks.background.random();
         stacks.chin.random();
         stacks.nose.random();
@@ -60,20 +61,20 @@ function Face()
         stacks.righteye.random();
     };
 
-    me.setRandomPositions = function()
-    {
+    me.setRandomPositions = function() {
+
         FacePartPositioningUtil.setRandomNosePosition(stacks);
         FacePartPositioningUtil.setRandomMouthPosition(stacks);
         // setRandomEyePosition();
     };
 
-    // function setRandomNosePosition()
-    // {
+    // function setRandomNosePosition() {
+    //
     //     stacks.nose.current().setRandomYPosition();
     // }
 
-    // function setRandomMouthPosition()
-    // {
+    // function setRandomMouthPosition() {
+    //
     //     var mouth = stacks.mouth.current();
     //     var nose = stacks.nose.current();
 
@@ -85,21 +86,21 @@ function Face()
     //     mouth.bitmap.y = Math.round(nose.bottom - mouth.top + offset);
     // }
 
-    // function changeMouthIfItDoesntFit()
-    // {
-    //     while(canMouthFit())
-    //     {
+    // function changeMouthIfItDoesntFit() {
+    //
+    //     while(canMouthFit()) {
+    //
     //         stacks.mouth.random();
     //     }
     // }
 
-    // function canMouthFit()
-    // {
+    // function canMouthFit() {
+    //
     //     return getMouthAvailableMovement() < 0;
     // }
 
-    // function getMouthAvailableMovement()
-    // {
+    // function getMouthAvailableMovement() {
+    //
     //     var mouth = stacks.mouth.current();
 
     //     console.log(mouth.bounds);
@@ -107,16 +108,16 @@ function Face()
     //     return getMouthRange() - mouth.height;
     // }
 
-    // function getMouthRange()
-    // {
+    // function getMouthRange() {
+    //
     //     var nose = stacks.nose.current();
     //     var background = stacks.background.current();
 
     //     return background.bottom - nose.bottom;
     // }
 
-    function setRandomEyePosition()
-    {
+    function setRandomEyePosition() {
+
         var lefteye = stacks.lefteye.current();
         var righteye = stacks.righteye.current();
         var nose = stacks.nose.current();
@@ -129,8 +130,8 @@ function Face()
         var correctionRequired = nose.top - eyeLimit;
 
         // check that nose and eyes don"t overlap too much
-        if(correctionRequired < 0)
-        {
+        if(correctionRequired < 0) {
+
             var eyeYPosition = Math.round(nose.y - (lowerEye.bounds.height / 4));
             lefteye.y = eyeYPosition;
             righteye.y = eyeYPosition;

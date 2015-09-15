@@ -1,10 +1,10 @@
 
 "use strict";
 
-var Bounds = function(bounds)
-{
-    if (!(this instanceof Bounds))
-    {
+var Bounds = function(bounds) {
+
+    if (!(this instanceof Bounds)) {
+
         return new Bounds(bounds);
     }
 
@@ -17,96 +17,104 @@ var Bounds = function(bounds)
     var _width;
     var _height;
 
-    function init()
-    {
+    function init() {
+
         me.left = bounds.left;
         me.top = bounds.top;
         me.bottom = bounds.bottom;
         me.right = bounds.right;
     }
 
-    Object.defineProperty(this, "bottom",
-    {
+    Object.defineProperty(this, "bottom", {
+
         get: function() { return _bottom; },
-        set: function(value)
-        {
-            if(value !== undefined)
-            {
+
+        set: function(value) {
+
+            if(value !== undefined) {
+
                 _bottom = Number(value);
+
                 updateHeight();
             }
         }
     });
 
-    Object.defineProperty(this, "top",
-    {
+    Object.defineProperty(this, "top", {
+
         get: function() { return _top; },
-        set: function(value)
-        {
-            if(value !== undefined)
-            {
+
+        set: function(value) {
+
+            if(value !== undefined) {
+
                 _top = Number(value);
+
                 updateHeight();
             }
         }
     });
 
-    Object.defineProperty(this, "left",
-    {
+    Object.defineProperty(this, "left", {
+
         get: function() { return _left; },
-        set: function(value)
-        {
-            if(value !== undefined)
-            {
+
+        set: function(value) {
+
+            if(value !== undefined) {
+
                 _left = Number(value);
+
                 updateWidth();
             }
         }
     });
 
-    Object.defineProperty(this, "right",
-    {
+    Object.defineProperty(this, "right", {
+
         get: function() { return _right; },
-        set: function(value)
-        {
-            if(value !== undefined)
-            {
+
+        set: function(value) {
+
+            if(value !== undefined) {
+
                 _right = Number(value);
+
                 updateWidth();
             }
         }
     });
 
-    Object.defineProperty(this, "width",
-    {
+    Object.defineProperty(this, "width", {
+
         get: function() { return _width; }
     });
 
-    Object.defineProperty(this, "height",
-    {
+    Object.defineProperty(this, "height", {
+
         get: function() { return _height; }
     });
 
-    function updateHeight()
-    {
+    function updateHeight() {
+
         _height = _bottom - _top;
     }
 
-    function updateWidth()
-    {
+    function updateWidth() {
+
         _width = _right - _left;
     }
 
-    me.translate = function(x, y)
-    {
+    me.translate = function(x, y) {
+
         me.left = _left + x;
         me.top = _top + y;
         me.bottom = _bottom + y;
         me.right = _right + x;
     };
 
-    me.clone = function()
-    {
+    me.clone = function() {
+
         return new Bounds(me);
     };
 
