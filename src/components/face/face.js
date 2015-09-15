@@ -65,76 +65,7 @@ function Face() {
 
         FacePartPositioningUtil.setRandomNosePosition(stacks);
         FacePartPositioningUtil.setRandomMouthPosition(stacks);
+        FacePartPositioningUtil.setRandomEyePosition(stacks);
         // setRandomEyePosition();
     };
-
-    // function setRandomNosePosition() {
-    //
-    //     stacks.nose.current().setRandomYPosition();
-    // }
-
-    // function setRandomMouthPosition() {
-    //
-    //     var mouth = stacks.mouth.current();
-    //     var nose = stacks.nose.current();
-
-    //     changeMouthIfItDoesntFit();
-
-    //     // freely position mouth in the designated area
-    //     var sizeRatio = mouth.height / getMouthRange();
-    //     var offset = Math.round(Math.random() * (getMouthAvailableMovement() * sizeRatio));
-    //     mouth.bitmap.y = Math.round(nose.bottom - mouth.top + offset);
-    // }
-
-    // function changeMouthIfItDoesntFit() {
-    //
-    //     while(canMouthFit()) {
-    //
-    //         stacks.mouth.random();
-    //     }
-    // }
-
-    // function canMouthFit() {
-    //
-    //     return getMouthAvailableMovement() < 0;
-    // }
-
-    // function getMouthAvailableMovement() {
-    //
-    //     var mouth = stacks.mouth.current();
-
-    //     console.log(mouth.bounds);
-
-    //     return getMouthRange() - mouth.height;
-    // }
-
-    // function getMouthRange() {
-    //
-    //     var nose = stacks.nose.current();
-    //     var background = stacks.background.current();
-
-    //     return background.bottom - nose.bottom;
-    // }
-
-    function setRandomEyePosition() {
-
-        var lefteye = stacks.lefteye.current();
-        var righteye = stacks.righteye.current();
-        var nose = stacks.nose.current();
-
-        lefteye.setRandomYPosition();
-        righteye.y = lefteye.y;
-
-        var lowerEye = FacePart.getFacePartWithLowerBitmap(lefteye, righteye);
-        var eyeLimit = lowerEye.top + (lowerEye.bounds.height / 4);
-        var correctionRequired = nose.top - eyeLimit;
-
-        // check that nose and eyes don"t overlap too much
-        if(correctionRequired < 0) {
-
-            var eyeYPosition = Math.round(nose.y - (lowerEye.bounds.height / 4));
-            lefteye.y = eyeYPosition;
-            righteye.y = eyeYPosition;
-        }
-    }
 }

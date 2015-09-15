@@ -43,7 +43,7 @@ var FacePartSettings = {
 
     lefteye: {
         defaultRect: {x:80, y:225, width:215, height:192},
-        rangeY: {min: -15, max: 30},
+        rangeY: {min: -20, max: 30},
         rangeX: {min: 0, max: 0},
         debugColor1: "#FFFF00",
         debugColor2: "#FFFF90"

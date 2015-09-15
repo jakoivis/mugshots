@@ -228,15 +228,3 @@ function FacePart(options) {
 
     return this;
 }
-
-FacePart.getFacePartWithLowerBitmap = function(facepart1, facepart2) {
-
-    if(facepart1.bottom < facepart2.bottom) {
-
-        return facepart1;
-
-    } else {
-
-        return facepart2;
-    }
-};
