@@ -219,11 +219,11 @@ function Spinner(options) {
 
     function updateHighlightRotation() {
 
-        _highLightRotation ++;
+        _highLightRotation --;
 
-        if(_highLightRotation >= _numberOfTicks) {
+        if(_highLightRotation < 0) {
 
-            _highLightRotation = 0;
+            _highLightRotation = _numberOfTicks-1;
         }
     }
 
