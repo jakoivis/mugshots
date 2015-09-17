@@ -16,11 +16,11 @@ var DebugControlsLayer = require("./layers/debugControlsLayer.js");
 var layerWidth = 600;
 var layerHeight = 800;
 
-new FaceLayer({
-    target: "face",
-    width: layerWidth,
-    height: layerHeight
-});
+// new FaceLayer({
+//     target: "face",
+//     width: layerWidth,
+//     height: layerHeight
+// });
 
 new PreloadLayer({
     target: "loader",
