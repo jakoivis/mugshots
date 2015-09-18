@@ -11,25 +11,20 @@ var SpinnerWithShadow = function(options) {
     }
 
     var me = this;
+    var _container;
     var _spinner;
     var _spinnerGlow;
     var _spinnerShadow;
     var _spinnerShadowMask;
-    var _spinnerSettings;
+    var _settings;
 
-    Object.defineProperty(this, "spinner", {
-        get: function() { return _spinner; },
-    });
-    Object.defineProperty(this, "spinnerShadow", {
-        get: function() { return _spinnerShadow; },
-    });
-    Object.defineProperty(this, "spinnerGlow", {
-        get: function() { return _spinnerGlow; },
+    Object.defineProperty(this, "container", {
+        get: function() { return _container; },
     });
 
     function init() {
 
-        _spinnerSettings = createSpinnerSettings();
+        _settings = createSpinnerSettings();
 
         _spinner = createSpinner();
         _spinnerGlow = createSpinnerGlow();
@@ -37,6 +32,11 @@ var SpinnerWithShadow = function(options) {
         _spinnerShadowMask = createSpinnerShadowMask();
 
         applySpinnerShadowMaskFilter(_spinnerShadow, _spinnerShadowMask);
+
+        _container = new createjs.Container();
+        _container.addChild(_spinnerGlow);
+        _container.addChild(_spinner.container);
+        _container.addChild(_spinnerShadow.container);
     }
 
     me.update = function() {
@@ -53,10 +53,15 @@ var SpinnerWithShadow = function(options) {
         showSpinnerShadow();
     };
 
+    me.remove = function() {
+
+        removeSpinner();
+    };
+
     function createSpinnerSettings() {
 
-        var x = 200;
-        var y = 200;
+        var x = 0;
+        var y = 0;
         var diameter = 44;
         var radius = diameter / 2;
         var shadowOffsetY = diameter + 4;
@@ -103,37 +108,38 @@ var SpinnerWithShadow = function(options) {
     function createSpinnerGlow() {
 
         var glow = new createjs.Shape();
-        var r = _spinnerSettings.radius;
-        var x = _spinnerSettings.x + r;
-        var y = _spinnerSettings.y + r;
+        var r = _settings.radius;
+        var x = _settings.x + r;
+        var y = _settings.y + r;
         var glowRadius = r + 10;
+        var graphics = glow.graphics;
+        var colors = ["rgba(255, 255, 255, 0.5)", "rgba(255, 255, 255, 0)"];
+        var ratios = [0, 1];
 
-        glow.graphics.beginRadialGradientFill(
-                ["rgba(255, 255, 255, 0.5)", "rgba(255, 255, 255, 0)"],
-                [0, 1], x, y, 0, x, y, glowRadius)
-            .drawCircle(x, y, glowRadius);
+        graphics.beginRadialGradientFill(colors, ratios, x, y, 0, x, y, glowRadius);
+        graphics.drawCircle(x, y, glowRadius);
 
         return glow;
     }
 
     function createSpinner() {
 
-        var spinner = new Spinner(_spinnerSettings.fadeInStart);
-        spinner.container.x = _spinnerSettings.x;
-        spinner.container.y = _spinnerSettings.y;
+        var spinner = new Spinner(_settings.fadeInStart);
+        spinner.container.x = _settings.x;
+        spinner.container.y = _settings.y;
 
         return spinner;
     }
 
     function createSpinnerShadow() {
 
-        var spinner = new Spinner(_spinnerSettings.fadeInStart);
+        var spinner = new Spinner(_settings.fadeInStart);
         var container = spinner.container;
 
-        container.regY = _spinnerSettings.diameter;
+        container.regY = _settings.diameter;
         container.scaleY = -1;
-        container.x = _spinnerSettings.shadowX;
-        container.y = _spinnerSettings.shadowY;
+        container.x = _settings.shadowX;
+        container.y = _settings.shadowY;
 
         return spinner;
     }
@@ -141,13 +147,13 @@ var SpinnerWithShadow = function(options) {
     function createSpinnerShadowMask() {
 
         var mask = new createjs.Shape();
-        var d = _spinnerSettings.diameter;
+        var d = _settings.diameter;
+        var graphics = mask.graphics;
+        var colors = ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.4)"];
+        var ratios = [0, 1];
 
-        mask.graphics.beginLinearGradientFill(
-                ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.4)"],
-                [0, 1], 0, 0, 0, d);
-
-        mask.graphics.drawRect(0, 0, d, d);
+        graphics.beginLinearGradientFill(colors, ratios, 0, 0, 0, d);
+        graphics.drawRect(0, 0, d, d);
 
         mask.cache(0, 0, d, d);
 
@@ -155,15 +161,26 @@ var SpinnerWithShadow = function(options) {
     }
 
     function applySpinnerShadowMaskFilter(spinner, mask) {
-        spinner.container.filters = [new createjs.AlphaMaskFilter(mask.cacheCanvas)];
-        spinner.container.cache(0, 0, _spinnerSettings.diameter, _spinnerSettings.diameter);
+
+        var d = _settings.diameter;
+        var filter = new createjs.AlphaMaskFilter(mask.cacheCanvas);
+
+        spinner.container.filters = [filter];
+        spinner.container.cache(0, 0, d, d);
     }
 
     function showSpinner() {
 
         createjs.Tween
             .get(_spinner)
-            .to(_spinnerSettings.fadeInEnd, 1000,
+            .to(_settings.fadeInEnd, 1000,
+                createjs.Ease.bounceOut);
+
+        _spinner.container.y = -200;
+
+        createjs.Tween
+            .get(_spinner.container)
+            .to({y: 0}, 1000,
                 createjs.Ease.bounceOut);
     }
 
@@ -171,7 +188,15 @@ var SpinnerWithShadow = function(options) {
 
         createjs.Tween
             .get(_spinnerShadow)
-            .to(_spinnerSettings.fadeInEnd, 1000, createjs.Ease.bounceOut);
+            .to(_settings.fadeInEnd, 1000, createjs.Ease.bounceOut);
+    }
+
+    function removeSpinner() {
+
+        // createjs.Tween
+        //     .get(spinner)
+        //     .to(spinnerSettings.fadeOutEnd, 1000,
+        //         createjs.Ease.bounceOut);
     }
 
     init();

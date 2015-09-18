@@ -18,7 +18,7 @@ function Spinner(options) {
     var _highLightRotation = 0;
     var _rotation = 0;
 
-    var container = new createjs.Container();
+    var _container = new createjs.Container();
 
     var _numberOfTicks = 17;
     var _x = 0;
@@ -36,7 +36,7 @@ function Spinner(options) {
 
     Object.defineProperty(this, "container", {
 
-        get: function() { return container; },
+        get: function() { return _container; },
     });
 
     Object.defineProperty(this, "numberOfTicks", {
@@ -208,7 +208,7 @@ function Spinner(options) {
 
         updateRotation();
         updateHighlightRotation();
-        container.removeAllChildren();
+        _container.removeAllChildren();
         createTickShapes();
     };
 
@@ -236,7 +236,7 @@ function Spinner(options) {
         for(var i = 0; i < _numberOfTicks; i++) {
 
             tickShape = createTickShape(radians, i);
-            container.addChild(tickShape);
+            _container.addChild(tickShape);
             radians += stepRadians;
         }
     }
