@@ -3,7 +3,7 @@
 
 var amplify = require("amplify").amplify;
 var TOPICS = require("../topics.js");
-var SpinnerWithShadow = require("../components/spinnerWithShadow.js");
+var SpinnerWithShadow = require("../components/preloader/spinnerWithShadow.js");
 
 module.exports = PreloadLayer;
 
@@ -21,19 +21,24 @@ function PreloadLayer(options) {
     var canvas;
     var stage;
     var spinner;
+    var tableShadow;
 
     function init() {
 
         initOptions();
 
         stage = new createjs.Stage(canvas);
-        spinner = new SpinnerWithShadow();
 
+        spinner = new SpinnerWithShadow();
         var container = spinner.container;
         container.x = 100;
         container.y = 100;
 
+        tableShadow = createTableShadow();
+        tableShadow.y = 144;
+
         stage.addChild(container);
+        stage.addChild(tableShadow);
 
         spinner.show();
 
@@ -71,6 +76,21 @@ function PreloadLayer(options) {
 
         spinner.update();
         stage.update(event);
+    }
+
+    function createTableShadow() {
+
+        var shadow = new createjs.Shape();
+        var graphics = shadow.graphics;
+        var colors = ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.04)", "rgba(0, 0, 0, 0)"];
+        var ratios = [0, 0.03, 1];
+        var shadowHeight = 100;
+        var shadowWidth = 500;
+
+        graphics.beginLinearGradientFill(colors, ratios, 0, 0, 0, shadowHeight);
+        graphics.drawRect(0, 0, shadowWidth, shadowHeight);
+
+        return shadow;
     }
 
     init();

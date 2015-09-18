@@ -1,7 +1,7 @@
 
 "use strict";
 
-var Spinner = require("../components/spinner.js");
+var Spinner = require("./spinner.js");
 
 var SpinnerWithShadow = function(options) {
 
