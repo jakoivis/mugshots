@@ -71,7 +71,6 @@ function PreloadLayer(options) {
         }
     }
 
-
     function timerTickHandler(event) {
 
         spinner.update();
@@ -82,9 +81,9 @@ function PreloadLayer(options) {
 
         var shadow = new createjs.Shape();
         var graphics = shadow.graphics;
-        var colors = ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.04)", "rgba(0, 0, 0, 0)"];
+        var colors = ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.03)", "rgba(0, 0, 0, 0)"];
         var ratios = [0, 0.03, 1];
-        var shadowHeight = 100;
+        var shadowHeight = 75;
         var shadowWidth = 500;
 
         graphics.beginLinearGradientFill(colors, ratios, 0, 0, 0, shadowHeight);
