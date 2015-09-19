@@ -23,6 +23,7 @@ function PreloadLayer(options) {
 
         _canvas = document.getElementById(options.target);
         _stage = new createjs.Stage(_canvas);
+        resizeCanvas();
 
         _spinner = new SpinnerWithShadow();
         _stage.addChild(_spinner.container);
@@ -33,8 +34,11 @@ function PreloadLayer(options) {
 
         createjs.Ticker.setFPS(30);
         createjs.Ticker.on("tick", timerTickHandler);
+
         window.addEventListener("resize", resize, false);
-        amplify.subscribe(TOPICS.PRELOAD_COMPLETE, _spinner.remove);
+
+        amplify.subscribe(TOPICS.PRELOAD_BACKGROUND, preloadBackground);
+        amplify.subscribe(TOPICS.PRELOAD_COMPLETE, preloadComplete);
 
         resize();
         removeCanvasPointerEvents();
@@ -42,17 +46,14 @@ function PreloadLayer(options) {
 
     function resize() {
 
-        _canvas.width = window.innerWidth;
-        _canvas.height = window.innerHeight;
-
-        resizeSpinnerPosition();
+        resizeCanvas();
         resizeTableShadowPosition();
     }
 
-    function resizeSpinnerPosition() {
+    function resizeCanvas() {
 
-        _spinner.container.x = _canvas.width / 2;
-        _spinner.container.y = _canvas.height / 2;
+        _canvas.width = window.innerWidth;
+        _canvas.height = window.innerHeight;
     }
 
     function resizeTableShadowPosition() {
@@ -75,10 +76,23 @@ function PreloadLayer(options) {
         _stage.update(event);
     }
 
-
     function removeCanvasPointerEvents() {
 
         _canvas.style["pointer-events"] = "none";
+    }
+
+    function preloadComplete() {
+
+         _spinner.remove();
+    }
+
+    function preloadBackground() {
+
+        console.log("background");
+
+        createjs.Tween
+            .get(_spinner.container)
+            .to({x: 50}, 1000, createjs.Ease.circInOut);
     }
 
     init();

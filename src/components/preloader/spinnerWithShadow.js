@@ -40,6 +40,30 @@ var SpinnerWithShadow = function(options) {
         _container.addChild(_spinnerShadow.container);
         _container.regX = _settings.radius;
         _container.regY = _settings.diameter;
+
+        window.addEventListener("resize", resize, false);
+
+        _container.addEventListener("added", addedToStage);
+    }
+
+    function addedToStage(event) {
+
+        if(event.target.stage !== null) {
+
+            resize();
+
+            _container.removeEventListener("added", addedToStage);
+        }
+    }
+
+    function resize() {
+
+        console.log("resize");
+
+        var canvas = _container.stage.canvas;
+
+        _container.x = canvas.width / 2;
+        _container.y = canvas.height / 2;
     }
 
     me.update = function() {
@@ -176,15 +200,13 @@ var SpinnerWithShadow = function(options) {
 
         createjs.Tween
             .get(_spinner)
-            .to(_settings.fadeInEnd, 1000,
-                createjs.Ease.bounceOut);
+            .to(_settings.fadeInEnd, 1000, createjs.Ease.bounceOut);
 
         _spinner.container.y = -200;
 
         createjs.Tween
             .get(_spinner.container)
-            .to({y: 0}, 1000,
-                createjs.Ease.bounceOut);
+            .to({y: 0}, 1000, createjs.Ease.bounceOut);
     }
 
     function showSpinnerShadow() {
@@ -196,10 +218,17 @@ var SpinnerWithShadow = function(options) {
 
     function removeSpinner() {
 
-        // createjs.Tween
-        //     .get(spinner)
-        //     .to(spinnerSettings.fadeOutEnd, 1000,
-        //         createjs.Ease.bounceOut);
+        createjs.Tween
+            .get(_spinner)
+            .to(_settings.fadeOutEnd, 1000, createjs.Ease.bounceOut);
+
+        createjs.Tween
+            .get(_spinnerShadow)
+            .to(_settings.fadeOutEnd, 1000, createjs.Ease.bounceOut);
+
+        createjs.Tween
+            .get(_spinnerGlow)
+            .to({alpha:0}, 1000, createjs.Ease.bounceOut);
     }
 
     init();
