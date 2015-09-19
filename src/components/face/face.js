@@ -10,6 +10,9 @@ module.exports = Face;
 function Face() {
 
     var me = this;
+    var _container = new createjs.Container();
+    var debugDrawImageBounds = false;
+    var debugLogImageNames = false;
 
     var stacks = {
         various: new FacePartStack(),
@@ -25,6 +28,40 @@ function Face() {
 
         get: function() { return stacks; }
     });
+
+    Object.defineProperty(this, "container", {
+
+        get: function() { return _container; }
+    });
+
+    me.update = function() {
+
+        _container.removeAllChildren();
+
+        _container.addChild(stacks.background.current().bitmap);
+        _container.addChild(stacks.mouth.current().bitmap);
+        _container.addChild(stacks.nose.current().bitmap);
+        _container.addChild(stacks.lefteye.current().bitmap);
+        _container.addChild(stacks.righteye.current().bitmap);
+
+        if(debugDrawImageBounds) {
+
+            _container.addChild(stacks.background.current().getDebugBounds());
+            _container.addChild(stacks.mouth.current().getDebugBounds());
+            _container.addChild(stacks.nose.current().getDebugBounds());
+            _container.addChild(stacks.lefteye.current().getDebugBounds());
+            _container.addChild(stacks.righteye.current().getDebugBounds());
+        }
+
+        if(debugLogImageNames) {
+
+            console.log("bg: " + stacks.background.current().name + ", " +
+                        "mouth: " + stacks.mouth.current().name +  ", " +
+                        "nose: " + stacks.nose.current().name + ", " +
+                        "lefteye: " + stacks.lefteye.current().name + ", " +
+                        "righteye: " + stacks.righteye.current().name);
+        }
+    };
 
     me.createFacePart = function(imageSettings) {
 

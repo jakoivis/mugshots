@@ -9,9 +9,7 @@ module.exports = FaceLayer;
 
 function FaceLayer(options) {
 
-    var face = new Face();
-    var debugDrawImageBounds = true;
-    var debugLogImageNames = true;
+    var face;
     var canvas;
     var stage;
 
@@ -19,19 +17,28 @@ function FaceLayer(options) {
 
         canvas = document.getElementById(options.target);
 
-        if(options.width) {
-
-            canvas.width = options.width;
-        }
-
-        if(options.height) {
-
-            canvas.height = options.height;
-        }
-
         stage = new createjs.Stage(canvas);
 
+        face = new Face();
+        // face.container.scaleX = 0.5;
+        // face.container.scaleY = 0.5;
+        // stage.addChild(face.container);
+
+        window.addEventListener("resize", resize, false);
+
         initTopics();
+    }
+
+    function resize() {
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        updateGraphics();
+    }
+
+    function resizeFacePosition() {
+
     }
 
     function initTopics() {
@@ -83,7 +90,7 @@ function FaceLayer(options) {
         face.setDefaultFaceParts();
         // face.setDefaultPositions();
 
-        updateGraphics();
+        resize();
 
         addLayerClickHandler();
     }
@@ -98,33 +105,35 @@ function FaceLayer(options) {
 
     function updateGraphics() {
 
-        stage.removeAllChildren();
+        // stage.removeAllChildren();
 
-        var stacks = face.stacks;
+        // var stacks = face.stacks;
 
-        stage.addChild(stacks.background.current().bitmap);
-        stage.addChild(stacks.mouth.current().bitmap);
-        stage.addChild(stacks.nose.current().bitmap);
-        stage.addChild(stacks.lefteye.current().bitmap);
-        stage.addChild(stacks.righteye.current().bitmap);
+        // stage.addChild(stacks.background.current().bitmap);
+        // stage.addChild(stacks.mouth.current().bitmap);
+        // stage.addChild(stacks.nose.current().bitmap);
+        // stage.addChild(stacks.lefteye.current().bitmap);
+        // stage.addChild(stacks.righteye.current().bitmap);
 
-        if(debugDrawImageBounds) {
+        // if(debugDrawImageBounds) {
 
-            stage.addChild(stacks.background.current().getDebugBounds());
-            stage.addChild(stacks.mouth.current().getDebugBounds());
-            stage.addChild(stacks.nose.current().getDebugBounds());
-            stage.addChild(stacks.lefteye.current().getDebugBounds());
-            stage.addChild(stacks.righteye.current().getDebugBounds());
-        }
+        //     stage.addChild(stacks.background.current().getDebugBounds());
+        //     stage.addChild(stacks.mouth.current().getDebugBounds());
+        //     stage.addChild(stacks.nose.current().getDebugBounds());
+        //     stage.addChild(stacks.lefteye.current().getDebugBounds());
+        //     stage.addChild(stacks.righteye.current().getDebugBounds());
+        // }
 
-        if(debugLogImageNames) {
+        // if(debugLogImageNames) {
 
-            console.log("bg: " + stacks.background.current().name + ", " +
-                        "mouth: " + stacks.mouth.current().name +  ", " +
-                        "nose: " + stacks.nose.current().name + ", " +
-                        "lefteye: " + stacks.lefteye.current().name + ", " +
-                        "righteye: " + stacks.righteye.current().name);
-        }
+        //     console.log("bg: " + stacks.background.current().name + ", " +
+        //                 "mouth: " + stacks.mouth.current().name +  ", " +
+        //                 "nose: " + stacks.nose.current().name + ", " +
+        //                 "lefteye: " + stacks.lefteye.current().name + ", " +
+        //                 "righteye: " + stacks.righteye.current().name);
+        // }
+
+        face.update();
 
         stage.update();
     }
