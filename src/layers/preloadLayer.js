@@ -8,11 +8,7 @@ var SpinnerWithShadow = require("../components/preloader/spinnerWithShadow.js");
 module.exports = PreloadLayer;
 
 /**
- * @param           options
  * @param {string}  options.target          Canvas id
- * @param {number}  [options.width]         Canvas width
- * @param {number}  [options.height]        Canvas height
- * @param {boolean} [options.pointerEvents] Canvas pointer events
  *
  * @listens TOPICS.PRELOAD_COMPLETE
  */
@@ -25,50 +21,52 @@ function PreloadLayer(options) {
 
     function init() {
 
-        initOptions();
-
+        canvas = document.getElementById(options.target);
         stage = new createjs.Stage(canvas);
 
         spinner = new SpinnerWithShadow();
-        var container = spinner.container;
-        container.x = 100;
-        container.y = 100;
-
-        tableShadow = createTableShadow();
-        tableShadow.y = 144;
-
-        stage.addChild(container);
-        stage.addChild(tableShadow);
-
+        stage.addChild(spinner.container);
         spinner.show();
 
-        amplify.subscribe(TOPICS.PRELOAD_COMPLETE, spinner.remove);
+        tableShadow = new createjs.Shape();
+        stage.addChild(tableShadow);
 
         createjs.Ticker.setFPS(30);
         createjs.Ticker.on("tick", timerTickHandler);
+        window.addEventListener("resize", resize, false);
+        amplify.subscribe(TOPICS.PRELOAD_COMPLETE, spinner.remove);
+
+        resize();
+        removeCanvasPointerEvents();
     }
 
-    function initOptions() {
+    function resize() {
 
-        canvas = document.getElementById(options.target);
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-        if(typeof options.pointerEvents !== "undefined" &&
-            Boolean(options.pointerEvents) === false) {
+        resizeSpinnerPosition();
+        resizeTableShadowPosition();
+    }
 
-            canvas.style["pointer-events"] = "none";
-        }
+    function resizeSpinnerPosition() {
 
-        if(options.width) {
+        spinner.container.x = canvas.width / 2;
+        spinner.container.y = canvas.height / 2;
+    }
 
-            canvas.width = options.width;
+    function resizeTableShadowPosition() {
 
-            // spinnerSettings.fadeInStart.x = options.width >> 1;
-        }
+        var colors = ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.03)", "rgba(0, 0, 0, 0)"];
+        var ratios = [0, 0.03, 1];
+        var shadowHeight = 75;
+        var shadowWidth = canvas.width;
 
-        if(options.height) {
+        tableShadow.graphics.clear();
+        tableShadow.graphics.beginLinearGradientFill(colors, ratios, 0, 0, 0, shadowHeight);
+        tableShadow.graphics.drawRect(0, 0, shadowWidth, shadowHeight);
 
-            canvas.height = options.height;
-        }
+        tableShadow.y = canvas.height / 2;
     }
 
     function timerTickHandler(event) {
@@ -77,19 +75,10 @@ function PreloadLayer(options) {
         stage.update(event);
     }
 
-    function createTableShadow() {
 
-        var shadow = new createjs.Shape();
-        var graphics = shadow.graphics;
-        var colors = ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.03)", "rgba(0, 0, 0, 0)"];
-        var ratios = [0, 0.03, 1];
-        var shadowHeight = 75;
-        var shadowWidth = 500;
+    function removeCanvasPointerEvents() {
 
-        graphics.beginLinearGradientFill(colors, ratios, 0, 0, 0, shadowHeight);
-        graphics.drawRect(0, 0, shadowWidth, shadowHeight);
-
-        return shadow;
+        canvas.style["pointer-events"] = "none";
     }
 
     init();

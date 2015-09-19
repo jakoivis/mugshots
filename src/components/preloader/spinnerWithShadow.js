@@ -19,6 +19,7 @@ var SpinnerWithShadow = function(options) {
     var _settings;
 
     Object.defineProperty(this, "container", {
+
         get: function() { return _container; },
     });
 
@@ -37,6 +38,8 @@ var SpinnerWithShadow = function(options) {
         _container.addChild(_spinnerGlow);
         _container.addChild(_spinner.container);
         _container.addChild(_spinnerShadow.container);
+        _container.regX = _settings.radius;
+        _container.regY = _settings.diameter;
     }
 
     me.update = function() {

@@ -24,9 +24,7 @@ var layerHeight = 800;
 
 new PreloadLayer({
     target: "loader",
-    pointerEvents: false,
-    width: layerWidth,
-    height: layerHeight
+    pointerEvents: false
 });
 
 new DebugControlsLayer({
