@@ -14,27 +14,27 @@ module.exports = PreloadLayer;
  */
 function PreloadLayer(options) {
 
-    var canvas;
-    var stage;
-    var spinner;
-    var tableShadow;
+    var _canvas;
+    var _stage;
+    var _spinner;
+    var _tableShadow;
 
     function init() {
 
-        canvas = document.getElementById(options.target);
-        stage = new createjs.Stage(canvas);
+        _canvas = document.getElementById(options.target);
+        _stage = new createjs.Stage(_canvas);
 
-        spinner = new SpinnerWithShadow();
-        stage.addChild(spinner.container);
-        spinner.show();
+        _spinner = new SpinnerWithShadow();
+        _stage.addChild(_spinner.container);
+        _spinner.show();
 
-        tableShadow = new createjs.Shape();
-        stage.addChild(tableShadow);
+        _tableShadow = new createjs.Shape();
+        _stage.addChild(_tableShadow);
 
         createjs.Ticker.setFPS(30);
         createjs.Ticker.on("tick", timerTickHandler);
         window.addEventListener("resize", resize, false);
-        amplify.subscribe(TOPICS.PRELOAD_COMPLETE, spinner.remove);
+        amplify.subscribe(TOPICS.PRELOAD_COMPLETE, _spinner.remove);
 
         resize();
         removeCanvasPointerEvents();
@@ -42,8 +42,8 @@ function PreloadLayer(options) {
 
     function resize() {
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        _canvas.width = window.innerWidth;
+        _canvas.height = window.innerHeight;
 
         resizeSpinnerPosition();
         resizeTableShadowPosition();
@@ -51,8 +51,8 @@ function PreloadLayer(options) {
 
     function resizeSpinnerPosition() {
 
-        spinner.container.x = canvas.width / 2;
-        spinner.container.y = canvas.height / 2;
+        _spinner.container.x = _canvas.width / 2;
+        _spinner.container.y = _canvas.height / 2;
     }
 
     function resizeTableShadowPosition() {
@@ -60,25 +60,25 @@ function PreloadLayer(options) {
         var colors = ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.03)", "rgba(0, 0, 0, 0)"];
         var ratios = [0, 0.03, 1];
         var shadowHeight = 75;
-        var shadowWidth = canvas.width;
+        var shadowWidth = _canvas.width;
 
-        tableShadow.graphics.clear();
-        tableShadow.graphics.beginLinearGradientFill(colors, ratios, 0, 0, 0, shadowHeight);
-        tableShadow.graphics.drawRect(0, 0, shadowWidth, shadowHeight);
+        _tableShadow.graphics.clear();
+        _tableShadow.graphics.beginLinearGradientFill(colors, ratios, 0, 0, 0, shadowHeight);
+        _tableShadow.graphics.drawRect(0, 0, shadowWidth, shadowHeight);
 
-        tableShadow.y = canvas.height / 2;
+        _tableShadow.y = _canvas.height / 2;
     }
 
     function timerTickHandler(event) {
 
-        spinner.update();
-        stage.update(event);
+        _spinner.update();
+        _stage.update(event);
     }
 
 
     function removeCanvasPointerEvents() {
 
-        canvas.style["pointer-events"] = "none";
+        _canvas.style["pointer-events"] = "none";
     }
 
     init();
