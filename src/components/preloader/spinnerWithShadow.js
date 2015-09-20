@@ -58,12 +58,12 @@ var SpinnerWithShadow = function(options) {
 
     function resize() {
 
-        console.log("resize");
-
         var canvas = _container.stage.canvas;
 
         _container.x = canvas.width / 2;
         _container.y = canvas.height / 2;
+
+        // todo: resize should position differently when background mode is switched on
     }
 
     me.update = function() {
@@ -80,15 +80,16 @@ var SpinnerWithShadow = function(options) {
             .get(_spinner)
             .to(_settings.fadeInEnd, 1000, createjs.Ease.bounceOut);
 
-        _spinner.container.y = -200;
-
-        createjs.Tween
-            .get(_spinner.container)
-            .to({y: 0}, 1000, createjs.Ease.bounceOut);
-
         createjs.Tween
             .get(_spinnerShadow)
             .to(_settings.fadeInEnd, 1000, createjs.Ease.bounceOut);
+    };
+
+    me.setToBackgroundMode = function() {
+
+        createjs.Tween
+            .get(_container)
+            .to({x: _settings.radius +20}, 1000, createjs.Ease.circInOut);
     };
 
     me.remove = function() {
@@ -105,17 +106,6 @@ var SpinnerWithShadow = function(options) {
             .get(_spinnerGlow)
             .to({alpha:0}, 1000, createjs.Ease.bounceOut);
     };
-
-    me.setToBackgroundMode = function() {
-
-        createjs.Tween
-            .get(_spinner)
-            .to({rotationSpeed: 0}, 1000, createjs.Ease.sineIn);
-
-        createjs.Tween
-            .get(_spinnerShadow)
-            .to({rotationSpeed: 0}, 1000, createjs.Ease.sineIn);
-    }
 
     function createSpinnerSettings() {
 
