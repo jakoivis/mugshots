@@ -90,9 +90,7 @@ function PreloadLayer(options) {
 
         console.log("background");
 
-        createjs.Tween
-            .get(_spinner.container)
-            .to({x: 50}, 1000, createjs.Ease.circInOut);
+        _spinner.setToBackgroundMode();
     }
 
     init();

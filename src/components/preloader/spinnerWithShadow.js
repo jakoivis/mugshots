@@ -76,14 +76,46 @@ var SpinnerWithShadow = function(options) {
 
     me.show = function() {
 
-        showSpinner();
-        showSpinnerShadow();
+        createjs.Tween
+            .get(_spinner)
+            .to(_settings.fadeInEnd, 1000, createjs.Ease.bounceOut);
+
+        _spinner.container.y = -200;
+
+        createjs.Tween
+            .get(_spinner.container)
+            .to({y: 0}, 1000, createjs.Ease.bounceOut);
+
+        createjs.Tween
+            .get(_spinnerShadow)
+            .to(_settings.fadeInEnd, 1000, createjs.Ease.bounceOut);
     };
 
     me.remove = function() {
 
-        removeSpinner();
+        createjs.Tween
+            .get(_spinner)
+            .to(_settings.fadeOutEnd, 1000, createjs.Ease.bounceOut);
+
+        createjs.Tween
+            .get(_spinnerShadow)
+            .to(_settings.fadeOutEnd, 1000, createjs.Ease.bounceOut);
+
+        createjs.Tween
+            .get(_spinnerGlow)
+            .to({alpha:0}, 1000, createjs.Ease.bounceOut);
     };
+
+    me.setToBackgroundMode = function() {
+
+        createjs.Tween
+            .get(_spinner)
+            .to({rotationSpeed: 0}, 1000, createjs.Ease.sineIn);
+
+        createjs.Tween
+            .get(_spinnerShadow)
+            .to({rotationSpeed: 0}, 1000, createjs.Ease.sineIn);
+    }
 
     function createSpinnerSettings() {
 
@@ -194,41 +226,6 @@ var SpinnerWithShadow = function(options) {
 
         spinner.container.filters = [filter];
         spinner.container.cache(0, 0, d, d);
-    }
-
-    function showSpinner() {
-
-        createjs.Tween
-            .get(_spinner)
-            .to(_settings.fadeInEnd, 1000, createjs.Ease.bounceOut);
-
-        _spinner.container.y = -200;
-
-        createjs.Tween
-            .get(_spinner.container)
-            .to({y: 0}, 1000, createjs.Ease.bounceOut);
-    }
-
-    function showSpinnerShadow() {
-
-        createjs.Tween
-            .get(_spinnerShadow)
-            .to(_settings.fadeInEnd, 1000, createjs.Ease.bounceOut);
-    }
-
-    function removeSpinner() {
-
-        createjs.Tween
-            .get(_spinner)
-            .to(_settings.fadeOutEnd, 1000, createjs.Ease.bounceOut);
-
-        createjs.Tween
-            .get(_spinnerShadow)
-            .to(_settings.fadeOutEnd, 1000, createjs.Ease.bounceOut);
-
-        createjs.Tween
-            .get(_spinnerGlow)
-            .to({alpha:0}, 1000, createjs.Ease.bounceOut);
     }
 
     init();

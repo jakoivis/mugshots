@@ -11,9 +11,9 @@ var PreloadLayer = require("./layers/preloadLayer.js");
 var FaceLayer = require("./layers/faceLayer.js");
 var DebugControlsLayer = require("./layers/debugControlsLayer.js");
 
-new FaceLayer({
-    target: "face"
-});
+// new FaceLayer({
+//     target: "face"
+// });
 
 new PreloadLayer({
     target: "loader"

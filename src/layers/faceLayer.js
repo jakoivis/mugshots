@@ -20,9 +20,9 @@ function FaceLayer(options) {
         stage = new createjs.Stage(canvas);
 
         face = new Face();
-        // face.container.scaleX = 0.5;
-        // face.container.scaleY = 0.5;
-        // stage.addChild(face.container);
+        face.container.scaleX = 0.5;
+        face.container.scaleY = 0.5;
+        stage.addChild(face.container);
 
         window.addEventListener("resize", resize, false);
 
@@ -35,10 +35,6 @@ function FaceLayer(options) {
         canvas.height = window.innerHeight;
 
         updateGraphics();
-    }
-
-    function resizeFacePosition() {
-
     }
 
     function initTopics() {
@@ -88,7 +84,6 @@ function FaceLayer(options) {
     function switchToBackgroundMode() {
 
         face.setDefaultFaceParts();
-        // face.setDefaultPositions();
 
         resize();
 
@@ -105,36 +100,7 @@ function FaceLayer(options) {
 
     function updateGraphics() {
 
-        // stage.removeAllChildren();
-
-        // var stacks = face.stacks;
-
-        // stage.addChild(stacks.background.current().bitmap);
-        // stage.addChild(stacks.mouth.current().bitmap);
-        // stage.addChild(stacks.nose.current().bitmap);
-        // stage.addChild(stacks.lefteye.current().bitmap);
-        // stage.addChild(stacks.righteye.current().bitmap);
-
-        // if(debugDrawImageBounds) {
-
-        //     stage.addChild(stacks.background.current().getDebugBounds());
-        //     stage.addChild(stacks.mouth.current().getDebugBounds());
-        //     stage.addChild(stacks.nose.current().getDebugBounds());
-        //     stage.addChild(stacks.lefteye.current().getDebugBounds());
-        //     stage.addChild(stacks.righteye.current().getDebugBounds());
-        // }
-
-        // if(debugLogImageNames) {
-
-        //     console.log("bg: " + stacks.background.current().name + ", " +
-        //                 "mouth: " + stacks.mouth.current().name +  ", " +
-        //                 "nose: " + stacks.nose.current().name + ", " +
-        //                 "lefteye: " + stacks.lefteye.current().name + ", " +
-        //                 "righteye: " + stacks.righteye.current().name);
-        // }
-
         face.update();
-
         stage.update();
     }
 
