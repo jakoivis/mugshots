@@ -26,19 +26,26 @@ var PageMarginLayer = function(options) {
 
         amplify.subscribe(TOPICS.PRELOAD_BACKGROUND, showMargins);
 
+        createjs.Ticker.on("tick", timerTickHandler);
+
         window.addEventListener("resize", resize, false);
 
         resize();
     }
 
+    function timerTickHandler(event) {
+
+        _stage.update(event);
+    }
+
     function showMargins() {
+
+        _topMargin.y = -_topMargin.height;
+        _bottomMargin.y = _canvas.height;
 
         _marginsVisible = true;
 
         resize();
-
-        _topMargin.y = -_topMargin.height;
-        _bottomMargin.y = _canvas.height;
 
         createjs.Tween
             .get(_topMargin)
@@ -46,7 +53,13 @@ var PageMarginLayer = function(options) {
 
         createjs.Tween
             .get(_bottomMargin)
-            .to({y: _canvas.height + _bottomMargin.height}, 1000, createjs.Ease.circInOut);
+            .to({y: _canvas.height - _bottomMargin.height}, 1000, createjs.Ease.circInOut);
+    }
+
+    function calculateMarginHeights() {
+
+        _topMargin.height = 50;
+        _bottomMargin.height = 50;
     }
 
     function resizeCanvas() {
@@ -58,6 +71,7 @@ var PageMarginLayer = function(options) {
     function resize() {
 
         resizeCanvas();
+        calculateMarginHeights();
 
         if(_marginsVisible) {
 
@@ -71,7 +85,7 @@ var PageMarginLayer = function(options) {
 
         var colors = ["#444444", "#555555"];
         var ratios = [0, 1];
-        var marginHeight = 50;
+        var marginHeight = _topMargin.height;
         var marginWidth = _canvas.width;
 
         _topMargin.graphics.clear();
@@ -84,7 +98,7 @@ var PageMarginLayer = function(options) {
 
         var colors = ["#444444", "#555555"];
         var ratios = [0, 1];
-        var marginHeight = 50;
+        var marginHeight = _bottomMargin.height;
         var marginWidth = _canvas.width;
 
         _bottomMargin.graphics.clear();

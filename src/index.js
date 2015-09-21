@@ -12,6 +12,8 @@ var FaceLayer = require("./layers/faceLayer.js");
 var DebugControlsLayer = require("./layers/debugControlsLayer.js");
 var PageMarginLayer = require("./layers/pageMarginLayer.js");
 
+createjs.Ticker.setFPS(30);
+
 // new FaceLayer({
 //     target: "face"
 // });
