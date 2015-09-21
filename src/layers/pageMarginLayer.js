@@ -31,6 +31,7 @@ var PageMarginLayer = function(options) {
         window.addEventListener("resize", resize, false);
 
         resize();
+        removeCanvasPointerEvents();
     }
 
     function timerTickHandler(event) {
@@ -105,6 +106,11 @@ var PageMarginLayer = function(options) {
         _bottomMargin.graphics.beginLinearGradientFill(colors, ratios, 0, 0, 0, marginHeight);
         _bottomMargin.graphics.drawRect(0, 0, marginWidth, marginHeight);
         _bottomMargin.height = marginHeight;
+    }
+
+    function removeCanvasPointerEvents() {
+
+        _canvas.style["pointer-events"] = "none";
     }
 
     init();

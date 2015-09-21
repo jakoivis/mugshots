@@ -14,17 +14,17 @@ var PageMarginLayer = require("./layers/pageMarginLayer.js");
 
 createjs.Ticker.setFPS(30);
 
-// new FaceLayer({
-//     target: "face"
-// });
+new FaceLayer({
+    target: "face"
+});
 
 new PreloadLayer({
     target: "loader"
 });
 
-// new DebugControlsLayer({
-//     target: "debugControls"
-// });
+new DebugControlsLayer({
+    target: "debugControls"
+});
 
 new PageMarginLayer({
     target: "margins"
