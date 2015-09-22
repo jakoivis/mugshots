@@ -32,8 +32,7 @@ function PreloadLayer(options) {
         _tableShadow = new createjs.Shape();
         _stage.addChild(_tableShadow);
 
-        createjs.Ticker.setFPS(30);
-        createjs.Ticker.on("tick", timerTickHandler);
+        createjs.Ticker.addEventListener("tick", timerTickHandler);
 
         window.addEventListener("resize", resize, false);
 
@@ -83,12 +82,23 @@ function PreloadLayer(options) {
 
     function preloadComplete() {
 
-         _spinner.remove();
+        _spinner.remove(function(){
+
+            window.removeEventListener("resize", resize, false);
+
+            createjs.Ticker.removeEventListener("tick", timerTickHandler);
+
+            _stage.removeAllEventListeners();
+
+            _stage.clear();
+
+            amplify.unsubscribe(TOPICS.PRELOAD_BACKGROUND, preloadBackground);
+            amplify.unsubscribe(TOPICS.PRELOAD_COMPLETE, preloadComplete);
+        });
+
     }
 
     function preloadBackground() {
-
-        console.log("background");
 
         _spinner.setToBackgroundMode();
     }

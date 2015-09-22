@@ -1,8 +1,6 @@
 
 "use strict";
 
-module.exports = Spinner;
-
 /**
  * Spinning loading indicator
  */
@@ -13,16 +11,16 @@ function Spinner(options) {
         return new Spinner();
     }
 
+    this.Container_constructor();
+
     var me = this;
     var _colorCache;
     var _highLightRotation = 0;
     var _rotation = 0;
 
-    var _container = new createjs.Container();
-
     var _numberOfTicks = 17;
-    var _x = 0;
-    var _y = 0;
+    var _centerX = 0;
+    var _centerY = 0;
     var _lineCaps = "round";
     var _tickColor = 0xFF6666;
     var _tickHighLightColor = 0xFFEEEE;
@@ -33,11 +31,6 @@ function Spinner(options) {
     var _alpha = 1;
 
     var _fadeDistance = 15;
-
-    Object.defineProperty(this, "container", {
-
-        get: function() { return _container; },
-    });
 
     Object.defineProperty(this, "numberOfTicks", {
 
@@ -55,23 +48,23 @@ function Spinner(options) {
         }
     });
 
-    Object.defineProperty(this, "x", {
+    Object.defineProperty(this, "centerX", {
 
-        get: function() { return _x; },
+        get: function() { return _centerX; },
 
         set: function(value) {
 
-            _x = Number(value);
+            _centerX = Number(value);
         }
     });
 
-    Object.defineProperty(this, "y", {
+    Object.defineProperty(this, "centerY", {
 
-        get: function() { return _y; },
+        get: function() { return _centerY; },
 
         set: function(value) {
 
-            _y = Number(value);
+            _centerY = Number(value);
         }
     });
 
@@ -208,7 +201,7 @@ function Spinner(options) {
 
         updateRotation();
         updateHighlightRotation();
-        _container.removeAllChildren();
+        me.removeAllChildren();
         createTickShapes();
     };
 
@@ -236,7 +229,7 @@ function Spinner(options) {
         for(var i = 0; i < _numberOfTicks; i++) {
 
             tickShape = createTickShape(radians, i);
-            _container.addChild(tickShape);
+            me.addChild(tickShape);
             radians += stepRadians;
         }
     }
@@ -244,7 +237,7 @@ function Spinner(options) {
     function createTickShape(radians, tickIndex) {
 
         var tickShape = new createjs.Shape();
-        var center = {x: _x, y: _y};
+        var center = {x: _centerX, y: _centerY};
         var innerPoint = pointOnACircle(_innerRadius, center, radians);
         var outerPoint = pointOnACircle(_outerRadius, center, radians);
         var color = "#" + getColor(tickIndex).toString(16);
@@ -355,3 +348,7 @@ function Spinner(options) {
 
     return this;
 }
+
+var proto = createjs.extend(Spinner, createjs.Container);
+
+module.exports = createjs.promote(Spinner, "Container");

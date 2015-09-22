@@ -17,6 +17,7 @@ var SpinnerWithShadow = function(options) {
     var _spinnerShadow;
     var _spinnerShadowMask;
     var _settings;
+    var _isBackgroundMode = false;
 
     Object.defineProperty(this, "container", {
 
@@ -27,7 +28,7 @@ var SpinnerWithShadow = function(options) {
 
         _settings = createSpinnerSettings();
 
-        _spinner = createSpinner();
+        _spinner = new Spinner(_settings.fadeInStart);
         _spinnerGlow = createSpinnerGlow();
         _spinnerShadow = createSpinnerShadow();
         _spinnerShadowMask = createSpinnerShadowMask();
@@ -35,11 +36,11 @@ var SpinnerWithShadow = function(options) {
         applySpinnerShadowMaskFilter(_spinnerShadow, _spinnerShadowMask);
 
         _container = new createjs.Container();
-        _container.addChild(_spinnerGlow);
-        _container.addChild(_spinner.container);
-        _container.addChild(_spinnerShadow.container);
+        // _container.addChild(_spinnerGlow);
+        _container.addChild(_spinner);
+        _container.addChild(_spinnerShadow);
         _container.regX = _settings.radius;
-        _container.regY = _settings.diameter;
+        _container.regY = _settings.height / 2;
 
         window.addEventListener("resize", resize, false);
 
@@ -60,8 +61,15 @@ var SpinnerWithShadow = function(options) {
 
         var canvas = _container.stage.canvas;
 
-        _container.x = canvas.width / 2;
-        _container.y = canvas.height / 2;
+        if(_isBackgroundMode) {
+
+            _container.x = _settings.radius +20;
+            _container.y = canvas.height / 2 +1;
+        } else {
+
+            _container.x = canvas.width / 2;
+            _container.y = canvas.height / 2 +1;
+        }
 
         // todo: resize should position differently when background mode is switched on
     }
@@ -71,7 +79,7 @@ var SpinnerWithShadow = function(options) {
         _spinner.update();
         _spinnerShadow.update();
         _spinnerShadowMask.updateCache();
-        _spinnerShadow.container.updateCache();
+        _spinnerShadow.updateCache();
     };
 
     me.show = function() {
@@ -87,12 +95,14 @@ var SpinnerWithShadow = function(options) {
 
     me.setToBackgroundMode = function() {
 
+        _isBackgroundMode = true;
+
         createjs.Tween
             .get(_container)
             .to({x: _settings.radius +20}, 1000, createjs.Ease.circInOut);
     };
 
-    me.remove = function() {
+    me.remove = function(onComplete) {
 
         createjs.Tween
             .get(_spinner)
@@ -100,28 +110,32 @@ var SpinnerWithShadow = function(options) {
 
         createjs.Tween
             .get(_spinnerShadow)
-            .to(_settings.fadeOutEnd, 1000, createjs.Ease.bounceOut);
+            .to(_settings.fadeOutEnd, 1000, createjs.Ease.bounceOut)
+            .call(cleanAll)
+            .call(onComplete);
 
-        createjs.Tween
-            .get(_spinnerGlow)
-            .to({alpha:0}, 1000, createjs.Ease.bounceOut);
+        // createjs.Tween
+        //     .get(_spinnerGlow)
+        //     .to({alpha:0}, 1000, createjs.Ease.bounceOut);
     };
+
+    function cleanAll() {
+
+        window.removeEventListener("resize", resize, false);
+    }
 
     function createSpinnerSettings() {
 
-        var x = 0;
-        var y = 0;
         var diameter = 44;
         var radius = diameter / 2;
-        var shadowOffsetY = diameter + 4;
+        var shadowOffsetY = 6;
+        var heightWithShadow = diameter * 2 + shadowOffsetY;
 
         return {
-            x: x,
-            y: y,
             radius: radius,
             diameter: diameter,
-            shadowX: x,
-            shadowY: y + shadowOffsetY,
+            shadowY: heightWithShadow,
+            height: heightWithShadow,
 
             fadeInStart: {
                 numberOfTicks: 16,
@@ -132,8 +146,11 @@ var SpinnerWithShadow = function(options) {
                 tickWidth: 8,
                 tickColor: 0xEEEEEE,
                 tickHighLightColor: 0x444444,
-                x: radius,
-                y: radius
+
+                // by default the origin of spinner is at the center
+                // of the spinner. change it to top left corner.
+                centerX: radius,
+                centerY: radius
             },
 
             fadeInEnd: {
@@ -158,8 +175,8 @@ var SpinnerWithShadow = function(options) {
 
         var glow = new createjs.Shape();
         var r = _settings.radius;
-        var x = _settings.x + r;
-        var y = _settings.y + r;
+        var x = r;
+        var y = r;
         var glowRadius = r + 10;
         var graphics = glow.graphics;
         var colors = ["rgba(255, 255, 255, 0.5)", "rgba(255, 255, 255, 0)"];
@@ -171,24 +188,11 @@ var SpinnerWithShadow = function(options) {
         return glow;
     }
 
-    function createSpinner() {
-
-        var spinner = new Spinner(_settings.fadeInStart);
-        spinner.container.x = _settings.x;
-        spinner.container.y = _settings.y;
-
-        return spinner;
-    }
-
     function createSpinnerShadow() {
 
         var spinner = new Spinner(_settings.fadeInStart);
-        var container = spinner.container;
-
-        container.regY = _settings.diameter;
-        container.scaleY = -1;
-        container.x = _settings.shadowX;
-        container.y = _settings.shadowY;
+        spinner.scaleY = -1;
+        spinner.y = _settings.shadowY;
 
         return spinner;
     }
@@ -200,6 +204,7 @@ var SpinnerWithShadow = function(options) {
         var graphics = mask.graphics;
         var colors = ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.4)"];
         var ratios = [0, 1];
+        var y = _settings.shadowY;
 
         graphics.beginLinearGradientFill(colors, ratios, 0, 0, 0, d);
         graphics.drawRect(0, 0, d, d);
@@ -214,8 +219,8 @@ var SpinnerWithShadow = function(options) {
         var d = _settings.diameter;
         var filter = new createjs.AlphaMaskFilter(mask.cacheCanvas);
 
-        spinner.container.filters = [filter];
-        spinner.container.cache(0, 0, d, d);
+        spinner.filters = [filter];
+        spinner.cache(0, 0, d, d);
     }
 
     init();
