@@ -14,7 +14,6 @@ module.exports = PreloadLayer;
  */
 function PreloadLayer(options) {
 
-    // var _canvas;
     var _stage;
     var _spinner;
     var _tableShadow;

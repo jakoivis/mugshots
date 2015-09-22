@@ -59,13 +59,12 @@ var SpinnerWithShadow = function(options) {
 
             me.x = _settings.radius +20;
             me.y = canvas.height / 2 +1;
+
         } else {
 
             me.x = canvas.width / 2;
             me.y = canvas.height / 2 +1;
         }
-
-        // todo: resize should position differently when background mode is switched on
     }
 
     me.update = function() {
