@@ -14,15 +14,15 @@ module.exports = PreloadLayer;
  */
 function PreloadLayer(options) {
 
-    var _canvas;
+    // var _canvas;
     var _stage;
     var _spinner;
     var _tableShadow;
 
     function init() {
 
-        _canvas = document.getElementById(options.target);
-        _stage = new createjs.Stage(_canvas);
+        var canvas = document.getElementById(options.target);
+        _stage = new createjs.Stage(canvas);
         resizeCanvas();
 
         _spinner = new SpinnerWithShadow();
@@ -51,36 +51,45 @@ function PreloadLayer(options) {
 
     function resizeCanvas() {
 
-        _canvas.width = window.innerWidth;
-        _canvas.height = window.innerHeight;
+        var canvas = _stage.canvas;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
     }
 
     function resizeTableShadowPosition() {
 
+        var canvas = _stage.canvas;
         var colors = ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.03)", "rgba(0, 0, 0, 0)"];
         var ratios = [0, 0.03, 1];
         var shadowHeight = 75;
-        var shadowWidth = _canvas.width;
+        var shadowWidth = canvas.width;
 
         _tableShadow.graphics.clear();
         _tableShadow.graphics.beginLinearGradientFill(colors, ratios, 0, 0, 0, shadowHeight);
         _tableShadow.graphics.drawRect(0, 0, shadowWidth, shadowHeight);
 
-        _tableShadow.y = _canvas.height / 2;
+        _tableShadow.y = canvas.height / 2;
     }
 
     function timerTickHandler(event) {
 
-        _spinner.update();
-        _stage.update(event);
+        if(_stage) {
+
+            _spinner.update();
+            _stage.update(event);
+        }
     }
 
     function removeCanvasPointerEvents() {
 
-        _canvas.style["pointer-events"] = "none";
+        _stage.canvas.style["pointer-events"] = "none";
     }
 
     function preloadComplete() {
+
+        createjs.Tween
+            .get(_tableShadow)
+            .to({alpha: 0}, 900, createjs.Ease.circOut);
 
         _spinner.remove(function(){
 
@@ -88,9 +97,11 @@ function PreloadLayer(options) {
 
             createjs.Ticker.removeEventListener("tick", timerTickHandler);
 
-            _stage.removeAllEventListeners();
+            var canvas = _stage.canvas;
 
+            _stage.removeAllEventListeners();
             _stage.clear();
+            canvas.parentNode.removeChild(canvas);
 
             amplify.unsubscribe(TOPICS.PRELOAD_BACKGROUND, preloadBackground);
             amplify.unsubscribe(TOPICS.PRELOAD_COMPLETE, preloadComplete);
