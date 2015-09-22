@@ -87,10 +87,6 @@ function PreloadLayer(options) {
 
     function preloadComplete() {
 
-        createjs.Tween
-            .get(_tableShadow)
-            .to({alpha: 0}, 900, createjs.Ease.circOut);
-
         _spinner.remove(function(){
 
             window.removeEventListener("resize", resize, false);
@@ -110,6 +106,10 @@ function PreloadLayer(options) {
     }
 
     function preloadBackground() {
+
+        createjs.Tween
+            .get(_tableShadow)
+            .to({alpha: 0}, 1500, createjs.Ease.circOut);
 
         _spinner.setToBackgroundMode();
     }
