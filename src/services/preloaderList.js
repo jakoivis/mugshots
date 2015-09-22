@@ -2,6 +2,8 @@
 
 var list = [
 
+    {src:"assets/images/various/NokiaLumia1520_05_Web.png", groupName:"various", name:"phone"},
+
     {src:"assets/images/background/_MG_0248.jpg", groupName:"background", boundsBottom:"641"},
     {src:"assets/images/background/_MG_0254.jpg", groupName:"background", boundsBottom:"679"},
     {src:"assets/images/background/_MG_0256.jpg", groupName:"background", boundsBottom:"655"},

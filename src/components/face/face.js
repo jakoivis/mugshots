@@ -28,6 +28,16 @@ function Face() {
         get: function() { return stacks; }
     });
 
+    Object.defineProperty(this, "width", {
+
+        get: function() { return stacks.background.current().width; }
+    });
+
+    Object.defineProperty(this, "height", {
+
+        get: function() { return stacks.background.current().height; }
+    });
+
     me.update = function() {
 
         me.removeAllChildren();

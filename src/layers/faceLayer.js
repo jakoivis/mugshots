@@ -3,6 +3,7 @@
 
 var amplify = require("amplify").amplify;
 var Face = require("../components/face/face.js");
+var Phone = require("../components/phone.js");
 var TOPICS = require("../topics.js");
 
 module.exports = FaceLayer;
@@ -10,6 +11,7 @@ module.exports = FaceLayer;
 function FaceLayer(options) {
 
     var face;
+    var phone;
     var canvas;
     var stage;
 
@@ -20,9 +22,10 @@ function FaceLayer(options) {
         stage = new createjs.Stage(canvas);
 
         face = new Face();
-        // face.container.scaleX = 0.5;
-        // face.container.scaleY = 0.5;
         stage.addChild(face);
+
+        phone = new Phone();
+        stage.addChild(phone);
 
         window.addEventListener("resize", resize, false);
 
@@ -33,6 +36,8 @@ function FaceLayer(options) {
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+
+        face.x = stage.canvas.width / 2 - face.width / 2;
 
         updateGraphics();
     }
@@ -77,7 +82,14 @@ function FaceLayer(options) {
 
         if(!item.isFailed()) {
 
-            face.createFacePart(item);
+            if(item.name === "phone") {
+
+                console.log("phone image loaded");
+
+            } else {
+
+                face.createFacePart(item);
+            }
         }
     }
 
