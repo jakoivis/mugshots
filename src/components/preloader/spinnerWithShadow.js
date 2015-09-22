@@ -10,19 +10,15 @@ var SpinnerWithShadow = function(options) {
         return new SpinnerWithShadow(options);
     }
 
+    this.Container_constructor();
+
     var me = this;
-    var _container;
     var _spinner;
     var _spinnerGlow;
     var _spinnerShadow;
     var _spinnerShadowMask;
     var _settings;
     var _isBackgroundMode = false;
-
-    Object.defineProperty(this, "container", {
-
-        get: function() { return _container; },
-    });
 
     function init() {
 
@@ -35,16 +31,14 @@ var SpinnerWithShadow = function(options) {
 
         applySpinnerShadowMaskFilter(_spinnerShadow, _spinnerShadowMask);
 
-        _container = new createjs.Container();
-        // _container.addChild(_spinnerGlow);
-        _container.addChild(_spinner);
-        _container.addChild(_spinnerShadow);
-        _container.regX = _settings.radius;
-        _container.regY = _settings.height / 2;
+        me.addChild(_spinner);
+        me.addChild(_spinnerShadow);
+        me.regX = _settings.radius;
+        me.regY = _settings.height / 2;
 
         window.addEventListener("resize", resize, false);
 
-        _container.addEventListener("added", addedToStage);
+        me.addEventListener("added", addedToStage);
     }
 
     function addedToStage(event) {
@@ -53,22 +47,22 @@ var SpinnerWithShadow = function(options) {
 
             resize();
 
-            _container.removeEventListener("added", addedToStage);
+            me.removeEventListener("added", addedToStage);
         }
     }
 
     function resize() {
 
-        var canvas = _container.stage.canvas;
+        var canvas = me.stage.canvas;
 
         if(_isBackgroundMode) {
 
-            _container.x = _settings.radius +20;
-            _container.y = canvas.height / 2 +1;
+            me.x = _settings.radius +20;
+            me.y = canvas.height / 2 +1;
         } else {
 
-            _container.x = canvas.width / 2;
-            _container.y = canvas.height / 2 +1;
+            me.x = canvas.width / 2;
+            me.y = canvas.height / 2 +1;
         }
 
         // todo: resize should position differently when background mode is switched on
@@ -98,7 +92,7 @@ var SpinnerWithShadow = function(options) {
         _isBackgroundMode = true;
 
         createjs.Tween
-            .get(_container)
+            .get(me)
             .to({x: _settings.radius +20}, 1000, createjs.Ease.circInOut);
     };
 
@@ -226,4 +220,6 @@ var SpinnerWithShadow = function(options) {
     init();
 };
 
-module.exports = SpinnerWithShadow;
+var proto = createjs.extend(SpinnerWithShadow, createjs.Container);
+
+module.exports = createjs.promote(SpinnerWithShadow, "Container");

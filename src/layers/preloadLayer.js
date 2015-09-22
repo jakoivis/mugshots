@@ -26,7 +26,7 @@ function PreloadLayer(options) {
         resizeCanvas();
 
         _spinner = new SpinnerWithShadow();
-        _stage.addChild(_spinner.container);
+        _stage.addChild(_spinner);
         _spinner.show();
 
         _tableShadow = new createjs.Shape();
