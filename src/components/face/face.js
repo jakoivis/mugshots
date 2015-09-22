@@ -5,12 +5,11 @@ var FacePartStack = require("./facePartStack.js");
 var FacePart = require("./facePart.js");
 var FacePartPositioningUtil = require("./facePartPositioningUtil.js");
 
-module.exports = Face;
-
 function Face() {
 
+    this.Container_constructor();
+
     var me = this;
-    var _container = new createjs.Container();
     var debugDrawImageBounds = false;
     var debugLogImageNames = false;
 
@@ -29,28 +28,23 @@ function Face() {
         get: function() { return stacks; }
     });
 
-    Object.defineProperty(this, "container", {
-
-        get: function() { return _container; }
-    });
-
     me.update = function() {
 
-        _container.removeAllChildren();
+        me.removeAllChildren();
 
-        _container.addChild(stacks.background.current().bitmap);
-        _container.addChild(stacks.mouth.current().bitmap);
-        _container.addChild(stacks.nose.current().bitmap);
-        _container.addChild(stacks.lefteye.current().bitmap);
-        _container.addChild(stacks.righteye.current().bitmap);
+        me.addChild(stacks.background.current().bitmap);
+        me.addChild(stacks.mouth.current().bitmap);
+        me.addChild(stacks.nose.current().bitmap);
+        me.addChild(stacks.lefteye.current().bitmap);
+        me.addChild(stacks.righteye.current().bitmap);
 
         if(debugDrawImageBounds) {
 
-            _container.addChild(stacks.background.current().getDebugBounds());
-            _container.addChild(stacks.mouth.current().getDebugBounds());
-            _container.addChild(stacks.nose.current().getDebugBounds());
-            _container.addChild(stacks.lefteye.current().getDebugBounds());
-            _container.addChild(stacks.righteye.current().getDebugBounds());
+            me.addChild(stacks.background.current().getDebugBounds());
+            me.addChild(stacks.mouth.current().getDebugBounds());
+            me.addChild(stacks.nose.current().getDebugBounds());
+            me.addChild(stacks.lefteye.current().getDebugBounds());
+            me.addChild(stacks.righteye.current().getDebugBounds());
         }
 
         if(debugLogImageNames) {
@@ -106,3 +100,7 @@ function Face() {
         // setRandomEyePosition();
     };
 }
+
+var proto = createjs.extend(Face, createjs.Container);
+
+module.exports = createjs.promote(Face, "Container");

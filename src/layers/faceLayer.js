@@ -20,9 +20,9 @@ function FaceLayer(options) {
         stage = new createjs.Stage(canvas);
 
         face = new Face();
-        face.container.scaleX = 0.5;
-        face.container.scaleY = 0.5;
-        stage.addChild(face.container);
+        // face.container.scaleX = 0.5;
+        // face.container.scaleY = 0.5;
+        stage.addChild(face);
 
         window.addEventListener("resize", resize, false);
 
