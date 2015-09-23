@@ -9,7 +9,7 @@ require("ImageLoader");
 function PreloadService() {
 
     var me = this;
-    var backgroundModeLimit = 0.2;
+    var percentToLoadBeforeBGMode = 0.2;
     var isBackgroundMode = false;
     var loader;
 
@@ -60,7 +60,7 @@ function PreloadService() {
 
     function loadedEnough() {
 
-        return loader.getPercentLoaded() >= backgroundModeLimit;
+        return loader.getPercentLoaded() >= percentToLoadBeforeBGMode;
     }
 
     function requiredImagesAreLoaded() {

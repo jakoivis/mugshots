@@ -22,12 +22,12 @@ new PreloadLayer({
     target: "loader"
 });
 
-new DebugControlsLayer({
-    target: "debugControls"
-});
-
 new PageMarginLayer({
     target: "margins"
+});
+
+new DebugControlsLayer({
+    target: "debugControls"
 });
 
 PreloadService.load();
