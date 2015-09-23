@@ -25,7 +25,7 @@ function PreloadService() {
 
     function onFileComplete(item) {
 
-        if(!item.isFailed()) {
+        if(item.isComplete()) {
 
             amplify.publish(TOPICS.PRELOAD_ITEM_COMPLETE, item);
         }
@@ -43,14 +43,42 @@ function PreloadService() {
 
     function canSwitchToBackgroundLoading() {
 
-        if(isBackgroundMode === false &&
-            loader.getPercentLoaded() >= backgroundModeLimit) {
+        if(isNotInBackgroundMode() && loadedEnough() && requiredImagesAreLoaded()) {
 
             isBackgroundMode = true;
+
             return true;
         }
 
         return false;
+    }
+
+    function isNotInBackgroundMode() {
+
+        return isBackgroundMode === false;
+    }
+
+    function loadedEnough() {
+
+        return loader.getPercentLoaded() >= backgroundModeLimit;
+    }
+
+    function requiredImagesAreLoaded() {
+
+        var length = loader.length();
+        var item;
+
+        for(var i = 0; i < length; i++) {
+
+            item = loader.getItemAt(i);
+
+            if(item.required === true && !item.isComplete()) {
+
+                return false;
+            }
+        }
+
+        return true;
     }
 }
 
