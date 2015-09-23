@@ -15,6 +15,10 @@ function FaceLayer(options) {
     var canvas;
     var stage;
 
+    var resources = {
+        phone: null
+    };
+
     function init() {
 
         canvas = document.getElementById(options.target);
@@ -22,10 +26,6 @@ function FaceLayer(options) {
         stage = new createjs.Stage(canvas);
 
         face = new Face();
-        stage.addChild(face);
-
-        phone = new Phone();
-        stage.addChild(phone);
 
         window.addEventListener("resize", resize, false);
 
@@ -36,8 +36,6 @@ function FaceLayer(options) {
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-
-        face.x = stage.canvas.width / 2 - face.width / 2;
 
         updateGraphics();
     }
@@ -50,31 +48,31 @@ function FaceLayer(options) {
         amplify.subscribe(TOPICS.NEXT_BACKGROUND, function() {
 
             face.stacks.background.next();
-            updateGraphics();
+            updateFace();
         });
 
         amplify.subscribe(TOPICS.NEXT_NOSE, function() {
 
             face.stacks.nose.next();
-            updateGraphics();
+            updateFace();
         });
 
         amplify.subscribe(TOPICS.NEXT_LEFT_EYE, function() {
 
             face.stacks.lefteye.next();
-            updateGraphics();
+            updateFace();
         });
 
         amplify.subscribe(TOPICS.NEXT_RIGHT_EYE, function() {
 
             face.stacks.righteye.next();
-            updateGraphics();
+            updateFace();
         });
 
         amplify.subscribe(TOPICS.NEXT_MOUTH, function() {
 
             face.stacks.mouth.next();
-            updateGraphics();
+            updateFace();
         });
     }
 
@@ -84,7 +82,7 @@ function FaceLayer(options) {
 
             if(item.name === "phone") {
 
-                console.log("phone image loaded");
+                resources.phone = item;
 
             } else {
 
@@ -95,9 +93,19 @@ function FaceLayer(options) {
 
     function switchToBackgroundMode() {
 
+        resize();
+
         face.setDefaultFaceParts();
 
-        resize();
+        phone = new Phone({
+            face:face,
+            loaderItemPhone: resources.phone
+        });
+
+        stage.addChild(phone);
+        // stage.addChild(face);
+
+        updateFace();
 
         addLayerClickHandler();
     }
@@ -107,10 +115,15 @@ function FaceLayer(options) {
         face.setRandomFaceParts();
         face.setRandomPositions();
 
-        updateGraphics();
+        updateFace();
     }
 
     function updateGraphics() {
+
+        stage.update();
+    }
+
+    function updateFace() {
 
         face.update();
         stage.update();
