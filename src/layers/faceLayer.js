@@ -96,6 +96,9 @@ function FaceLayer(options) {
         resize();
 
         face.setDefaultFaceParts();
+        // face.scaleX = 0.9;
+        // face.scaleY = 0.9;
+        face.update();
 
         phone = new Phone({
             face:face,
@@ -103,7 +106,6 @@ function FaceLayer(options) {
         });
 
         stage.addChild(phone);
-        // stage.addChild(face);
 
         updateFace();
 
@@ -126,6 +128,7 @@ function FaceLayer(options) {
     function updateFace() {
 
         face.update();
+        face.updateCache();
         stage.update();
     }
 
