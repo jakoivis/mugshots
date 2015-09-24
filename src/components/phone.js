@@ -19,39 +19,28 @@ var Phone = function(options) {
 
     function init() {
 
-        initScreenBounds();
+        _screenBounds = createScreenBounds(options);
+        _screen = createScreen(_screenBounds);
+        _face = initFace(options);
 
-        _face = options.face;
-        _face.setDefaultFaceParts();
+        var phoneBitmap = createPhoneBitmap(options);
+        var screenShadows = createScreenBorderShadows(_screenBounds);
 
-        var imageLoaderItem = options.loaderItemPhone;
-        var phoneImage = imageLoaderItem.tag;
-
-        var phoneBitmap = new createjs.Bitmap(phoneImage);
-        me.addChild(phoneBitmap);
-
-        _screen = new createjs.Container();
         _screen.addChild(_face);
-
-        var screenShadows = createScreenShadows();
         _screen.addChild(screenShadows);
 
-        maskScreen();
+        maskScreen(_screen, _face, _screenBounds);
 
-        _screen.x = imageLoaderItem.screenLeft;
-        _screen.y = imageLoaderItem.screenTop;
-
-        _face.x = -50;
-
+        me.addChild(phoneBitmap);
         me.addChild(_screen);
-
     }
 
-    function initScreenBounds() {
 
-        var imageLoaderItem = options.loaderItemPhone;
+    function createScreenBounds(opts) {
 
-        _screenBounds = new Bounds({
+        var imageLoaderItem = opts.loaderItemPhone;
+
+        return new Bounds({
             left: imageLoaderItem.screenLeft,
             right: imageLoaderItem.screenRight,
             top: imageLoaderItem.screenTop,
@@ -59,16 +48,46 @@ var Phone = function(options) {
         });
     }
 
-    function maskScreen() {
+    function createScreen(screenBounds) {
+
+        var phoneScreen = new createjs.Container();
+        phoneScreen.x = screenBounds.left;
+        phoneScreen.y = screenBounds.top;
+
+        return phoneScreen;
+    }
+
+    function initFace(opts) {
+
+        var face = opts.face;
+        face.setDefaultFaceParts();
+        face.x = -50;
+
+        return face;
+    }
+
+    function createPhoneBitmap(opts) {
+
+        var imageLoaderItem = opts.loaderItemPhone;
+        var phoneImage = imageLoaderItem.tag;
+
+        return new createjs.Bitmap(phoneImage);
+    }
+
+    function maskScreen(phoneScreen, face, screenBounds) {
 
         var mask = new createjs.Shape();
         mask.graphics.beginFill("#FF0000");
-        mask.graphics.drawRect(0, 0, _screenBounds.width, _screenBounds.height);
-        mask.cache(0, 0, _screenBounds.width, _screenBounds.height);
+        mask.graphics.drawRect(0, 0, screenBounds.width, screenBounds.height);
+        mask.cache(0, 0, screenBounds.width, screenBounds.height);
 
-        _screen.filters = [new createjs.AlphaMaskFilter(mask.cacheCanvas)];
-        _screen.cache(0, 0, _face.width, _face.height);
+        phoneScreen.filters = [new createjs.AlphaMaskFilter(mask.cacheCanvas)];
+        phoneScreen.cache(0, 0, face.width, face.height);
     }
+
+    me.faceUpdate = function() {
+
+    };
 
     me.update = function() {
 
@@ -77,7 +96,11 @@ var Phone = function(options) {
         _screen.updateCache();
     };
 
-    function createScreenShadows() {
+    function createGlow() {
+        // TODO:
+    }
+
+    function createScreenBorderShadows(screenBounds) {
 
         var shadow = new createjs.Shape();
         var colors, ratios, gradX1, gradY1, gradX2, gradY2, x, y, w, h;
@@ -91,7 +114,7 @@ var Phone = function(options) {
 
         x = 0;
         y = 0;
-        w = _screenBounds.width;
+        w = screenBounds.width;
         h = shadowSize;
         gradX1 = 0;
         gradY1 = 0;
@@ -104,7 +127,7 @@ var Phone = function(options) {
         x = 0;
         y = 0;
         w = shadowSize;
-        h = _screenBounds.height;
+        h = screenBounds.height;
         gradX1 = 0;
         gradY1 = 0;
         gradX2 = shadowSize;
@@ -116,26 +139,26 @@ var Phone = function(options) {
         colors = [color3, color2, color1];
         ratios = [0, 0.7, 1];
 
-        x = _screenBounds.width - shadowSize;
+        x = screenBounds.width - shadowSize;
         y = 0;
         w = shadowSize;
-        h = _screenBounds.height;
+        h = screenBounds.height;
         gradX1 = x;
         gradY1 = 0;
-        gradX2 = _screenBounds.width;
+        gradX2 = screenBounds.width;
         gradY2 = 0;
 
         shadow.graphics.beginLinearGradientFill(colors, ratios, gradX1, gradY1, gradX2, gradY2);
         shadow.graphics.drawRect(x, y, w, h);
 
         x = 0;
-        y = _screenBounds.height - shadowSize;
-        w = _screenBounds.width;
+        y = screenBounds.height - shadowSize;
+        w = screenBounds.width;
         h = shadowSize;
         gradX1 = 0;
         gradY1 = y;
         gradX2 = 0;
-        gradY2 = _screenBounds.height;
+        gradY2 = screenBounds.height;
 
         shadow.graphics.beginLinearGradientFill(colors, ratios, gradX1, gradY1, gradX2, gradY2);
         shadow.graphics.drawRect(x, y, w, h);
