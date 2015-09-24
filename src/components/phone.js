@@ -1,6 +1,7 @@
 
 "use strict";
 
+var Bounds = require("../utils/bounds.js");
 /**
  * @param {object} options
  * @param {object} options.face                 Face instance
@@ -14,12 +15,14 @@ var Phone = function(options) {
 
     var _face;
     var _screen;
+    var _screenBounds;
 
     function init() {
 
+        initScreenBounds();
+
         _face = options.face;
         _face.setDefaultFaceParts();
-        // _face.update();
 
         var imageLoaderItem = options.loaderItemPhone;
         var phoneImage = imageLoaderItem.tag;
@@ -41,20 +44,24 @@ var Phone = function(options) {
 
     }
 
-    function maskScreen() {
+    function initScreenBounds() {
 
         var imageLoaderItem = options.loaderItemPhone;
-        var screenLeft = imageLoaderItem.screenLeft;
-        var screenRight = imageLoaderItem.screenRight;
-        var screenTop = imageLoaderItem.screenTop;
-        var screenBottom = imageLoaderItem.screenBottom;
-        var screenWidth = screenRight - screenLeft;
-        var screenHeight = screenBottom - screenTop;
+
+        _screenBounds = new Bounds({
+            left: imageLoaderItem.screenLeft,
+            right: imageLoaderItem.screenRight,
+            top: imageLoaderItem.screenTop,
+            bottom: imageLoaderItem.screenBottom
+        });
+    }
+
+    function maskScreen() {
 
         var mask = new createjs.Shape();
         mask.graphics.beginFill("#FF0000");
-        mask.graphics.drawRect(0, 0, screenWidth, screenHeight);
-        mask.cache(0, 0, screenWidth, screenHeight);
+        mask.graphics.drawRect(0, 0, _screenBounds.width, _screenBounds.height);
+        mask.cache(0, 0, _screenBounds.width, _screenBounds.height);
 
         _screen.filters = [new createjs.AlphaMaskFilter(mask.cacheCanvas)];
         _screen.cache(0, 0, _face.width, _face.height);
@@ -66,6 +73,15 @@ var Phone = function(options) {
 
         _screen.updateCache();
     };
+
+    function createScreenShadow() {
+        var colors = ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.4)"];
+        var ratios = [0, 1];
+
+        var shadow = new createjs.Shape();
+        shadow.graphics.beginLinearGradientFill(colors, ratios, 0, 0, 0, 120);
+        shadow.graphics.drawRect(0, 0, _screenBounds.width, 120);
+    }
 
     init();
 };

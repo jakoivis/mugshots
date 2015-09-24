@@ -1,7 +1,7 @@
 
 "use strict";
 
-var Bounds = require("./bounds.js");
+var Bounds = require("../../utils/bounds.js");
 var ImageDataUtil = require("../../utils/imageDataUtil.js");
 var CanvasUtil = require("../../utils/canvasUtil.js");
 var FacePartSettings = require("./facePartSettings.js");
