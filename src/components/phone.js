@@ -33,6 +33,9 @@ var Phone = function(options) {
         _screen = new createjs.Container();
         _screen.addChild(_face);
 
+        var screenShadows = createScreenShadows();
+        _screen.addChild(screenShadows);
+
         maskScreen();
 
         _screen.x = imageLoaderItem.screenLeft;
@@ -74,13 +77,70 @@ var Phone = function(options) {
         _screen.updateCache();
     };
 
-    function createScreenShadow() {
-        var colors = ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.4)"];
-        var ratios = [0, 1];
+    function createScreenShadows() {
 
         var shadow = new createjs.Shape();
-        shadow.graphics.beginLinearGradientFill(colors, ratios, 0, 0, 0, 120);
-        shadow.graphics.drawRect(0, 0, _screenBounds.width, 120);
+        var colors, ratios, gradX1, gradY1, gradX2, gradY2, x, y, w, h;
+        var shadowSize = 6;
+        var color1 = "rgba(0, 0, 0, 0.5)";
+        var color2 = "rgba(0, 0, 0, 0.3)";
+        var color3 = "rgba(0, 0, 0, 0)";
+
+        colors = [color1, color2, color3];
+        ratios = [0, 0.3, 1];
+
+        x = 0;
+        y = 0;
+        w = _screenBounds.width;
+        h = shadowSize;
+        gradX1 = 0;
+        gradY1 = 0;
+        gradX2 = 0;
+        gradY2 = shadowSize;
+
+        shadow.graphics.beginLinearGradientFill(colors, ratios, gradX1, gradY1, gradX2, gradY2);
+        shadow.graphics.drawRect(x, y, w, h);
+
+        x = 0;
+        y = 0;
+        w = shadowSize;
+        h = _screenBounds.height;
+        gradX1 = 0;
+        gradY1 = 0;
+        gradX2 = shadowSize;
+        gradY2 = 0;
+
+        shadow.graphics.beginLinearGradientFill(colors, ratios, gradX1, gradY1, gradX2, gradY2);
+        shadow.graphics.drawRect(x, y, w, h);
+
+        colors = [color3, color2, color1];
+        ratios = [0, 0.7, 1];
+
+        x = _screenBounds.width - shadowSize;
+        y = 0;
+        w = shadowSize;
+        h = _screenBounds.height;
+        gradX1 = x;
+        gradY1 = 0;
+        gradX2 = _screenBounds.width;
+        gradY2 = 0;
+
+        shadow.graphics.beginLinearGradientFill(colors, ratios, gradX1, gradY1, gradX2, gradY2);
+        shadow.graphics.drawRect(x, y, w, h);
+
+        x = 0;
+        y = _screenBounds.height - shadowSize;
+        w = _screenBounds.width;
+        h = shadowSize;
+        gradX1 = 0;
+        gradY1 = y;
+        gradX2 = 0;
+        gradY2 = _screenBounds.height;
+
+        shadow.graphics.beginLinearGradientFill(colors, ratios, gradX1, gradY1, gradX2, gradY2);
+        shadow.graphics.drawRect(x, y, w, h);
+
+        return shadow;
     }
 
     init();
