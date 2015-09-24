@@ -8,7 +8,6 @@ var PageMarginLayer = function(options) {
 
     var _stage;
     var _canvas;
-    var _topMargin;
     var _bottomMargin;
     var _marginsVisible = false;
 
@@ -17,9 +16,6 @@ var PageMarginLayer = function(options) {
         _canvas = document.getElementById(options.target);
         _stage = new createjs.Stage(_canvas);
         resizeCanvas();
-
-        _topMargin = new createjs.Shape();
-        _stage.addChild(_topMargin);
 
         _bottomMargin = new createjs.Shape();
         _stage.addChild(_bottomMargin);
@@ -41,16 +37,11 @@ var PageMarginLayer = function(options) {
 
     function showMargins() {
 
-        _topMargin.y = -_topMargin.height;
         _bottomMargin.y = _canvas.height;
 
         _marginsVisible = true;
 
         resize();
-
-        createjs.Tween
-            .get(_topMargin)
-            .to({y: 0}, 1000, createjs.Ease.circInOut);
 
         createjs.Tween
             .get(_bottomMargin)
@@ -59,7 +50,6 @@ var PageMarginLayer = function(options) {
 
     function calculateMarginHeights() {
 
-        _topMargin.height = 50;
         _bottomMargin.height = 50;
     }
 
@@ -76,23 +66,9 @@ var PageMarginLayer = function(options) {
 
         if(_marginsVisible) {
 
-            resizeTopMargin();
             resizeBottomMargin();
             _stage.update();
         }
-    }
-
-    function resizeTopMargin() {
-
-        var colors = ["#444444", "#555555"];
-        var ratios = [0, 1];
-        var marginHeight = _topMargin.height;
-        var marginWidth = _canvas.width;
-
-        _topMargin.graphics.clear();
-        _topMargin.graphics.beginLinearGradientFill(colors, ratios, 0, 0, 0, marginHeight);
-        _topMargin.graphics.drawRect(0, 0, marginWidth, marginHeight);
-        _topMargin.height = marginHeight;
     }
 
     function resizeBottomMargin() {
