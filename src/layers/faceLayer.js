@@ -37,7 +37,7 @@ function FaceLayer(options) {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        updateGraphics();
+        stage.update();
     }
 
     function initTopics() {
@@ -48,31 +48,31 @@ function FaceLayer(options) {
         amplify.subscribe(TOPICS.NEXT_BACKGROUND, function() {
 
             face.stacks.background.next();
-            updateFace();
+            update();
         });
 
         amplify.subscribe(TOPICS.NEXT_NOSE, function() {
 
             face.stacks.nose.next();
-            updateFace();
+            update();
         });
 
         amplify.subscribe(TOPICS.NEXT_LEFT_EYE, function() {
 
             face.stacks.lefteye.next();
-            updateFace();
+            update();
         });
 
         amplify.subscribe(TOPICS.NEXT_RIGHT_EYE, function() {
 
             face.stacks.righteye.next();
-            updateFace();
+            update();
         });
 
         amplify.subscribe(TOPICS.NEXT_MOUTH, function() {
 
             face.stacks.mouth.next();
-            updateFace();
+            update();
         });
     }
 
@@ -95,11 +95,6 @@ function FaceLayer(options) {
 
         resize();
 
-        face.setDefaultFaceParts();
-        // face.scaleX = 0.9;
-        // face.scaleY = 0.9;
-        face.update();
-
         phone = new Phone({
             face:face,
             loaderItemPhone: resources.phone
@@ -107,7 +102,7 @@ function FaceLayer(options) {
 
         stage.addChild(phone);
 
-        updateFace();
+        update();
 
         addLayerClickHandler();
     }
@@ -117,18 +112,12 @@ function FaceLayer(options) {
         face.setRandomFaceParts();
         face.setRandomPositions();
 
-        updateFace();
+        update();
     }
 
-    function updateGraphics() {
+    function update() {
 
-        stage.update();
-    }
-
-    function updateFace() {
-
-        face.update();
-        face.updateCache();
+        phone.update();
         stage.update();
     }
 

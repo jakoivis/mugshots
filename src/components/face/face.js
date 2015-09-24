@@ -30,12 +30,12 @@ function Face() {
 
     Object.defineProperty(this, "width", {
 
-        get: function() { return stacks.background.current().width; }
+        get: function() { return stacks.background.current().bitmap.image.width; }
     });
 
     Object.defineProperty(this, "height", {
 
-        get: function() { return stacks.background.current().height; }
+        get: function() { return stacks.background.current().bitmap.image.height; }
     });
 
     me.update = function() {
