@@ -16,14 +16,15 @@ var Phone = function(options) {
     var _face;
     var _screen;
     var _screenBounds;
+    var _phoneBitmap;
 
     function init() {
 
         _screenBounds = createScreenBounds(options);
         _screen = createScreen(_screenBounds);
         _face = initFace(options);
+        _phoneBitmap = createPhoneBitmap(options);
 
-        var phoneBitmap = createPhoneBitmap(options);
         var screenShadows = createScreenBorderShadows(_screenBounds);
 
         _screen.addChild(_face);
@@ -31,10 +32,13 @@ var Phone = function(options) {
 
         maskScreen(_screen, _face, _screenBounds);
 
-        me.addChild(phoneBitmap);
+        me.addChild(_phoneBitmap);
         me.addChild(_screen);
-    }
 
+        setX(0);
+        setY(0);
+        setScale(1);
+    }
 
     function createScreenBounds(opts) {
 
@@ -61,7 +65,6 @@ var Phone = function(options) {
 
         var face = opts.face;
         face.setDefaultFaceParts();
-        face.x = -50;
 
         return face;
     }
@@ -95,6 +98,25 @@ var Phone = function(options) {
 
         _screen.updateCache();
     };
+
+    function setX(x) {
+
+        me.x = x;
+        _face.x = _face.x -x;
+    }
+
+    function setY(y) {
+
+        me.y = y;
+        _face.y = _face.y -y;
+    }
+
+    function setScale(scale) {
+
+        me.scaleX = me.scaleY = scale;
+        var faceScale = scale + (scale*0.05);
+        _face.scaleX = _face.scaleY = faceScale;
+    }
 
     function createGlow() {
         // TODO:
