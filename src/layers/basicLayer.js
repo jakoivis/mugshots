@@ -6,8 +6,8 @@ var Topics = require("../topics.js");
 
 /**
  * @class
- * @param {object}      options
- * @param {object}      options.target      HTMLElement canvas which is used for this layer
+ * @param {object}  options
+ * @param {string}  options.target                  HTMLElement canvas which is used for this layer
  *
  * functions that can be implemented in sub class
  * - initialize         Executed once when layer is initialized
@@ -111,16 +111,50 @@ var BasicLayer = function(options) {
         me.canvas.height = window.innerHeight;
     }
 
+    /**
+     * Enable or disable mouse pointer events on this layer.
+     * Disabling mouse events allows clicking through the canvas.
+     *
+     * @method     setMousePointerEvents
+     * @param      {boolean}  enabled  set false in case no mouse events are needed
+     */
+    me.setMousePointerEvents = function(enabled) {
+
+        if(enabled) {
+
+            me.canvas.style["pointer-events"] = "visible";
+
+        } else {
+
+            me.canvas.style["pointer-events"] = "none";
+        }
+    };
+
+    /**
+     * Remove ticker listener
+     *
+     * @method     killTickerHandler
+     */
     me.killTickerHandler = function() {
 
         createjs.Ticker.off("tick", _ticker);
     };
 
+    /**
+     * Remove resize listener
+     *
+     * @method      killResizeHandler
+     */
     me.killResizeHandler = function() {
 
         window.removeEventListener("resize", onResize);
     };
 
+    /**
+     * Handle cleaning. Use this when you are not going to use the layer any more
+     *
+     * @method      killAll
+     */
     me.killAll = function() {
 
         me.killTickerHandler();

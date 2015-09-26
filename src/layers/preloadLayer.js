@@ -20,7 +20,7 @@ function PreloadLayer(options) {
         me.stage.addChild(_spinner);
         _spinner.show();
 
-        removeCanvasPointerEvents();
+        me.setMousePointerEvents(false);
     };
 
     me.onResize = function() {
@@ -65,11 +65,6 @@ function PreloadLayer(options) {
         _tableShadow.graphics.drawRect(0, 0, shadowWidth, shadowHeight);
 
         _tableShadow.y = canvas.height / 2;
-    }
-
-    function removeCanvasPointerEvents() {
-
-        me.canvas.style["pointer-events"] = "none";
     }
 
     me.BasicLayer_constructor(options);
