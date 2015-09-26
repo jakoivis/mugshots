@@ -3,8 +3,6 @@
 
 var BasicContainer = function(options) {
 
-    this.Container_constructor();
-
     var me = this;
 
     Object.defineProperty(this, "stageWidth", {
@@ -48,6 +46,8 @@ var BasicContainer = function(options) {
             me.on("tick", me.tick);
         }
     }
+
+    me.Container_constructor();
 
     init();
 };

@@ -11,8 +11,6 @@ var Bounds = require("../utils/bounds.js");
  */
 var Phone = function(options) {
 
-    this.BasicContainer_constructor();
-
     var me = this;
 
     var _face;
@@ -229,6 +227,8 @@ var Phone = function(options) {
 
         return shadow;
     }
+
+    me.BasicContainer_constructor();
 };
 
 var proto = createjs.extend(Phone, BasicContainer);
