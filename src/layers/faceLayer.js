@@ -1,50 +1,34 @@
 
 "use strict";
 
+var BasicLayer = require("./basicLayer.js");
 var amplify = require("amplify").amplify;
 var Face = require("../components/face/face.js");
 var Phone = require("../components/phone.js");
 var TOPICS = require("../topics.js");
 
-module.exports = FaceLayer;
-
 function FaceLayer(options) {
 
+    var me = this;
     var face;
     var phone;
-    var canvas;
-    var stage;
 
     var resources = {
         phone: null
     };
 
-    function init() {
-
-        canvas = document.getElementById(options.target);
-
-        stage = new createjs.Stage(canvas);
+    me.initialize = function() {
 
         face = new Face();
 
-        window.addEventListener("resize", resize, false);
-
         initTopics();
 
-        createjs.Ticker.on("tick", tick);
     }
 
-    function tick(event) {
-        stage.update(event);
-    }
+    me.tick = function(event) {
 
-    function resize() {
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        stage.update();
-    }
+        me.stage.update(event);
+    };
 
     function initTopics() {
 
@@ -99,14 +83,12 @@ function FaceLayer(options) {
 
     function switchToBackgroundMode() {
 
-        resize();
-
         phone = new Phone({
             face:face,
             loaderItemPhone: resources.phone
         });
 
-        stage.addChild(phone);
+        me.stage.addChild(phone);
 
         update();
 
@@ -124,14 +106,19 @@ function FaceLayer(options) {
     function update() {
 
         phone.update();
-        stage.update();
+        me.stage.update();
     }
 
     function addLayerClickHandler() {
 
-        canvas.style.cursor = "pointer";
-        canvas.addEventListener("click", randomize);
+        me.canvas.style.cursor = "pointer";
+        me.canvas.addEventListener("click", randomize);
     }
 
-    init();
+
+    me.BasicLayer_constructor(options);
 }
+
+createjs.extend(FaceLayer, BasicLayer);
+
+module.exports = createjs.promote(FaceLayer, "BasicLayer");
