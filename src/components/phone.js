@@ -40,22 +40,20 @@ var Phone = function(options) {
         _scaleContainer.addChild(_screen);
 
         me.addChild(_scaleContainer);
-
-        me.on("tick", tick);
     };
 
     me.resize = function() {
 
-        me.x = me.stage.canvas.width / 2;
-        me.y = me.stage.canvas.height / 2;
+        me.x = me.stageWidth / 2;
+        me.y = me.stageHeight / 2;
     };
 
-    function tick(event) {
+    me.tick = function(event) {
 
         var mouseX = me.stage.mouseX;
         var mouseY = me.stage.mouseY;
-        var width = me.stage.canvas.width;
-        var height = me.stage.canvas.height;
+        var width = me.stageWidth;
+        var height = me.stageHeight;
         var centerX = width / 2;
         var centerY = height / 2;
         var distanceX = centerX - mouseX;
@@ -65,7 +63,7 @@ var Phone = function(options) {
         setScale(scale);
 
         _screen.updateCache();
-    }
+    };
 
     function createScreenBounds(opts) {
 

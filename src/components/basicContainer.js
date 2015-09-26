@@ -7,6 +7,16 @@ var BasicContainer = function(options) {
 
     var me = this;
 
+    Object.defineProperty(this, "stageWidth", {
+
+        get: function() { return me.stage.canvas.width; }
+    });
+
+    Object.defineProperty(this, "stageHeight", {
+
+        get: function() { return me.stage.canvas.height; }
+    });
+
     function init() {
 
         if(me.initialize) {
@@ -31,6 +41,11 @@ var BasicContainer = function(options) {
             window.addEventListener("resize", me.resize);
 
             me.resize();
+        }
+
+        if(me.tick) {
+
+            me.on("tick", me.tick);
         }
     }
 
