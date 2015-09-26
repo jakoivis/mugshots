@@ -1,13 +1,12 @@
 
 "use strict";
 
+var BasicContainer = require("../basicContainer.js");
 var FacePartStack = require("./facePartStack.js");
 var FacePart = require("./facePart.js");
 var FacePartPositioningUtil = require("./facePartPositioningUtil.js");
 
 function Face() {
-
-    this.Container_constructor();
 
     var me = this;
     var debugDrawImageBounds = false;
@@ -38,6 +37,18 @@ function Face() {
         get: function() { return stacks.background.current().bitmap.image.height; }
     });
 
+    me.onFileLoadComplete = function(imageLoaderItem) {
+
+        createFacePart(imageLoaderItem);
+    };
+
+    me.getAcceptedResources = function() {
+
+        return {
+            groupName: ["background", "chin", "nose", "lefteye", "righteye", "mouth"]
+        };
+    };
+
     me.update = function() {
 
         me.removeAllChildren();
@@ -67,11 +78,11 @@ function Face() {
         }
     };
 
-    me.createFacePart = function(imageSettings) {
+    function createFacePart(imageLoaderItem) {
 
-        var facePart = new FacePart(imageSettings);
+        var facePart = new FacePart(imageLoaderItem);
 
-        stacks[imageSettings.groupName].push(facePart);
+        stacks[imageLoaderItem.groupName].push(facePart);
     };
 
     me.setDefaultFaceParts = function() {
@@ -109,8 +120,10 @@ function Face() {
         FacePartPositioningUtil.setRandomEyePosition(stacks);
         // setRandomEyePosition();
     };
+
+    me.BasicContainer_constructor();
 }
 
-var proto = createjs.extend(Face, createjs.Container);
+createjs.extend(Face, BasicContainer);
 
-module.exports = createjs.promote(Face, "Container");
+module.exports = createjs.promote(Face, "BasicContainer");

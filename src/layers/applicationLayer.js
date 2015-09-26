@@ -39,10 +39,6 @@ function ApplicationLayer(options) {
             if(item.name === "phone") {
 
                 resources.phone = item;
-
-            } else {
-
-                face.createFacePart(item);
             }
         }
     };
