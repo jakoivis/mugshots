@@ -1,7 +1,9 @@
 
 "use strict";
 
+var BasicContainer = require("./basicContainer.js");
 var Bounds = require("../utils/bounds.js");
+
 /**
  * @param {object} options
  * @param {object} options.face                 Face instance
@@ -9,7 +11,7 @@ var Bounds = require("../utils/bounds.js");
  */
 var Phone = function(options) {
 
-    this.Container_constructor();
+    this.BasicContainer_constructor();
 
     var me = this;
 
@@ -19,7 +21,7 @@ var Phone = function(options) {
     var _phoneBitmap;
     var _scaleContainer;
 
-    function init() {
+    me.addedToStage = function() {
 
         _screenBounds = createScreenBounds(options);
         _phoneBitmap = createPhoneBitmap(options);
@@ -40,24 +42,13 @@ var Phone = function(options) {
         me.addChild(_scaleContainer);
 
         me.on("tick", tick);
+    };
 
-        window.addEventListener("resize", resize, false);
-
-        me.addEventListener("added", addedToStage);
-    }
-
-    function addedToStage() {
-
-        me.removeEventListener("added", addedToStage);
-
-        resize();
-    }
-
-    function resize() {
+    me.resize = function() {
 
         me.x = me.stage.canvas.width / 2;
         me.y = me.stage.canvas.height / 2;
-    }
+    };
 
     function tick(event) {
 
@@ -240,10 +231,8 @@ var Phone = function(options) {
 
         return shadow;
     }
-
-    init();
 };
 
-var proto = createjs.extend(Phone, createjs.Container);
+var proto = createjs.extend(Phone, BasicContainer);
 
-module.exports = createjs.promote(Phone, "Container");
+module.exports = createjs.promote(Phone, "BasicContainer");
