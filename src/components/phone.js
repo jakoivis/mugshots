@@ -40,13 +40,13 @@ var Phone = function(options) {
         me.addChild(_scaleContainer);
     };
 
-    me.resize = function() {
+    me.onResize = function() {
 
         me.x = me.stageWidth / 2;
         me.y = me.stageHeight / 2;
     };
 
-    me.tick = function(event) {
+    me.onTick = function(event) {
 
         var mouseX = me.stage.mouseX;
         var mouseY = me.stage.mouseY;

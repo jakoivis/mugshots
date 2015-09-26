@@ -15,7 +15,7 @@ var Topics = require("../topics.js");
  * - onPreloadComplete  Executed once when preload has finished
  * - onFileLoadComplete Executed every time when a file has been loaded
  * - onApplicationStart Executed once when application is ready to start
- * - onWindowResize     Ececuted every time when window size changes
+ * - onResize           Executed every time when window size changes
  */
 var BasicLayer = function(options) {
 
@@ -26,15 +26,25 @@ var BasicLayer = function(options) {
         get: function() { return me.stage.canvas; }
     });
 
+    Object.defineProperty(this, "stageWidth", {
+
+        get: function() { return me.stage.canvas.width; }
+    });
+
+    Object.defineProperty(this, "stageHeight", {
+
+        get: function() { return me.stage.canvas.height; }
+    });
+
     function init() {
 
         var canvas = document.getElementById(options.target);
 
         me.stage = new createjs.Stage(canvas);
 
-        window.addEventListener("resize", onWindowResize);
+        window.addEventListener("resize", onResize);
 
-        onWindowResize();
+        onResize();
 
         if(me.initialize) {
 
@@ -79,14 +89,14 @@ var BasicLayer = function(options) {
         }
     }
 
-    function onWindowResize() {
+    function onResize() {
 
         me.canvas.width = window.innerWidth;
         me.canvas.height = window.innerHeight;
 
-        if(me.onWindowResize) {
+        if(me.onResize) {
 
-            me.onWindowResize();
+            me.onResize();
         }
 
         me.stage.update();

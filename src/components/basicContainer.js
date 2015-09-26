@@ -1,6 +1,18 @@
 
 "use strict";
 
+/**
+ * @class
+ * @param      {<type>}  options  { description }
+ *
+ * - stageWidth     getter
+ * - stageHeight    getter
+ *
+ * - initialize
+ * - addedToStage
+ * - onResize
+ * - onTick
+ */
 var BasicContainer = function(options) {
 
     var me = this;
@@ -34,16 +46,16 @@ var BasicContainer = function(options) {
             me.addedToStage();
         }
 
-        if(me.resize) {
+        if(me.onResize) {
 
-            window.addEventListener("resize", me.resize);
+            window.addEventListener("resize", me.onResize);
 
-            me.resize();
+            me.onResize();
         }
 
-        if(me.tick) {
+        if(me.onTick) {
 
-            me.on("tick", me.tick);
+            me.on("tick", me.onTick);
         }
     }
 

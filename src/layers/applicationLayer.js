@@ -5,13 +5,16 @@ var BasicLayer = require("./basicLayer.js");
 var amplify = require("amplify").amplify;
 var Face = require("../components/face/face.js");
 var Phone = require("../components/phone.js");
-var TOPICS = require("../topics.js");
+var Topics = require("../topics.js");
+var Footer = require("../components/footer.js");
 
-function FaceLayer(options) {
+function ApplicationLayer(options) {
 
     var me = this;
     var face;
     var phone;
+
+    var _footer;
 
     var resources = {
         phone: null
@@ -53,6 +56,9 @@ function FaceLayer(options) {
 
         me.stage.addChild(phone);
 
+        _footer = new Footer();
+        me.stage.addChild(_footer);
+
         update();
 
         addLayerClickHandler();
@@ -60,31 +66,31 @@ function FaceLayer(options) {
 
     function initTopics() {
 
-        amplify.subscribe(TOPICS.NEXT_BACKGROUND, function() {
+        amplify.subscribe(Topics.NEXT_BACKGROUND, function() {
 
             face.stacks.background.next();
             update();
         });
 
-        amplify.subscribe(TOPICS.NEXT_NOSE, function() {
+        amplify.subscribe(Topics.NEXT_NOSE, function() {
 
             face.stacks.nose.next();
             update();
         });
 
-        amplify.subscribe(TOPICS.NEXT_LEFT_EYE, function() {
+        amplify.subscribe(Topics.NEXT_LEFT_EYE, function() {
 
             face.stacks.lefteye.next();
             update();
         });
 
-        amplify.subscribe(TOPICS.NEXT_RIGHT_EYE, function() {
+        amplify.subscribe(Topics.NEXT_RIGHT_EYE, function() {
 
             face.stacks.righteye.next();
             update();
         });
 
-        amplify.subscribe(TOPICS.NEXT_MOUTH, function() {
+        amplify.subscribe(Topics.NEXT_MOUTH, function() {
 
             face.stacks.mouth.next();
             update();
@@ -114,6 +120,6 @@ function FaceLayer(options) {
     me.BasicLayer_constructor(options);
 }
 
-createjs.extend(FaceLayer, BasicLayer);
+createjs.extend(ApplicationLayer, BasicLayer);
 
-module.exports = createjs.promote(FaceLayer, "BasicLayer");
+module.exports = createjs.promote(ApplicationLayer, "BasicLayer");

@@ -8,22 +8,17 @@ require("tweenjs");
 
 var PreloadService = require("./services/preloadService.js");
 var PreloadLayer = require("./layers/preloadLayer.js");
-var FaceLayer = require("./layers/faceLayer.js");
+var ApplicationLayer = require("./layers/ApplicationLayer.js");
 var DebugControlsLayer = require("./layers/debugControlsLayer.js");
-var PageMarginLayer = require("./layers/pageMarginLayer.js");
 
 createjs.Ticker.setFPS(30);
 
-new FaceLayer({
-    target: "face"
+new ApplicationLayer({
+    target: "application"
 });
 
 new PreloadLayer({
     target: "loader"
-});
-
-new PageMarginLayer({
-    target: "margins"
 });
 
 new DebugControlsLayer({
