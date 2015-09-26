@@ -30,6 +30,12 @@ function FaceLayer(options) {
         window.addEventListener("resize", resize, false);
 
         initTopics();
+
+        createjs.Ticker.on("tick", tick);
+    }
+
+    function tick(event) {
+        stage.update(event);
     }
 
     function resize() {
