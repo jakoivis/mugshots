@@ -1,6 +1,22 @@
 
 "use strict";
 
+var amplify = require("amplify").amplify;
+var Topics = require("../topics.js");
+
+/**
+ * @class
+ * @param {object}      options
+ * @param {object}      options.target      HTMLElement canvas which is used for this layer
+ *
+ * functions that can be implemented in sub class
+ * - initialize         Executed once when layer is initialized
+ * - onTick             Executed every time for tick event
+ * - onPreloadComplete  Executed once when preload has finished
+ * - onFileLoadComplete Executed every time when a file has been loaded
+ * - onApplicationStart Executed once when application is ready to start
+ * - onWindowResize     Ececuted every time when window size changes
+ */
 var BasicLayer = function(options) {
 
     var me = this;
@@ -16,29 +32,61 @@ var BasicLayer = function(options) {
 
         me.stage = new createjs.Stage(canvas);
 
-        window.addEventListener("resize", resize);
+        window.addEventListener("resize", onWindowResize);
 
-        resize();
-
-        if(me.tick) {
-
-            createjs.Ticker.on("tick", me.tick);
-        }
+        onWindowResize();
 
         if(me.initialize) {
 
             me.initialize();
         }
+
+        if(me.onTick) {
+
+            createjs.Ticker.on("tick", me.onTick);
+        }
+
+        amplify.subscribe(Topics.PRELOAD_COMPLETE, onPreloadComplete);
+
+        if(me.onFileLoadComplete) {
+
+            amplify.subscribe(Topics.PRELOAD_ITEM_COMPLETE, me.onFileLoadComplete);
+        }
+
+        if(me.onApplicationStart) {
+
+            amplify.subscribe(Topics.PRELOAD_BACKGROUND, me.onApplicationStart);
+        }
     }
 
-    function resize() {
+    function onPreloadComplete() {
+
+        amplify.unsubscribe(Topics.PRELOAD_COMPLETE, onPreloadComplete);
+
+        if(me.onFileLoadComplete) {
+
+            amplify.unsubscribe(Topics.PRELOAD_ITEM_COMPLETE, me.onFileLoadComplete);
+        }
+
+        if(me.onApplicationStart) {
+
+            amplify.unsubscribe(Topics.PRELOAD_BACKGROUND, me.onApplicationStart);
+        }
+
+        if(me.onPreloadComplete) {
+
+            me.onPreloadComplete();
+        }
+    }
+
+    function onWindowResize() {
 
         me.canvas.width = window.innerWidth;
         me.canvas.height = window.innerHeight;
 
-        if(me.resize) {
+        if(me.onWindowResize) {
 
-            me.resize();
+            me.onWindowResize();
         }
 
         me.stage.update();

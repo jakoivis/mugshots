@@ -22,18 +22,43 @@ function FaceLayer(options) {
         face = new Face();
 
         initTopics();
+    };
 
-    }
-
-    me.tick = function(event) {
+    me.onTick = function(event) {
 
         me.stage.update(event);
     };
 
-    function initTopics() {
+    me.onFileLoadComplete = function(item) {
 
-        amplify.subscribe(TOPICS.PRELOAD_ITEM_COMPLETE, onFileComplete);
-        amplify.subscribe(TOPICS.PRELOAD_BACKGROUND, switchToBackgroundMode);
+        if(!item.isFailed()) {
+
+            if(item.name === "phone") {
+
+                resources.phone = item;
+
+            } else {
+
+                face.createFacePart(item);
+            }
+        }
+    };
+
+    me.onApplicationStart = function() {
+
+        phone = new Phone({
+            face:face,
+            loaderItemPhone: resources.phone
+        });
+
+        me.stage.addChild(phone);
+
+        update();
+
+        addLayerClickHandler();
+    };
+
+    function initTopics() {
 
         amplify.subscribe(TOPICS.NEXT_BACKGROUND, function() {
 
@@ -66,35 +91,6 @@ function FaceLayer(options) {
         });
     }
 
-    function onFileComplete(item) {
-
-        if(!item.isFailed()) {
-
-            if(item.name === "phone") {
-
-                resources.phone = item;
-
-            } else {
-
-                face.createFacePart(item);
-            }
-        }
-    }
-
-    function switchToBackgroundMode() {
-
-        phone = new Phone({
-            face:face,
-            loaderItemPhone: resources.phone
-        });
-
-        me.stage.addChild(phone);
-
-        update();
-
-        addLayerClickHandler();
-    }
-
     function randomize() {
 
         face.setRandomFaceParts();
@@ -114,7 +110,6 @@ function FaceLayer(options) {
         me.canvas.style.cursor = "pointer";
         me.canvas.addEventListener("click", randomize);
     }
-
 
     me.BasicLayer_constructor(options);
 }
