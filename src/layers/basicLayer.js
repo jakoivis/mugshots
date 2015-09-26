@@ -21,6 +21,8 @@ var BasicLayer = function(options) {
 
     var me = this;
 
+    var _ticker;
+
     Object.defineProperty(this, "canvas", {
 
         get: function() { return me.stage.canvas; }
@@ -42,18 +44,20 @@ var BasicLayer = function(options) {
 
         me.stage = new createjs.Stage(canvas);
 
-        window.addEventListener("resize", onResize);
-
-        onResize();
+        updateCanvasSize();
 
         if(me.initialize) {
 
             me.initialize();
         }
 
+        window.addEventListener("resize", onResize);
+
+        onResize();
+
         if(me.onTick) {
 
-            createjs.Ticker.on("tick", me.onTick);
+            _ticker = createjs.Ticker.on("tick", me.onTick);
         }
 
         amplify.subscribe(Topics.PRELOAD_COMPLETE, onPreloadComplete);
@@ -91,8 +95,7 @@ var BasicLayer = function(options) {
 
     function onResize() {
 
-        me.canvas.width = window.innerWidth;
-        me.canvas.height = window.innerHeight;
+        updateCanvasSize();
 
         if(me.onResize) {
 
@@ -101,6 +104,32 @@ var BasicLayer = function(options) {
 
         me.stage.update();
     }
+
+    function updateCanvasSize() {
+
+        me.canvas.width = window.innerWidth;
+        me.canvas.height = window.innerHeight;
+    }
+
+    me.killTickerHandler = function() {
+
+        createjs.Ticker.off("tick", _ticker);
+    };
+
+    me.killResizeHandler = function() {
+
+        window.removeEventListener("resize", onResize);
+    };
+
+    me.killAll = function() {
+
+        me.killTickerHandler();
+        me.killResizeHandler();
+
+        me.stage.removeAllEventListeners();
+        me.stage.clear();
+        me.canvas.parentNode.removeChild(me.canvas);
+    };
 
     init();
 };
