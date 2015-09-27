@@ -33,6 +33,9 @@ var Screen = function(screenBounds) {
         me.x = screenBounds.left;
         me.y = screenBounds.top;
 
+        _face.x = screenBounds.right / 2;
+        _face.y = screenBounds.bottom / 2 - 75;
+
         me.addChild(_face);
         me.addChild(screenShadows);
 

@@ -15,6 +15,11 @@ var Phone = function() {
     var _phoneBitmap;
     var _scaleContainer;
 
+    var _scaleMin;
+    var _scaleMax;
+    var _baseScale = 1;
+    var _minYSpaceAvailable = 50; // minimum amout of vertical space for the phone
+
     me.initialize = function() {
 
         _screen = new Screen();
@@ -40,6 +45,18 @@ var Phone = function() {
 
         me.x = me.stageWidth / 2;
         me.y = me.stageHeight / 2;
+
+        var ySpaceAvailable = me.stageHeight - _phoneBitmap.height;
+
+        if(ySpaceAvailable < _minYSpaceAvailable) {
+
+            ySpaceAvailable = _minYSpaceAvailable;
+        }
+
+        var scaledPhoneHeight = me.stageHeight - ySpaceAvailable;
+        var phoneScale = scaledPhoneHeight / _phoneBitmap.height;
+
+        _scaleMax = phoneScale;
     };
 
     me.onTick = function(event) {
@@ -52,11 +69,9 @@ var Phone = function() {
         var centerY = height / 2;
         var distanceX = centerX - mouseX;
         var distanceY = centerY - mouseY;
-        var scale = 1 + distanceY * 0.0005;
+        var scale = _scaleMax - distanceY * 0.0005;
 
         setScale(scale);
-
-        _screen.updateCache();
     };
 
     function createScaleContainer(phoneBitmap) {
@@ -87,14 +102,14 @@ var Phone = function() {
 
     function setScale(scale) {
 
+        if(scale > _scaleMax) {
+
+            scale = _scaleMax;
+        }
+
         _scaleContainer.scaleX = scale;
         _scaleContainer.scaleY = scale;
 
-        // var phoneWidth = _phoneBitmap.image.width
-        // var phoneHeight = _phoneBitmap.image.height;
-        // var phoneScaledWidth = phoneWidth * scale;
-        // var phoneScaledHeight = phoneHeight * scale;
-        // console.log(_phoneBitmap.image.height);
         var faceScale = scale-0.4 + (scale*0.5);
         _screen.face.scaleX = _screen.face.scaleY = faceScale;
     }

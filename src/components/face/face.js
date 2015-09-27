@@ -55,6 +55,12 @@ function Face() {
         me.setDefaultFaceParts();
     };
 
+    me.onApplicationStart = function() {
+
+        me.regX = me.width / 2;
+        me.regY = me.height / 2;
+    };
+
     me.update = function() {
 
         me.removeAllChildren();
