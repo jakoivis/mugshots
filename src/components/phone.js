@@ -4,6 +4,9 @@
 var BasicContainer = require("./basicContainer.js");
 var Bounds = require("../utils/bounds.js");
 var Face = require("./face/face.js");
+var amplify = require("amplify").amplify;
+var Topics = require("../topics.js");
+var ScreenShadows = require("./phone/screenShadows.js");
 
 var Phone = function(options) {
 
@@ -21,25 +24,21 @@ var Phone = function(options) {
 
     me.initialize = function() {
 
-        console.log("Phone::initialize");
         _face = createFace();
     };
 
     me.addedToStage = function() {
 
-        console.log("Phone::addedToStage");
     };
 
     me.onApplicationStart = function() {
-
-        console.log("Phone::onApplicationStart");
 
         _screenBounds = createScreenBounds(options);
         _phoneBitmap = createPhoneBitmap(options);
         _screen = createScreen(_screenBounds);
         _scaleContainer = createScaleContainer(_phoneBitmap);
 
-        var screenShadows = createScreenBorderShadows(_screenBounds);
+        var screenShadows = new ScreenShadows(_screenBounds, 6);
 
         _screen.addChild(_face);
         _screen.addChild(screenShadows);
@@ -54,6 +53,7 @@ var Phone = function(options) {
         me.update();
 
         addClickHandler();
+        initTopics();
     };
 
     me.onResize = function() {
@@ -186,78 +186,44 @@ var Phone = function(options) {
         _face.scaleX = _face.scaleY = faceScale;
     }
 
-    function createScreenBorderShadows(screenBounds) {
-
-        var shadow = new createjs.Shape();
-        var colors, ratios, gradX1, gradY1, gradX2, gradY2, x, y, w, h;
-        var shadowSize = 6;
-        var graphics = shadow.graphics;
-        var color1 = "rgba(0, 0, 0, 0.5)";
-        var color2 = "rgba(0, 0, 0, 0.3)";
-        var color3 = "rgba(0, 0, 0, 0)";
-
-        colors = [color1, color2, color3];
-        ratios = [0, 0.3, 1];
-
-        x = 0;
-        y = 0;
-        w = screenBounds.width;
-        h = shadowSize;
-        gradX1 = 0;
-        gradY1 = 0;
-        gradX2 = 0;
-        gradY2 = shadowSize;
-
-        graphics.beginLinearGradientFill(colors, ratios, gradX1, gradY1, gradX2, gradY2);
-        graphics.drawRect(x, y, w, h);
-
-        x = 0;
-        y = 0;
-        w = shadowSize;
-        h = screenBounds.height;
-        gradX1 = 0;
-        gradY1 = 0;
-        gradX2 = shadowSize;
-        gradY2 = 0;
-
-        graphics.beginLinearGradientFill(colors, ratios, gradX1, gradY1, gradX2, gradY2);
-        graphics.drawRect(x, y, w, h);
-
-        colors = [color3, color2, color1];
-        ratios = [0, 0.7, 1];
-
-        x = screenBounds.width - shadowSize;
-        y = 0;
-        w = shadowSize;
-        h = screenBounds.height;
-        gradX1 = x;
-        gradY1 = 0;
-        gradX2 = screenBounds.width;
-        gradY2 = 0;
-
-        graphics.beginLinearGradientFill(colors, ratios, gradX1, gradY1, gradX2, gradY2);
-        graphics.drawRect(x, y, w, h);
-
-        x = 0;
-        y = screenBounds.height - shadowSize;
-        w = screenBounds.width;
-        h = shadowSize;
-        gradX1 = 0;
-        gradY1 = y;
-        gradX2 = 0;
-        gradY2 = screenBounds.height;
-
-        graphics.beginLinearGradientFill(colors, ratios, gradX1, gradY1, gradX2, gradY2);
-        graphics.drawRect(x, y, w, h);
-
-        return shadow;
-    }
-
     function addClickHandler() {
         me.on("click", function() {
             _face.setRandomFaceParts();
             _face.setRandomPositions();
 
+            me.update();
+        });
+    }
+
+    function initTopics() {
+
+        amplify.subscribe(Topics.NEXT_BACKGROUND, function() {
+
+            _face.stacks.background.next();
+            me.update();
+        });
+
+        amplify.subscribe(Topics.NEXT_NOSE, function() {
+
+            _face.stacks.nose.next();
+            me.update();
+        });
+
+        amplify.subscribe(Topics.NEXT_LEFT_EYE, function() {
+
+            _face.stacks.lefteye.next();
+            me.update();
+        });
+
+        amplify.subscribe(Topics.NEXT_RIGHT_EYE, function() {
+
+            _face.stacks.righteye.next();
+            me.update();
+        });
+
+        amplify.subscribe(Topics.NEXT_MOUTH, function() {
+
+            _face.stacks.mouth.next();
             me.update();
         });
     }
