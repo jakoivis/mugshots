@@ -17,7 +17,7 @@ var Phone = function() {
 
     // minimum scale of the phone.
     // the phone won't be scaled smaller than this
-    var _phoneScaleMin = 0.3;
+    var _phoneScaleMin = 0.5;
 
     // maximum scale of the phone.
     // the phone won't be scaled bigger than this
@@ -64,14 +64,8 @@ var Phone = function() {
 
     me.onTick = function() {
 
-        var mouseY = me.stage.mouseY;
-        var height = _phoneBitmap.height;
-        var distanceY = height - mouseY;
-        var phoneScale = _phoneBaseScale - distanceY * 0.0002;
-        var faceScale = _faceBaseScale - distanceY * 0.00045;
-
-        setPhoneScale(phoneScale);
-        setFaceScale(faceScale);
+        setScale();
+        setRotation();
     };
 
     function createScaleContainer(phoneBitmap) {
@@ -88,16 +82,32 @@ var Phone = function() {
         _screen.update();
     };
 
-    function setPhoneScale(scale) {
+    function setScale() {
 
-        _scaleContainer.scaleX = scale;
-        _scaleContainer.scaleY = scale;
+        var mouseY = me.stage.mouseY;
+        var height = _phoneBitmap.height;
+        var distanceY = height - mouseY;
+        var phoneScale = _phoneBaseScale - distanceY * 0.0002;
+        var faceScale = _faceBaseScale - distanceY * 0.00045;
+
+        _scaleContainer.scaleX = phoneScale;
+        _scaleContainer.scaleY = phoneScale;
+
+        _screen.face.scaleX = faceScale;
+        _screen.face.scaleY = faceScale;
     }
 
-    function setFaceScale(scale) {
+    function setRotation() {
 
-        _screen.face.scaleX = scale;
-        _screen.face.scaleY = scale;
+        var mouseX = me.stage.mouseX;
+        var width = me.stageWidth;
+        var originX = width / 2;
+        var distanceX = originX - mouseX;
+        var rotation = distanceX * 0.01;
+
+        _scaleContainer.rotation = rotation;
+
+        _screen.face.rotation = rotation *-1;
     }
 
     function calculatePhoneBaseScale() {
@@ -122,10 +132,6 @@ var Phone = function() {
         }
 
         return scale;
-    }
-
-    function calculateFaceBaseScale() {
-
     }
 
     function addClickHandler() {
