@@ -15,9 +15,7 @@ var Phone = function() {
     var _phoneBitmap;
     var _scaleContainer;
 
-    var _scaleMin;
     var _scaleMax;
-    var _baseScale = 1;
     var _minYSpaceAvailable = 50; // minimum amout of vertical space for the phone
 
     me.initialize = function() {
@@ -61,15 +59,10 @@ var Phone = function() {
 
     me.onTick = function(event) {
 
-        var mouseX = me.stage.mouseX;
         var mouseY = me.stage.mouseY;
-        var width = me.stageWidth;
-        var height = me.stageHeight;
-        var centerX = width / 2;
-        var centerY = height / 2;
-        var distanceX = centerX - mouseX;
-        var distanceY = centerY - mouseY;
-        var scale = _scaleMax - distanceY * 0.0005;
+        var height = _phoneBitmap.height;
+        var distanceY = height - mouseY;
+        var scale = _scaleMax - distanceY * 0.0002;
 
         setScale(scale);
     };
@@ -110,7 +103,8 @@ var Phone = function() {
         _scaleContainer.scaleX = scale;
         _scaleContainer.scaleY = scale;
 
-        var faceScale = scale-0.4 + (scale*0.5);
+        // var faceScale = scale-0.4 + (scale*0.5);
+        var faceScale = scale + (scale*0.1);
         _screen.face.scaleX = _screen.face.scaleY = faceScale;
     }
 
