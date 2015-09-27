@@ -15,8 +15,23 @@ var Phone = function() {
     var _phoneBitmap;
     var _scaleContainer;
 
-    var _scaleMax;
-    var _minYSpaceAvailable = 50; // minimum amout of vertical space for the phone
+    // minimum scale of the phone.
+    // the phone won't be scaled smaller than this
+    var _phoneScaleMin = 0.3;
+
+    // maximum scale of the phone.
+    // the phone won't be scaled bigger than this
+    var _phoneScaleMax = 1;
+
+    // minimum amout of free vertical space for the
+    // phone. scale is calculated based on this value
+    var _phoneMinYSpaceAvailable = 50;
+
+    // calculated phone scale. the resulting
+    // scale will depend on the mouseY position
+    var _phoneBaseScale;
+
+    var _faceBaseScale = 1;
 
     me.initialize = function() {
 
@@ -44,27 +59,19 @@ var Phone = function() {
         me.x = me.stageWidth / 2;
         me.y = me.stageHeight / 2;
 
-        var ySpaceAvailable = me.stageHeight - _phoneBitmap.height;
-
-        if(ySpaceAvailable < _minYSpaceAvailable) {
-
-            ySpaceAvailable = _minYSpaceAvailable;
-        }
-
-        var scaledPhoneHeight = me.stageHeight - ySpaceAvailable;
-        var phoneScale = scaledPhoneHeight / _phoneBitmap.height;
-
-        _scaleMax = phoneScale;
+        _phoneBaseScale = calculatePhoneBaseScale();
     };
 
-    me.onTick = function(event) {
+    me.onTick = function() {
 
         var mouseY = me.stage.mouseY;
         var height = _phoneBitmap.height;
         var distanceY = height - mouseY;
-        var scale = _scaleMax - distanceY * 0.0002;
+        var phoneScale = _phoneBaseScale - distanceY * 0.0002;
+        var faceScale = _faceBaseScale - distanceY * 0.00045;
 
-        setScale(scale);
+        setPhoneScale(phoneScale);
+        setFaceScale(faceScale);
     };
 
     function createScaleContainer(phoneBitmap) {
@@ -81,31 +88,44 @@ var Phone = function() {
         _screen.update();
     };
 
-    function setX(x) {
-
-        me.x = x;
-        _screen.face.x = _screen.face.x -x;
-    }
-
-    function setY(y) {
-
-        me.y = y;
-        _screen.face.y = _screen.face.y -y;
-    }
-
-    function setScale(scale) {
-
-        if(scale > _scaleMax) {
-
-            scale = _scaleMax;
-        }
+    function setPhoneScale(scale) {
 
         _scaleContainer.scaleX = scale;
         _scaleContainer.scaleY = scale;
+    }
 
-        // var faceScale = scale-0.4 + (scale*0.5);
-        var faceScale = scale + (scale*0.1);
-        _screen.face.scaleX = _screen.face.scaleY = faceScale;
+    function setFaceScale(scale) {
+
+        _screen.face.scaleX = scale;
+        _screen.face.scaleY = scale;
+    }
+
+    function calculatePhoneBaseScale() {
+
+        var ySpaceAvailable = me.stageHeight - _phoneBitmap.height;
+
+        if(ySpaceAvailable < _phoneMinYSpaceAvailable) {
+
+            ySpaceAvailable = _phoneMinYSpaceAvailable;
+        }
+
+        var scaledPhoneHeight = me.stageHeight - ySpaceAvailable;
+        var scale = scaledPhoneHeight / _phoneBitmap.height;
+
+        if(scale < _phoneScaleMin) {
+
+            scale = _phoneScaleMin;
+
+        } else if(scale > _phoneScaleMax) {
+
+            scale = _phoneScaleMax;
+        }
+
+        return scale;
+    }
+
+    function calculateFaceBaseScale() {
+
     }
 
     function addClickHandler() {

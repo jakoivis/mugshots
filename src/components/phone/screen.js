@@ -11,9 +11,21 @@ var Screen = function(screenBounds) {
 
     var _face;
 
+    var _screenBounds;
+
     var _resources = {
         phone: null
     };
+
+    Object.defineProperty(this, "width", {
+
+        get: function() { return _screenBounds.width; }
+    });
+
+    Object.defineProperty(this, "height", {
+
+        get: function() { return _screenBounds.height; }
+    });
 
     Object.defineProperty(this, "face", {
 
@@ -27,19 +39,20 @@ var Screen = function(screenBounds) {
 
     me.onApplicationStart = function() {
 
-        var screenBounds = createScreenBounds();
-        var screenShadows = new ScreenShadows(screenBounds, 6);
+        _screenBounds = createScreenBounds();
 
-        me.x = screenBounds.left;
-        me.y = screenBounds.top;
+        var screenShadows = new ScreenShadows(_screenBounds, 6);
 
-        _face.x = screenBounds.right / 2;
-        _face.y = screenBounds.bottom / 2 - 75;
+        me.x = _screenBounds.left;
+        me.y = _screenBounds.top;
+
+        _face.x = _screenBounds.right / 2;
+        _face.y = _screenBounds.bottom / 2 - 75;
 
         me.addChild(_face);
         me.addChild(screenShadows);
 
-        maskScreen(_face, screenBounds);
+        maskScreen(_face, _screenBounds);
     };
 
     me.onFileLoadComplete = function(imageLoaderItem) {
