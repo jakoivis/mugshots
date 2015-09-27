@@ -2,6 +2,7 @@
 "use strict";
 
 var BasicContainer = require("components/basicContainer.js");
+var PhoneBitmap = require("components/phone/phoneBitmap.js");
 var Screen = require("components/phone/screen.js");
 var amplify = require("amplify").amplify;
 var Topics = require("topics.js");
@@ -14,22 +15,14 @@ var Phone = function() {
     var _phoneBitmap;
     var _scaleContainer;
 
-    var resources = {
-        phone: null
-    };
-
     me.initialize = function() {
 
         _screen = new Screen();
-    };
-
-    me.addedToStage = function() {
-
+        _phoneBitmap = new PhoneBitmap();
     };
 
     me.onApplicationStart = function() {
 
-        _phoneBitmap = createPhoneBitmap();
         _scaleContainer = createScaleContainer(_phoneBitmap);
 
         _scaleContainer.addChild(_phoneBitmap);
@@ -66,19 +59,6 @@ var Phone = function() {
         _screen.updateCache();
     };
 
-    me.onFileLoadComplete = function(imageLoaderItem) {
-
-        if(imageLoaderItem.name === "phone") {
-
-            resources.phone = imageLoaderItem;
-        }
-    };
-
-    me.getAcceptedResources = function() {
-
-        return {name: ["phone"]};
-    };
-
     function createScaleContainer(phoneBitmap) {
 
         var container = new createjs.Container();
@@ -88,23 +68,9 @@ var Phone = function() {
         return container;
     }
 
-    function createPhoneBitmap() {
-
-        var imageLoaderItem = resources.phone;
-        var phoneImage = imageLoaderItem.tag;
-
-        return new createjs.Bitmap(phoneImage);
-    }
-
-    me.faceUpdate = function() {
-
-    };
-
     me.update = function() {
 
-        _screen.face.update();
-
-        _screen.updateCache();
+        _screen.update();
     };
 
     function setX(x) {

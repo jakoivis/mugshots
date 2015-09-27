@@ -53,6 +53,13 @@ var Screen = function(screenBounds) {
         return {name: ["phone"]};
     };
 
+    me.update = function() {
+
+        _face.update();
+
+        me.updateCache();
+    };
+
     function createScreenBounds() {
 
         var imageLoaderItem = _resources.phone;

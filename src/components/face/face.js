@@ -89,7 +89,6 @@ function Face() {
         var facePart = new FacePart(imageLoaderItem);
 
         stacks[imageLoaderItem.groupName].push(facePart);
-        console.log("face", imageLoaderItem.groupName, stacks[imageLoaderItem.groupName].length);
     }
 
     me.setDefaultFaceParts = function() {
