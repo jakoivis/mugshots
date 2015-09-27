@@ -39,6 +39,15 @@ var Phone = function() {
         _phoneBitmap = new PhoneBitmap();
     };
 
+    me.addedToStage = function() {
+
+        me.stage.on("stagemousemove", function() {
+
+            setScale();
+            setRotation();
+        });
+    };
+
     me.onApplicationStart = function() {
 
         _scaleContainer = createScaleContainer(_phoneBitmap);
@@ -60,12 +69,8 @@ var Phone = function() {
         me.y = me.stageHeight / 2;
 
         _phoneBaseScale = calculatePhoneBaseScale();
-    };
-
-    me.onTick = function() {
 
         setScale();
-        setRotation();
     };
 
     function createScaleContainer(phoneBitmap) {
@@ -89,12 +94,16 @@ var Phone = function() {
         var distanceY = height - mouseY;
         var phoneScale = _phoneBaseScale - distanceY * 0.0002;
         var faceScale = _faceBaseScale - distanceY * 0.00045;
+        var easing = createjs.Ease.sineInOut;
+        var duration = 120;
 
-        _scaleContainer.scaleX = phoneScale;
-        _scaleContainer.scaleY = phoneScale;
+        createjs.Tween
+            .get(_scaleContainer, {override:true})
+            .to({scaleX:phoneScale, scaleY:phoneScale}, duration, easing);
 
-        _screen.face.scaleX = faceScale;
-        _screen.face.scaleY = faceScale;
+        createjs.Tween
+            .get(_screen.face, {override:true})
+            .to({scaleX:faceScale, scaleY:faceScale}, duration, easing);
     }
 
     function setRotation() {
