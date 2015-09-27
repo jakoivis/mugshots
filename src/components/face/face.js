@@ -50,6 +50,11 @@ function Face() {
         };
     };
 
+    me.initialize = function() {
+
+        me.setDefaultFaceParts();
+    };
+
     me.update = function() {
 
         me.removeAllChildren();

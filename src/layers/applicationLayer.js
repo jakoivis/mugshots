@@ -2,7 +2,7 @@
 "use strict";
 
 var BasicLayer = require("layers/basicLayer.js");
-var Phone = require("components/phone.js");
+var Phone = require("components/phone/phone.js");
 var Footer = require("components/footer.js");
 
 function ApplicationLayer(options) {
