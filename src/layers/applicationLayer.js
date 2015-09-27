@@ -16,13 +16,13 @@ function ApplicationLayer(options) {
 
     var _footer;
 
-    var resources = {
-        phone: null
-    };
-
     me.initialize = function() {
 
+        _footer = new Footer();
         face = new Face();
+        phone = new Phone({
+            face:face
+        });
 
         initTopics();
     };
@@ -32,27 +32,9 @@ function ApplicationLayer(options) {
         me.stage.update(event);
     };
 
-    me.onFileLoadComplete = function(item) {
-
-        if(!item.isFailed()) {
-
-            if(item.name === "phone") {
-
-                resources.phone = item;
-            }
-        }
-    };
-
     me.onApplicationStart = function() {
 
-        phone = new Phone({
-            face:face,
-            loaderItemPhone: resources.phone
-        });
-
         me.stage.addChild(phone);
-
-        _footer = new Footer();
         me.stage.addChild(_footer);
 
         update();

@@ -83,7 +83,7 @@ function Face() {
         var facePart = new FacePart(imageLoaderItem);
 
         stacks[imageLoaderItem.groupName].push(facePart);
-    };
+    }
 
     me.setDefaultFaceParts = function() {
 

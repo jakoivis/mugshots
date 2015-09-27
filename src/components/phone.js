@@ -7,7 +7,6 @@ var Bounds = require("../utils/bounds.js");
 /**
  * @param {object} options
  * @param {object} options.face                 Face instance
- * @param {object} options.loaderItemPhone      ImageLoaderItem of the phone image
  */
 var Phone = function(options) {
 
@@ -18,6 +17,10 @@ var Phone = function(options) {
     var _screenBounds;
     var _phoneBitmap;
     var _scaleContainer;
+
+    var resources = {
+        phone: null
+    };
 
     me.addedToStage = function() {
 
@@ -63,9 +66,22 @@ var Phone = function(options) {
         _screen.updateCache();
     };
 
+    me.onFileLoadComplete = function(imageLoaderItem) {
+        console.log("onFileLoadComplete");
+        if(imageLoaderItem.name === "phone") {
+
+            resources.phone = imageLoaderItem;
+        }
+    };
+
+    me.getAcceptedResources = function() {
+        console.log("getAcceptedResources");
+        return {name: ["phone"]};
+    };
+
     function createScreenBounds(opts) {
 
-        var imageLoaderItem = opts.loaderItemPhone;
+        var imageLoaderItem = resources.phone;
 
         return new Bounds({
             left: imageLoaderItem.screenLeft,
@@ -103,7 +119,7 @@ var Phone = function(options) {
 
     function createPhoneBitmap(opts) {
 
-        var imageLoaderItem = opts.loaderItemPhone;
+        var imageLoaderItem = resources.phone;
         var phoneImage = imageLoaderItem.tag;
 
         return new createjs.Bitmap(phoneImage);
