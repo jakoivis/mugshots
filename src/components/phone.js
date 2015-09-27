@@ -1,12 +1,12 @@
 
 "use strict";
 
-var BasicContainer = require("./basicContainer.js");
-var Bounds = require("../utils/bounds.js");
-var Face = require("./face/face.js");
+var BasicContainer = require("components/basicContainer.js");
+var Face = require("components/face/face.js");
+var ScreenShadows = require("components/phone/screenShadows.js");
+var Bounds = require("utils/bounds.js");
 var amplify = require("amplify").amplify;
-var Topics = require("../topics.js");
-var ScreenShadows = require("./phone/screenShadows.js");
+var Topics = require("topics.js");
 
 var Phone = function(options) {
 

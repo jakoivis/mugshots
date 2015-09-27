@@ -1,8 +1,8 @@
 
 "use strict";
 
-var BasicLayer = require("./basicLayer.js");
-var SpinnerWithShadow = require("../components/preloader/spinnerWithShadow.js");
+var BasicLayer = require("layers/basicLayer.js");
+var SpinnerWithShadow = require("components/preloader/spinnerWithShadow.js");
 
 function PreloadLayer(options) {
 

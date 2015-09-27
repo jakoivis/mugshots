@@ -2,7 +2,7 @@
 "use strict";
 
 var amplify = require("amplify").amplify;
-var Topics = require("../topics.js");
+var Topics = require("topics.js");
 
 /**
  * @class
@@ -10,7 +10,8 @@ var Topics = require("../topics.js");
  * @param {string}  options.target                  HTMLElement canvas which is used for this layer
  *
  * functions that can be implemented in sub class
- * - initialize             Executed once when layer is initialized
+ * - initialize             Executed once when layer is initialized.
+ *                          Create all components here which need to listen for pubsub channels.
  * - onTick                 Executed every time for tick event
  * - onPreloadComplete      Executed once when preload has finished
  * - onFileLoadComplete     Executed every time when a file has been loaded

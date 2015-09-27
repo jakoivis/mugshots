@@ -1,10 +1,10 @@
 
 "use strict";
 
-var BasicContainer = require("../basicContainer.js");
-var FacePartStack = require("./facePartStack.js");
-var FacePart = require("./facePart.js");
-var FacePartPositioningUtil = require("./facePartPositioningUtil.js");
+var BasicContainer = require("components/basicContainer.js");
+var FacePartStack = require("components/face/facePartStack.js");
+var FacePart = require("components/face/facePart.js");
+var FacePartPositioningUtil = require("components/face/facePartPositioningUtil.js");
 
 function Face() {
 
