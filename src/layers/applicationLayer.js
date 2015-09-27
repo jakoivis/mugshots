@@ -18,13 +18,11 @@ function ApplicationLayer(options) {
 
     me.initialize = function() {
 
+        console.log("ApplicationLayer::initialize");
         _footer = new Footer();
-        face = new Face();
-        phone = new Phone({
-            face:face
-        });
+        phone = new Phone();
 
-        initTopics();
+        // initTopics();
     };
 
     me.onTick = function(event) {
@@ -34,66 +32,43 @@ function ApplicationLayer(options) {
 
     me.onApplicationStart = function() {
 
+        console.log("ApplicationLayer::onApplicationStart");
         me.stage.addChild(phone);
         me.stage.addChild(_footer);
-
-        update();
-
-        addLayerClickHandler();
     };
 
-    function initTopics() {
+    // function initTopics() {
 
-        amplify.subscribe(Topics.NEXT_BACKGROUND, function() {
+    //     amplify.subscribe(Topics.NEXT_BACKGROUND, function() {
 
-            face.stacks.background.next();
-            update();
-        });
+    //         face.stacks.background.next();
+    //         update();
+    //     });
 
-        amplify.subscribe(Topics.NEXT_NOSE, function() {
+    //     amplify.subscribe(Topics.NEXT_NOSE, function() {
 
-            face.stacks.nose.next();
-            update();
-        });
+    //         face.stacks.nose.next();
+    //         update();
+    //     });
 
-        amplify.subscribe(Topics.NEXT_LEFT_EYE, function() {
+    //     amplify.subscribe(Topics.NEXT_LEFT_EYE, function() {
 
-            face.stacks.lefteye.next();
-            update();
-        });
+    //         face.stacks.lefteye.next();
+    //         update();
+    //     });
 
-        amplify.subscribe(Topics.NEXT_RIGHT_EYE, function() {
+    //     amplify.subscribe(Topics.NEXT_RIGHT_EYE, function() {
 
-            face.stacks.righteye.next();
-            update();
-        });
+    //         face.stacks.righteye.next();
+    //         update();
+    //     });
 
-        amplify.subscribe(Topics.NEXT_MOUTH, function() {
+    //     amplify.subscribe(Topics.NEXT_MOUTH, function() {
 
-            face.stacks.mouth.next();
-            update();
-        });
-    }
-
-    function randomize() {
-
-        face.setRandomFaceParts();
-        face.setRandomPositions();
-
-        update();
-    }
-
-    function update() {
-
-        phone.update();
-        me.stage.update();
-    }
-
-    function addLayerClickHandler() {
-
-        me.canvas.style.cursor = "pointer";
-        me.canvas.addEventListener("click", randomize);
-    }
+    //         face.stacks.mouth.next();
+    //         update();
+    //     });
+    // }
 
     me.BasicLayer_constructor(options);
 }

@@ -29,7 +29,8 @@ function Face() {
 
     Object.defineProperty(this, "width", {
 
-        get: function() { return stacks.background.current().bitmap.image.width; }
+        get: function() {
+            return stacks.background.current().bitmap.image.width; }
     });
 
     Object.defineProperty(this, "height", {
@@ -83,6 +84,7 @@ function Face() {
         var facePart = new FacePart(imageLoaderItem);
 
         stacks[imageLoaderItem.groupName].push(facePart);
+        console.log("face", imageLoaderItem.groupName, stacks[imageLoaderItem.groupName].length);
     }
 
     me.setDefaultFaceParts = function() {

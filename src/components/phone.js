@@ -3,11 +3,8 @@
 
 var BasicContainer = require("./basicContainer.js");
 var Bounds = require("../utils/bounds.js");
+var Face = require("./face/face.js");
 
-/**
- * @param {object} options
- * @param {object} options.face                 Face instance
- */
 var Phone = function(options) {
 
     var me = this;
@@ -22,12 +19,24 @@ var Phone = function(options) {
         phone: null
     };
 
+    me.initialize = function() {
+
+        console.log("Phone::initialize");
+        _face = createFace();
+    };
+
     me.addedToStage = function() {
+
+        console.log("Phone::addedToStage");
+    };
+
+    me.onApplicationStart = function() {
+
+        console.log("Phone::onApplicationStart");
 
         _screenBounds = createScreenBounds(options);
         _phoneBitmap = createPhoneBitmap(options);
         _screen = createScreen(_screenBounds);
-        _face = initFace(options);
         _scaleContainer = createScaleContainer(_phoneBitmap);
 
         var screenShadows = createScreenBorderShadows(_screenBounds);
@@ -41,6 +50,10 @@ var Phone = function(options) {
         _scaleContainer.addChild(_screen);
 
         me.addChild(_scaleContainer);
+
+        me.update();
+
+        addClickHandler();
     };
 
     me.onResize = function() {
@@ -67,7 +80,7 @@ var Phone = function(options) {
     };
 
     me.onFileLoadComplete = function(imageLoaderItem) {
-        console.log("onFileLoadComplete");
+
         if(imageLoaderItem.name === "phone") {
 
             resources.phone = imageLoaderItem;
@@ -75,7 +88,7 @@ var Phone = function(options) {
     };
 
     me.getAcceptedResources = function() {
-        console.log("getAcceptedResources");
+
         return {name: ["phone"]};
     };
 
@@ -109,9 +122,9 @@ var Phone = function(options) {
         return phoneScreen;
     }
 
-    function initFace(opts) {
+    function createFace() {
 
-        var face = opts.face;
+        var face = new Face();
         face.setDefaultFaceParts();
 
         return face;
@@ -171,10 +184,6 @@ var Phone = function(options) {
         // console.log(_phoneBitmap.image.height);
         var faceScale = scale-0.4 + (scale*0.5);
         _face.scaleX = _face.scaleY = faceScale;
-    }
-
-    function createGlow() {
-        // TODO:
     }
 
     function createScreenBorderShadows(screenBounds) {
@@ -242,6 +251,15 @@ var Phone = function(options) {
         graphics.drawRect(x, y, w, h);
 
         return shadow;
+    }
+
+    function addClickHandler() {
+        me.on("click", function() {
+            _face.setRandomFaceParts();
+            _face.setRandomPositions();
+
+            me.update();
+        });
     }
 
     me.BasicContainer_constructor();

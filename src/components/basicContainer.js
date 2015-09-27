@@ -17,7 +17,7 @@ var Topics = require("../topics.js");
  * - onTick
  * - onPreloadComplete
  * - onFileLoadComplete
- * - getAcceptedResources
+ * - getAcceptedResources   Implement this function to filter out resources that aren't used by this compnent
  * - onApplicationStart
  */
 var BasicContainer = function(options) {
@@ -56,14 +56,28 @@ var BasicContainer = function(options) {
         }
     }
 
-    function addedToStage() {
+    function addedToStage(event) {
 
-        me.removeEventListener("added", addedToStage);
+        if(!me.addedToStage) {
 
-        if(me.addedToStage) {
+            me.removeEventListener("added", addedToStage);
+
+            attachOnResize();
+            attachOnTick();
+        }
+
+        if(me.addedToStage && event.target.stage) {
+
+            me.removeEventListener("added", addedToStage);
 
             me.addedToStage();
+
+            attachOnResize();
+            attachOnTick();
         }
+    }
+
+    function attachOnResize() {
 
         if(me.onResize) {
 
@@ -71,6 +85,9 @@ var BasicContainer = function(options) {
 
             me.onResize();
         }
+    }
+
+    function attachOnTick() {
 
         if(me.onTick) {
 
