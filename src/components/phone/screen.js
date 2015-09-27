@@ -53,11 +53,17 @@ var Screen = function(screenBounds) {
         return {name: ["phone"]};
     };
 
+    me.onTick = function() {
+
+        // this will update the masked area on the screen.
+        // this is needed when phone is scaled,
+        // as the face will scale at different rate than phone
+        me.updateCache();
+    };
+
     me.update = function() {
 
         _face.update();
-
-        me.updateCache();
     };
 
     function createScreenBounds() {
