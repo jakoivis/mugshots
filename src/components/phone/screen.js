@@ -2,6 +2,7 @@
 
 var BasicContainer = require("components/basicContainer.js");
 var ScreenShadows = require("components/phone/screenShadows.js");
+var ScreenFlash = require("components/phone/screenFlash.js");
 var Face = require("components/face/face.js");
 var Bounds = require("utils/bounds.js");
 
@@ -10,12 +11,18 @@ var Screen = function(screenBounds) {
     var me = this;
 
     var _face;
-
+    var _screenFlash;
     var _screenBounds;
 
     var _resources = {
         phone: null
     };
+
+    Object.defineProperty(this, "screenFlash", {
+
+        get: function() { return _screenFlash; }
+    });
+
 
     Object.defineProperty(this, "width", {
 
@@ -41,6 +48,8 @@ var Screen = function(screenBounds) {
 
         _screenBounds = createScreenBounds();
 
+        _screenFlash = new ScreenFlash(_screenBounds.width, _screenBounds.height);
+
         var screenShadows = new ScreenShadows(_screenBounds, 6);
 
         me.x = _screenBounds.left;
@@ -50,6 +59,7 @@ var Screen = function(screenBounds) {
         _face.y = _screenBounds.bottom / 2 - 75;
 
         me.addChild(_face);
+        me.addChild(_screenFlash);
         me.addChild(screenShadows);
 
         maskScreen(_face, _screenBounds);

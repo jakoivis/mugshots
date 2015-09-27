@@ -147,7 +147,7 @@ var Phone = function() {
         me.on("click", function() {
             _screen.face.setRandomFaceParts();
             _screen.face.setRandomPositions();
-
+            _screen.screenFlash.flash();
             me.update();
         });
     }
