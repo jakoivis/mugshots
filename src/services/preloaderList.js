@@ -15,6 +15,8 @@ var list = [
 
     {src:"assets/images/various/NokiaLumia1520_05_Web.png", groupName:"various", name:"phone", required:true,
         screenTop:80, screenBottom:814, screenLeft:30, screenRight:442},
+    {src:"assets/images/various/NokiaLumia1520_05_Web_reflectionMask.png", groupName:"various",
+        name:"reflectionMask", required:true},
 
     {src:"assets/images/background/_MG_0248.jpg", groupName:"background", boundsBottom:641},
     {src:"assets/images/background/_MG_0254.jpg", groupName:"background", boundsBottom:679},
