@@ -3,6 +3,7 @@
 var BasicContainer = require("components/basicContainer.js");
 var ScreenShadows = require("components/phone/screenShadows.js");
 var ScreenFlash = require("components/phone/screenFlash.js");
+var ScreenBackground = require("components/phone/screenBackground.js");
 var Face = require("components/face/face.js");
 var Bounds = require("utils/bounds.js");
 
@@ -51,6 +52,7 @@ var Screen = function(screenBounds) {
         _screenFlash = new ScreenFlash(_screenBounds.width, _screenBounds.height);
 
         var screenShadows = new ScreenShadows(_screenBounds, 6);
+        var screenBackground = new ScreenBackground(_screenBounds.width, _screenBounds.height);
 
         me.x = _screenBounds.left;
         me.y = _screenBounds.top;
@@ -58,6 +60,7 @@ var Screen = function(screenBounds) {
         _face.x = _screenBounds.right / 2;
         _face.y = _screenBounds.bottom / 2 - 75;
 
+        me.addChild(screenBackground);
         me.addChild(_face);
         me.addChild(_screenFlash);
         me.addChild(screenShadows);
