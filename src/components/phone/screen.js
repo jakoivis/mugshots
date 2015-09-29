@@ -24,7 +24,6 @@ var Screen = function(screenBounds) {
         get: function() { return _screenFlash; }
     });
 
-
     Object.defineProperty(this, "width", {
 
         get: function() { return _screenBounds.width; }
