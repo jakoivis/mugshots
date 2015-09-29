@@ -97,6 +97,7 @@ var Phone = function() {
         var distanceY = height - mouseY;
         var phoneScale = _phoneBaseScale - distanceY * 0.0002;
         var faceScale = _faceBaseScale - distanceY * 0.00045;
+        var glowY = distanceY * 0.2;
         var easing = createjs.Ease.sineInOut;
         var duration = 120;
 
@@ -107,6 +108,10 @@ var Phone = function() {
         createjs.Tween
             .get(_screen.face, {override:true})
             .to({scaleX:faceScale, scaleY:faceScale}, duration, easing);
+
+        createjs.Tween
+            .get(_reflection.glow, {override:true})
+            .to({y: glowY}, duration, easing);
     }
 
     function setRotation() {
@@ -116,10 +121,12 @@ var Phone = function() {
         var originX = width / 2;
         var distanceX = originX - mouseX;
         var rotation = distanceX * 0.01;
+        var inversedRotation = rotation *-1;
 
         _scaleContainer.rotation = rotation;
 
-        _screen.face.rotation = rotation *-1;
+        _screen.face.rotation = inversedRotation;
+        _reflection.glow.rotation = inversedRotation;
     }
 
     function calculatePhoneBaseScale() {

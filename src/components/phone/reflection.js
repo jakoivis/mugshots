@@ -8,6 +8,12 @@ var Reflection = function() {
     var me = this;
 
     var _reflectionMaskBitmap;
+    var _glow;
+
+    Object.defineProperty(this, "glow", {
+
+        get: function() { return _glow; }
+    });
 
     me.initialize = function() {
 
@@ -16,15 +22,43 @@ var Reflection = function() {
 
     me.onApplicationStart = function() {
 
-        // var shape = new createjs.Shape();
-        // shape.graphics.beginFill("#FF0000");
-        // shape.graphics.drawRect(0, 0, _reflectionMaskBitmap.width, _reflectionMaskBitmap.height);
-        // shape.cache(0, 0, _reflectionMaskBitmap.width, _reflectionMaskBitmap.height);
+        _glow = createGlow();
 
-        // me.addChild(shape);
+        me.addChild(_glow);
 
         maskReflection();
     };
+
+    me.onTick = function() {
+
+        me.updateCache();
+    };
+
+    function createGlow() {
+
+        var container = new createjs.Container();
+
+        var reflectionHeight = _reflectionMaskBitmap.height /4;
+        var shape = new createjs.Shape();
+        var colors = ["rgba(255, 255, 255, 0.5)", "rgba(255, 255, 255, 0.0)"];
+        var ratios = [0, 1];
+        shape.graphics.beginLinearGradientFill(colors, ratios, 0, 0, 0, reflectionHeight);
+        shape.graphics.drawRect(0, 0, _reflectionMaskBitmap.width*2, reflectionHeight);
+        shape.rotation = 30;
+        shape.y = _reflectionMaskBitmap.height /-4;
+        container.addChild(shape);
+
+        shape = new createjs.Shape();
+        shape.graphics.beginLinearGradientFill(colors, ratios, 0, 0, 0, reflectionHeight);
+        shape.graphics.drawRect(0, 0, _reflectionMaskBitmap.width*2, reflectionHeight);
+        shape.rotation = 30;
+        shape.y = _reflectionMaskBitmap.height /2;
+        container.addChild(shape);
+
+        container.alpha = 0.15;
+
+        return container;
+    }
 
     function maskReflection() {
 
