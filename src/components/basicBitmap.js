@@ -13,6 +13,16 @@ var BasicBitmap = function() {
 
     var me = this;
 
+    Object.defineProperty(this, "width", {
+
+        get: function() { return me.image.width; }
+    });
+
+    Object.defineProperty(this, "height", {
+
+        get: function() { return me.image.height; }
+    });
+
     function init() {
 
         amplify.subscribe(Topics.PRELOAD_ITEM_COMPLETE, onFileLoadComplete);
@@ -21,6 +31,8 @@ var BasicBitmap = function() {
     function onFileLoadComplete(imageLoaderItem) {
 
         if(isAcceptedResource(imageLoaderItem)) {
+
+            console.log(imageLoaderItem.name, "loaded");
 
             amplify.unsubscribe(Topics.PRELOAD_ITEM_COMPLETE, onFileLoadComplete);
 
