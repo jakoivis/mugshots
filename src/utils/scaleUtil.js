@@ -5,7 +5,7 @@ var ScaleUtil = {
     fit: function (contentWidth, contentHeight, containerWidth, containerHeight) {
 
         return null;
-    }
+    },
 
     /**
      * Scale the dimensions to fill container dimensions while maintaining aspect ratio.
@@ -22,36 +22,41 @@ var ScaleUtil = {
         var containerAspect = containerWidth / containerHeight;
         var aspect = contentWidth / contentHeight;
         var result;
+        var scale, width, height;
 
         if(aspect >= containerAspect) {
 
             // content is wider than container
 
-            var width = containerHeight * aspect;
+            width = containerHeight * aspect;
+            scale = width / contentWidth;
 
             result = {
                 x: -((width>>1) - (containerWidth>>1)),
                 y: 0,
                 width: width,
-                height: containerHeight
+                height: containerHeight,
+                scale: scale
             };
 
         } else {
 
             // container is wider than content
 
-            var height = Math.round(containerWidth / aspect);
+            height = Math.round(containerWidth / aspect);
+            scale = height / contentHeight;
 
             result = {
                 x: 0,
-                y: -((h>>1) - (containerHeight>>1)),
+                y: -((height>>1) - (containerHeight>>1)),
                 width: containerWidth,
-                height: height
+                height: height,
+                scale: scale
             };
         }
 
         return result;
     }
-}
+};
 
 module.exports = ScaleUtil;
