@@ -42,7 +42,8 @@ var BasicContainer = function(options) {
             me.initialize();
         }
 
-        me.addEventListener("added", addedToStage);
+        me.addEventListener("added", added);
+        me.addEventListener("addedToStage", addedToStage);
 
         amplify.subscribe(Topics.PRELOAD_COMPLETE, onPreloadComplete);
 
@@ -57,29 +58,47 @@ var BasicContainer = function(options) {
         }
     }
 
-    function addedToStage(event) {
+    function added(event) {
 
-        // TODO: FIX this. added event is dispatched even though
-        // container is not on stage. The parent chain needs to be
-        // fully on stage before executing anything of these.
-        if(!me.addedToStage) {
+        var target = event.target;
+        var parent = target.parent;
+        var stage = target.stage;
 
-            me.removeEventListener("added", addedToStage);
+        if(stage && parent === stage) {
 
-            attachOnResize();
-            attachOnTick();
-            // attachMouseMove();
+            notifyAddedToStage(target);
+            target.dispatchEvent("addedToStage");
         }
 
-        if(me.addedToStage && event.target.stage) {
+        target.removeEventListener("added", added);
+    }
 
-            me.removeEventListener("added", addedToStage);
+    function notifyAddedToStage(target) {
+
+        var child;
+
+        if(target.children) {
+
+            for(var i = 0; i < target.children.length; i++) {
+
+                child = target.children[i];
+                child.dispatchEvent("addedToStage");
+                notifyAddedToStage(child);
+            }
+        }
+    }
+
+    function addedToStage() {
+
+        me.removeEventListener("added", addedToStage);
+
+        attachOnResize();
+        attachOnTick();
+        attachMouseMove();
+
+        if(me.addedToStage) {
 
             me.addedToStage();
-
-            attachOnResize();
-            attachOnTick();
-            attachMouseMove();
         }
     }
 
