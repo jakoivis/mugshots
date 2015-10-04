@@ -4,9 +4,9 @@ npm-debug.log
 coverage
 bower_components
 build/*
+dist/*
 *.png
 *.jpg
-assets_old/*
 
 # Windows image file caches
 Thumbs.db

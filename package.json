@@ -4,7 +4,6 @@
   "description": "mugshots",
   "main": "",
   "directories": {},
-  "scripts": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/jakoivis/mugshots.git"
@@ -16,22 +15,37 @@
   },
   "homepage": "https://github.com/jakoivis/mugshots",
   "devDependencies": {
-    "browserify": "^7.0.3",
-    "glob": "^4.3.2",
-    "gulp": "^3.8.10",
-    "gulp-clean": "^0.3.1",
-    "gulp-concat": "^2.4.3",
-    "gulp-connect": "^2.2.0",
-    "gulp-strip-debug": "^1.0.2",
-    "gulp-uglify": "^1.0.2",
-    "gulp-util": "^3.0.2",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.0.0"
+    "browserify": "^11.2.0",
+    "http-server": "^0.8.5",
+    "jasmine": "^2.3.2",
+    "live-reload": "^1.1.0",
+    "npm-build-tools": "^2.2.5",
+    "parallelshell": "^2.0.0",
+    "stylus": "^0.52.4",
+    "uglifyify": "^3.0.1",
+    "watch": "^0.16.0"
   },
   "browser": {
     "amplify": "./bower_components/amplify/lib/amplify.core.min.js",
     "ImageLoader": "./bower_components/imageLoader/build/imageLoader.js",
     "easeljs": "./bower_components/easeljs/lib/easeljs-0.8.1.combined.js",
     "tweenjs": "./bower_components/TweenJS/lib/tweenjs-0.6.1.combined.js"
+  },
+  "scripts": {
+    "clean": "n-clean dist",
+    "postclean": "mkdir dist",
+    "copy:html": "n-copy --source src --destination dist \"*.html\"",
+    "copy:assets": "n-copy --source assets --destination dist/assets \"**/*\"",
+    "build:css": "stylus styles/main.styl --out dist --compress",
+    "watch:css": "watch \"npm run build:css\" styles",
+    "build:js": "browserify -g uglifyify src/index.js --debug > dist/main.js",
+    "watch:js": "watch \"npm run build:js\" src",
+    "prebuild": "npm run test",
+    "build": "npm run clean && npm run copy:html && npm run build:js && npm run build:css && npm run copy:assets",
+    "test": "jasmine",
+    "watch:test": "watch \"npm run test\" src spec",
+    "live-reload": "live-reload --port 8081 dist",
+    "server": "http-server -p 8080 dist",
+    "watch": "parallelshell \"npm run live-reload -s\" \"npm run server -s\" \"npm run watch:css -s\" \"npm run watch:js -s\" \"npm run watch:test -s\""
   }
 }

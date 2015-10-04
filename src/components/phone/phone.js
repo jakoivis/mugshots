@@ -1,12 +1,13 @@
 
 "use strict";
 
-var BasicContainer = require("components/basicContainer.js");
-var PhoneBitmap = require("components/phone/phoneBitmap.js");
-var Screen = require("components/phone/screen.js");
-var Reflection = require("components/phone/reflection.js");
 var amplify = require("amplify").amplify;
-var Topics = require("topics.js");
+
+var BasicContainer = require("../../components/basicContainer.js");
+var PhoneBitmap = require("../../components/phone/phoneBitmap.js");
+var Screen = require("../../components/phone/screen.js");
+var Reflection = require("../../components/phone/reflection.js");
+var Topics = require("../../topics.js");
 
 var Phone = function() {
 
@@ -42,14 +43,13 @@ var Phone = function() {
         _reflection = new Reflection();
     };
 
-    me.addedToStage = function() {
+    // me.addedToStage = function() {
 
-        me.stage.on("stagemousemove", function() {
+    //     me.stage.on("stagemousemove", function() {
 
-            setScale();
-            setRotation();
-        });
-    };
+
+    //     });
+    // };
 
     me.onApplicationStart = function() {
 
@@ -90,6 +90,12 @@ var Phone = function() {
         _screen.update();
     };
 
+    me.onMouseMove = function() {
+
+        setScale();
+        setRotation();
+    };
+
     function setScale() {
 
         var mouseY = me.stage.mouseY;
@@ -121,11 +127,15 @@ var Phone = function() {
         var originX = width / 2;
         var distanceX = originX - mouseX;
         var rotation = distanceX * 0.01;
+        var offset = rotation * 10;
         var inversedRotation = rotation *-1;
+        var inversedOffset = offset *-1;
 
         _scaleContainer.rotation = rotation;
+        _scaleContainer.x = offset;
 
         _screen.face.rotation = inversedRotation;
+        // _screen.face.x = inversedOffset;
         _reflection.glow.rotation = inversedRotation;
     }
 

@@ -1,7 +1,7 @@
 
 "use strict";
 
-var Spinner = require("components/preloader/spinner.js");
+var Spinner = require("../../components/preloader/spinner.js");
 
 var SpinnerWithShadow = function(options) {
 

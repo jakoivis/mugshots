@@ -2,7 +2,8 @@
 "use strict";
 
 var amplify = require("amplify").amplify;
-var Topics = require("topics.js");
+
+var Topics = require("../topics.js");
 
 /**
  * @class

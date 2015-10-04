@@ -1,10 +1,10 @@
 
 "use strict";
 
-var BasicContainer = require("components/basicContainer.js");
-var FacePartStack = require("components/face/facePartStack.js");
-var FacePart = require("components/face/facePart.js");
-var FacePartPositioningUtil = require("components/face/facePartPositioningUtil.js");
+var BasicContainer = require("../../components/basicContainer.js");
+var FacePartStack = require("../../components/face/facePartStack.js");
+var FacePart = require("../../components/face/facePart.js");
+var FacePartPositioningUtil = require("../../components/face/facePartPositioningUtil.js");
 
 function Face() {
 
@@ -63,11 +63,30 @@ function Face() {
 
     me.onPreloadComplete = function() {
 
-        console.log("lefteye images loaded", stacks.lefteye.length);
-        console.log("righteye images loaded", stacks.righteye.length);
-        console.log("nose images loaded", stacks.nose.length);
-        console.log("mouth images loaded", stacks.mouth.length);
-        console.log("background images loaded", stacks.background.length);
+        // console.log("lefteye images loaded", stacks.lefteye.length);
+        // console.log("righteye images loaded", stacks.righteye.length);
+        // console.log("nose images loaded", stacks.nose.length);
+        // console.log("mouth images loaded", stacks.mouth.length);
+        // console.log("background images loaded", stacks.background.length);
+    };
+
+    me.onMouseMove = function() {
+
+        // var mouseX = me.stage.mouseX;
+        // var width = me.stageWidth;
+        // var originX = width / 2;
+        // var distanceX = originX - mouseX;
+        // var rotation = distanceX * 0.01;
+        // var offset = rotation * 10;
+        // var inversedRotation = rotation *-1;
+        // var inversedOffset = offset *-1;
+
+        // _scaleContainer.rotation = rotation;
+        // _scaleContainer.x = offset;
+
+        // _screen.face.rotation = inversedRotation;
+        // // _screen.face.x = inversedOffset;
+        // _reflection.glow.rotation = inversedRotation;
     };
 
     me.update = function() {

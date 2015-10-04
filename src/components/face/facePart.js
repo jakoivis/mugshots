@@ -1,10 +1,10 @@
 
 "use strict";
 
-var Bounds = require("utils/bounds.js");
-var ImageDataUtil = require("utils/imageDataUtil.js");
-var CanvasUtil = require("utils/canvasUtil.js");
-var FacePartSettings = require("components/face/facePartSettings.js");
+var Bounds = require("../../utils/bounds.js");
+var ImageDataUtil = require("../../utils/imageDataUtil.js");
+var CanvasUtil = require("../../utils/canvasUtil.js");
+var FacePartSettings = require("../../components/face/facePartSettings.js");
 
 module.exports = FacePart;
 

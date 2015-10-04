@@ -1,7 +1,7 @@
 
 "use strict";
 
-var BasicContainer = require("components/basicContainer.js");
+var BasicContainer = require("../components/basicContainer.js");
 
 var Footer = function(options) {
 

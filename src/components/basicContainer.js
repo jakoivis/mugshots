@@ -2,7 +2,8 @@
 "use strict";
 
 var amplify = require("amplify").amplify;
-var Topics = require("topics.js");
+
+var Topics = require("../topics.js");
 
 /**
  * @class
@@ -58,12 +59,16 @@ var BasicContainer = function(options) {
 
     function addedToStage(event) {
 
+        // TODO: FIX this. added event is dispatched even though
+        // container is not on stage. The parent chain needs to be
+        // fully on stage before executing anything of these.
         if(!me.addedToStage) {
 
             me.removeEventListener("added", addedToStage);
 
             attachOnResize();
             attachOnTick();
+            // attachMouseMove();
         }
 
         if(me.addedToStage && event.target.stage) {
@@ -74,6 +79,7 @@ var BasicContainer = function(options) {
 
             attachOnResize();
             attachOnTick();
+            attachMouseMove();
         }
     }
 
@@ -92,6 +98,14 @@ var BasicContainer = function(options) {
         if(me.onTick) {
 
             me.on("tick", me.onTick);
+        }
+    }
+
+    function attachMouseMove() {
+
+        if(me.onMouseMove) {
+
+            me.stage.on("stagemousemove", me.onMouseMove);
         }
     }
 
@@ -157,6 +171,6 @@ var BasicContainer = function(options) {
     init();
 };
 
-createjs.extend(BasicContainer, createjs.Container);
+var proto  = createjs.extend(BasicContainer, createjs.Container);
 
 module.exports = createjs.promote(BasicContainer, "Container");

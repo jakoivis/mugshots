@@ -2,7 +2,8 @@
 "use strict";
 
 var amplify = require("amplify").amplify;
-var TOPICS = require("topics.js");
+
+var TOPICS = require("../topics.js");
 
 module.exports = DebugControlsLayer;
 

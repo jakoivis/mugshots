@@ -1,10 +1,10 @@
 
 "use strict";
 
-var BasicLayer = require("layers/basicLayer.js");
-var Background = require("components/background/background.js");
-var Phone = require("components/phone/phone.js");
-var Footer = require("components/footer.js");
+var BasicLayer = require("../layers/basicLayer.js");
+var Background = require("../components/background/background.js");
+var Phone = require("../components/phone/phone.js");
+var Footer = require("../components/footer.js");
 
 function ApplicationLayer(options) {
 
