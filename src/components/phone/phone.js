@@ -43,14 +43,6 @@ var Phone = function() {
         _reflection = new Reflection();
     };
 
-    // me.addedToStage = function() {
-
-    //     me.stage.on("stagemousemove", function() {
-
-
-    //     });
-    // };
-
     me.onApplicationStart = function() {
 
         _scaleContainer = createScaleContainer(_phoneBitmap);
@@ -74,6 +66,7 @@ var Phone = function() {
         _phoneBaseScale = calculatePhoneBaseScale();
 
         setScale();
+        setRotation();
     };
 
     function createScaleContainer(phoneBitmap) {
@@ -135,7 +128,8 @@ var Phone = function() {
         _scaleContainer.x = offset;
 
         _screen.face.rotation = inversedRotation;
-        // _screen.face.x = inversedOffset;
+        _screen.face.x = _screen.width / 2 + inversedOffset;
+        _screen.face.y = _screen.height / 2;
         _reflection.glow.rotation = inversedRotation;
     }
 

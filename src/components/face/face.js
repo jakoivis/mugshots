@@ -61,15 +61,6 @@ function Face() {
         me.regY = me.height / 2;
     };
 
-    me.onPreloadComplete = function() {
-
-        // console.log("lefteye images loaded", stacks.lefteye.length);
-        // console.log("righteye images loaded", stacks.righteye.length);
-        // console.log("nose images loaded", stacks.nose.length);
-        // console.log("mouth images loaded", stacks.mouth.length);
-        // console.log("background images loaded", stacks.background.length);
-    };
-
     me.onMouseMove = function() {
 
         // var mouseX = me.stage.mouseX;

@@ -56,8 +56,11 @@ var Screen = function(screenBounds) {
         me.x = _screenBounds.left;
         me.y = _screenBounds.top;
 
-        _face.x = _screenBounds.right / 2;
-        _face.y = _screenBounds.bottom / 2 - 75;
+        _face.regX = _face.width / 2;
+        _face.regY = _face.height / 2;
+
+        // _face.x = _screenBounds.right / 2;
+        // _face.y = _screenBounds.bottom / 2 - 75;
 
         me.addChild(screenBackground);
         me.addChild(_face);
