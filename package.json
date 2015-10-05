@@ -38,14 +38,11 @@
     "copy:assets": "n-copy --source assets --destination dist/assets \"**/*\"",
     "build:css": "stylus styles/main.styl --out dist --compress",
     "watch:css": "watch \"npm run build:css\" styles",
-    "build:js": "browserify -g uglifyify src/index.js --debug > dist/main.js",
+    "build:js": "browserify src/index.js > dist/main.js",
     "watch:js": "watch \"npm run build:js\" src",
-    "prebuild": "npm run test",
     "build": "npm run clean && npm run copy:html && npm run build:js && npm run build:css && npm run copy:assets",
-    "test": "jasmine",
-    "watch:test": "watch \"npm run test\" src spec",
     "live-reload": "live-reload --port 8081 dist",
     "server": "http-server -p 8080 dist",
-    "watch": "parallelshell \"npm run live-reload -s\" \"npm run server -s\" \"npm run watch:css -s\" \"npm run watch:js -s\" \"npm run watch:test -s\""
+    "watch": "parallelshell \"npm run live-reload -s\" \"npm run server -s\" \"npm run watch:css -s\" \"npm run watch:js -s\""
   }
 }
