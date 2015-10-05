@@ -18,6 +18,9 @@ var list = [
     {src:"assets/images/various/NokiaLumia1520_05_Web_reflectionMask.png", groupName:"various",
         name:"reflectionMask", required:true},
     {src:"assets/images/various/app_bg.jpg", groupName:"various", name:"applicationBackground", required:true},
+    {src:"assets/images/various/fingers.png", groupName:"various", name:"fingers", required:true},
+    {src:"assets/images/various/hand.jpg", groupName:"various", name:"hand", required:true},
+    {src:"assets/images/various/handMask.png", groupName:"various", name:"handMask", required:true},
 
     // previous first image 248
     {src:"assets/images/background/_MG_0248.jpg", groupName:"background", boundsBottom:641},
