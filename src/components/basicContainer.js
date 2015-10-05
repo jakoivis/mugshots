@@ -61,16 +61,15 @@ var BasicContainer = function(options) {
     function added(event) {
 
         var target = event.target;
-        var parent = target.parent;
         var stage = target.stage;
 
-        if(stage && parent === stage) {
+        target.removeEventListener("added", added);
+
+        if(stage) {
 
             notifyAddedToStage(target);
             target.dispatchEvent("addedToStage");
         }
-
-        target.removeEventListener("added", added);
     }
 
     function notifyAddedToStage(target) {
@@ -80,7 +79,6 @@ var BasicContainer = function(options) {
         if(target.children) {
 
             for(var i = 0; i < target.children.length; i++) {
-
                 child = target.children[i];
                 child.dispatchEvent("addedToStage");
                 notifyAddedToStage(child);
@@ -90,7 +88,7 @@ var BasicContainer = function(options) {
 
     function addedToStage() {
 
-        me.removeEventListener("added", addedToStage);
+        me.removeEventListener("addedToStage", addedToStage);
 
         attachOnResize();
         attachOnTick();
