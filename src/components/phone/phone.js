@@ -8,7 +8,7 @@ var PhoneBitmap = require("../../components/phone/phoneBitmap.js");
 var Screen = require("../../components/phone/screen.js");
 var Reflection = require("../../components/phone/reflection.js");
 var Hand = require("../../components/phone/hand.js");
-var HandThumb = require("../../components/phone/handThumb.js");
+var HandOverlay = require("../../components/phone/handOverlay.js");
 var Topics = require("../../topics.js");
 
 var Phone = function() {
@@ -20,7 +20,7 @@ var Phone = function() {
     var _scaleContainer;
     var _reflection;
     var _hand;
-    var _handThumb;
+    var _handOverlay;
 
     // minimum scale of the phone.
     // the phone won't be scaled smaller than this
@@ -46,7 +46,7 @@ var Phone = function() {
         _phoneBitmap = new PhoneBitmap();
         _reflection = new Reflection();
         _hand = new Hand();
-        _handThumb = new HandThumb();
+        _handOverlay = new HandOverlay();
     };
 
     me.onApplicationStart = function() {
@@ -57,7 +57,7 @@ var Phone = function() {
         _scaleContainer.addChild(_phoneBitmap);
         _scaleContainer.addChild(_screen);
         _scaleContainer.addChild(_reflection);
-        _scaleContainer.addChild(_handThumb);
+        _scaleContainer.addChild(_handOverlay);
         me.addChild(_scaleContainer);
 
         me.update();

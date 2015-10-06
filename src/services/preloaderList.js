@@ -22,6 +22,8 @@ var list = [
     {src:"assets/images/various/hand.jpg", groupName:"various", name:"hand", required:true},
     {src:"assets/images/various/handMask.png", groupName:"various", name:"handMask", required:true},
     {src:"assets/images/various/littleFinger.png", groupName:"various", name:"littleFinger", required:true},
+    {src:"assets/images/various/thumb.png", groupName:"various", name:"thumb", required:true},
+    {src:"assets/images/various/thumbPressed.png", groupName:"various", name:"thumbPressed", required:true},
 
     // previous first image 248
     {src:"assets/images/background/_MG_0248.jpg", groupName:"background", boundsBottom:641},
