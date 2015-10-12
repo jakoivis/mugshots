@@ -37,6 +37,11 @@ function DebugControlsLayer(options) {
 
             amplify.publish(TOPICS.NEXT_NOSE);
         });
+
+        createButton(target, "Random positions", function() {
+
+            amplify.publish(TOPICS.RANDOM_POSITIONS);
+        });
     }
 
     function createButton(appendTo, label, handler) {

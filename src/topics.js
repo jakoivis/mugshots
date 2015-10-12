@@ -6,6 +6,7 @@ var TOPICS = {
     PRELOAD_ITEM_COMPLETE: "preloadItemComplete",
     PRELOAD_BACKGROUND: "preloadBackground",
 
+    RANDOM_POSITIONS: "randomPositions",
     NEXT_BACKGROUND: "nextBackground",
     NEXT_LEFT_EYE: "nextLeftEye",
     NEXT_RIGHT_EYE: "nextRightEye",
