@@ -91,13 +91,13 @@ var ImageDataUtil = {
         return width;
     },
 
-    getBounds: function (uint32Array, width, height, alphaTolerance) {
+    getBounds: function (uint32Array, width, height, alphaToleranceBounds) {
 
         var rect = {
-            top: this.getBoundsTop(uint32Array, width, height, alphaTolerance),
-            bottom: this.getBoundsBottom(uint32Array, width, height, alphaTolerance),
-            left: this.getBoundsLeft(uint32Array, width, height, alphaTolerance),
-            right: this.getBoundsRight(uint32Array, width, height, alphaTolerance)
+            top: this.getBoundsTop(uint32Array, width, height, alphaToleranceBounds.top),
+            bottom: this.getBoundsBottom(uint32Array, width, height, alphaToleranceBounds.bottom),
+            left: this.getBoundsLeft(uint32Array, width, height, alphaToleranceBounds.left),
+            right: this.getBoundsRight(uint32Array, width, height, alphaToleranceBounds.right)
         };
 
         return rect;

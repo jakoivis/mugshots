@@ -164,7 +164,7 @@ function FacePart(options) {
                             imageData32View,
                             imageData.width,
                             imageData.height,
-                            FacePartSettings.BITMAP_ALPHA_TOLERANCE);
+                            _settings.alphaToleranceBounds);
     }
 
     me.resetPosition = function() {

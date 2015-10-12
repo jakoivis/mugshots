@@ -4,8 +4,9 @@
 var alpha1 = 0.4;
 var alpha2 = 0.1;
 
+var defaultAlphaTolerance = 210;
+
 var FacePartSettings = {
-    BITMAP_ALPHA_TOLERANCE: 210,
     DEBUG_SHOW_BOUNDS: true,
     DEBUG_SHOW_NAMES: true,
 
@@ -19,7 +20,13 @@ var FacePartSettings = {
         rangeY: {min: 0, max: 0},
         rangeX: {min: 0, max: 0},
         debugColor1: "#000000",
-        debugColor2: "#909090"
+        debugColor2: "#909090",
+        alphaToleranceBounds: {
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0
+        }
     },
 
     nose: {
@@ -27,7 +34,13 @@ var FacePartSettings = {
         rangeY: {min: -20, max: 20},
         rangeX: {min: 0, max: 0},
         debugColor1: "rgba(0,255,0,"+alpha1+")",
-        debugColor2: "rgba(125,255,125,"+alpha2+")"
+        debugColor2: "rgba(125,255,125,"+alpha2+")",
+        alphaToleranceBounds: {
+            top: defaultAlphaTolerance,
+            bottom: defaultAlphaTolerance,
+            left: 0,
+            right: 0
+        }
     },
 
     mouth: {
@@ -35,15 +48,13 @@ var FacePartSettings = {
         rangeY: {min: 0, max: 0},
         rangeX: {min: 0, max: 0},
         debugColor1: "rgba(255,0,0,"+alpha1+")",
-        debugColor2: "rgba(255,125,125,"+alpha2+")"
-    },
-
-    chin: {
-        defaultRect: {x:82, y:254, width:397, height:401},
-        rangeY: {min: 0, max: 0},
-        rangeX: {min: 0, max: 0},
-        debugColor1: "rgba(0,0,255,"+alpha1+")",
-        debugColor2: "rgba(125,125,255,"+alpha2+")"
+        debugColor2: "rgba(255,125,125,"+alpha2+")",
+        alphaToleranceBounds: {
+            top: 220,
+            bottom: 100,
+            left: 0,
+            right: 0
+        }
     },
 
     lefteye: {
@@ -51,7 +62,13 @@ var FacePartSettings = {
         rangeY: {min: -20, max: 30},
         rangeX: {min: 0, max: 0},
         debugColor1: "rgba(255,255,0,"+alpha1+")",
-        debugColor2: "rgba(255,255,125,"+alpha2+")"
+        debugColor2: "rgba(255,255,125,"+alpha2+")",
+        alphaToleranceBounds: {
+            top: defaultAlphaTolerance,
+            bottom: defaultAlphaTolerance,
+            left: 0,
+            right: 0
+        }
     },
 
     righteye: {
@@ -59,7 +76,13 @@ var FacePartSettings = {
         rangeY: {min: -15, max: 30},
         rangeX: {min: 0, max: 0},
         debugColor1: "rgba(0,255,255,"+alpha1+")",
-        debugColor2: "rgba(125,255,255,"+alpha2+")"
+        debugColor2: "rgba(125,255,255,"+alpha2+")",
+        alphaToleranceBounds: {
+            top: defaultAlphaTolerance,
+            bottom: defaultAlphaTolerance,
+            left: 0,
+            right: 0
+        }
     }
 };
 
