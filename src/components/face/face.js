@@ -5,12 +5,11 @@ var BasicContainer = require("../../components/basicContainer.js");
 var FacePartStack = require("../../components/face/facePartStack.js");
 var FacePart = require("../../components/face/facePart.js");
 var FacePartPositioningUtil = require("../../components/face/facePartPositioningUtil.js");
+var FacePartSettings = require("../../components/face/facePartSettings.js");
 
 function Face() {
 
     var me = this;
-    var debugDrawImageBounds = false;
-    var debugLogImageNames = false;
 
     var stacks = {
         various: new FacePartStack(),
@@ -90,7 +89,7 @@ function Face() {
         me.addChild(stacks.lefteye.current().bitmap);
         me.addChild(stacks.righteye.current().bitmap);
 
-        if(debugDrawImageBounds) {
+        if(FacePartSettings.DEBUG_SHOW_BOUNDS) {
 
             me.addChild(stacks.background.current().getDebugBounds());
             me.addChild(stacks.mouth.current().getDebugBounds());
@@ -99,7 +98,7 @@ function Face() {
             me.addChild(stacks.righteye.current().getDebugBounds());
         }
 
-        if(debugLogImageNames) {
+        if(FacePartSettings.DEBUG_SHOW_NAMES) {
 
             console.log("bg: " + stacks.background.current().name + ", " +
                         "mouth: " + stacks.mouth.current().name +  ", " +

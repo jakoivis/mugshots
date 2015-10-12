@@ -6,6 +6,8 @@ var alpha2 = 0.1;
 
 var FacePartSettings = {
     BITMAP_ALPHA_TOLERANCE: 210,
+    DEBUG_SHOW_BOUNDS: true,
+    DEBUG_SHOW_NAMES: true,
 
     various: {
         defaultRect: {x:0, y:0},
