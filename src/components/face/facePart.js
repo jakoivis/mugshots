@@ -144,7 +144,7 @@ function FacePart(options) {
 
     function initName() {
 
-        var result = options.groupName + "_";
+        var result = "";
         var fileNameDigits = /\d{4}/g.exec(options.src);
 
         if(fileNameDigits && fileNameDigits.length) {
