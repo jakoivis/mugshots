@@ -47,10 +47,18 @@ var FacePartPositioningUtil = {
 
 function changeMouthIfItDoesntFit(stacks) {
 
+    var count = 0;
+
     while(canMouthFit(stacks)) {
 
         console.log("didn't fit, change image");
         stacks.mouth.next();
+
+        if(count > 30) {
+            // just give up and let it
+            // position on small space
+            break;
+        }
     }
 }
 
