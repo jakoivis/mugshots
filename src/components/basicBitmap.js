@@ -33,8 +33,6 @@ var BasicBitmap = function() {
 
         if(isAcceptedResource(imageLoaderItem)) {
 
-            console.log(imageLoaderItem.name, "loaded");
-
             amplify.unsubscribe(Topics.PRELOAD_ITEM_COMPLETE, onFileLoadComplete);
 
             me.image = imageLoaderItem.tag;
