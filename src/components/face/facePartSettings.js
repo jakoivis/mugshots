@@ -7,7 +7,7 @@ var alpha2 = 0.1;
 var defaultAlphaTolerance = 210;
 
 var FacePartSettings = {
-    DEBUG_SHOW_BOUNDS: true,
+    DEBUG_SHOW_BOUNDS: false,
     DEBUG_SHOW_NAMES: true,
 
     various: {
@@ -31,7 +31,7 @@ var FacePartSettings = {
 
     nose: {
         defaultRect: {x:187, y:279, width:164, height:215},
-        rangeY: {min: -20, max: 20},
+        rangeY: {min: -20, max: 30},
         rangeX: {min: 0, max: 0},
         debugColor1: "rgba(0,255,0,"+alpha1+")",
         debugColor2: "rgba(125,255,125,"+alpha2+")",

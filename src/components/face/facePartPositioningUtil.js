@@ -1,6 +1,8 @@
 
 "use strict";
 
+var FacePartSettings = require("../../components/face/facePartSettings.js");
+
 var FacePartPositioningUtil = {
 
     setRandomNosePosition: function(stacks) {
@@ -26,22 +28,24 @@ var FacePartPositioningUtil = {
 
         var lefteye = stacks.lefteye.current();
         var righteye = stacks.righteye.current();
-        // var nose = stacks.nose.current();
+        var nose = stacks.nose.current();
 
-        lefteye.setRandomYPosition();
+        // calculate eye min max range instead of using congifured one
+        // set max eye bottom to nose bottom - 5th of nose's height
+
+        // this is height from bitmap top to alpha bounds bottom
+        var eyeLocalBottom = lefteye.localInnerBounds.bottom;
+        var eyeMaxY = nose.bottom - (eyeLocalBottom + nose.height / 5);
+
+        var eyeSettings = FacePartSettings.lefteye;
+        var eyeMinY = eyeSettings.defaultRect.y + eyeSettings.rangeY.min;
+
+        if(eyeMaxY < eyeMinY) {
+            eyeMaxY = eyeMinY;
+        }
+
+        lefteye.setRandomYPositionBetween(eyeMinY, eyeMaxY);
         righteye.top = getCentralizedTop(lefteye, righteye);
-
-        // var lowerEye = getFacePartWithLowerBitmap(lefteye, righteye);
-        // var eyeLimit = lowerEye.top + (lowerEye.bounds.height / 4);
-        // var correctionRequired = nose.top - eyeLimit;
-
-        // // check that nose and eyes don"t overlap too much
-        // if(correctionRequired < 0) {
-
-        //     var eyeYPosition = Math.round(nose.y - (lowerEye.bounds.height / 4));
-        //     lefteye.y = eyeYPosition;
-        //     righteye.y = eyeYPosition;
-        // }
     }
 };
 

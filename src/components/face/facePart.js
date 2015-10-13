@@ -87,6 +87,14 @@ function FacePart(options) {
         }
     });
 
+    Object.defineProperty(this, "localInnerBounds", {
+
+        get: function() {
+
+            return _localInnerBounds;
+        }
+    });
+
     Object.defineProperty(this, "bitmap", {
 
         get: function() { return _bitmap; }
@@ -175,7 +183,14 @@ function FacePart(options) {
 
     me.setRandomYPosition = function() {
 
-        _bitmap.y = _settings.defaultRect.y + getRandomInt(_settings.rangeY.min, _settings.rangeY.max);
+        _bitmap.y = _settings.defaultRect.y +
+                    getRandomInt(_settings.rangeY.min,
+                                 _settings.rangeY.max);
+    };
+
+    me.setRandomYPositionBetween = function(min, max) {
+
+        _bitmap.y = getRandomInt(min, max);
     };
 
     function getRandomInt(min, max) {
