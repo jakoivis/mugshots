@@ -22,23 +22,7 @@ var Phone = function() {
     var _hand;
     var _handOverlay;
 
-    // minimum scale of the phone.
-    // the phone won't be scaled smaller than this
-    var _phoneScaleMin = 0.5;
-
-    // maximum scale of the phone.
-    // the phone won't be scaled bigger than this
-    var _phoneScaleMax = 1;
-
-    // minimum amout of free vertical space for the
-    // phone. scale is calculated based on this value
-    var _phoneMinYSpaceAvailable = 50;
-
-    // calculated phone scale. the resulting
-    // scale will depend on the mouseY position
-    var _phoneBaseScale;
-
-    var _faceBaseScale = 1;
+    var _baseScale;
 
     me.initialize = function() {
 
@@ -55,8 +39,8 @@ var Phone = function() {
 
         // _scaleContainer.addChild(_hand);
         _scaleContainer.addChild(_phoneBitmap);
-        // _scaleContainer.addChild(_screen);
-        // _scaleContainer.addChild(_reflection);
+        _scaleContainer.addChild(_screen);
+        _scaleContainer.addChild(_reflection);
         // _scaleContainer.addChild(_handOverlay);
         me.addChild(_scaleContainer);
 
@@ -70,7 +54,7 @@ var Phone = function() {
         me.x = me.stageWidth / 2;
         me.y = me.stageHeight / 2;
 
-        _phoneBaseScale = calculateBaseScale();
+        _baseScale = calculateBaseScale();
 
         setScale();
         setRotation();
@@ -103,66 +87,91 @@ var Phone = function() {
         // when mouse is at 30% from the top, scaling is at max
         // when mouse is at 0% from the top, scaling is at min
 
-        var scaleStartPct = 0.3;
-        // var baseScale = 1.3;
-        var baseScale = calculateBaseScale();
-        var minScale = baseScale * 0.5;
+        setScaleContainerScale();
+        setFaceScale();
+        setReflectionPosition();
+    }
 
+    function setScaleContainerScale() {
+
+        var scaleStartPct = 0.3;
         var mouseY = me.stage.mouseY;
         var scaleAreaHeight = me.stageHeight * scaleStartPct;
         var scalePosition = mouseY / scaleAreaHeight;
 
         scalePosition = scalePosition > 1 ? 1 : scalePosition;
 
-        var scaleRange = baseScale - minScale;
+        var minScale = _baseScale * 0.5;
+        var scaleRange = _baseScale - minScale;
         var scale = minScale + scaleRange * scalePosition;
 
-        // _scaleContainer.scaleX = scale;
-        // _scaleContainer.scaleY = scale;
-
-
-        // var mouseY = me.stage.mouseY;
-        // var height = _phoneBitmap.height;
-        // var distanceY = height - mouseY;
-        // var phoneScale = _phoneBaseScale - distanceY * 0.0002;
-        // var faceScale = _faceBaseScale - distanceY * 0.00045;
-        // var glowY = distanceY * 0.2;
         var easing = createjs.Ease.sineInOut;
         var duration = 120;
 
         createjs.Tween
             .get(_scaleContainer, {override:true})
             .to({scaleX:scale, scaleY:scale}, duration, easing);
+    }
 
-        // createjs.Tween
-        //     .get(_screen.face, {override:true})
-        //     .to({scaleX:faceScale, scaleY:faceScale}, duration, easing);
+    function setFaceScale() {
 
-        // createjs.Tween
-        //     .get(_reflection.glow, {override:true})
-        //     .to({y: glowY}, duration, easing);
+        var scaleStartPct = 0.3;
+        var mouseY = me.stage.mouseY;
+        var scaleAreaHeight = me.stageHeight * scaleStartPct;
+        var scalePosition = mouseY / scaleAreaHeight;
+
+        scalePosition = scalePosition > 1 ? 1 : scalePosition;
+
+        var faceBaseScale = 0.8;
+        var minScale = faceBaseScale * 0.6;
+        var scaleRange = faceBaseScale - minScale;
+        var scale = minScale + scaleRange * scalePosition;
+
+        var easing = createjs.Ease.sineInOut;
+        var duration = 120;
+
+        createjs.Tween
+            .get(_screen.face, {override:true})
+            .to({scaleX:scale, scaleY:scale}, duration, easing);
+    }
+
+    function setReflectionPosition() {
+
+        var mouseX = me.stage.mouseX;
+        var width = me.stageWidth;
+        var distanceX = width - mouseX;
+        var glowY = distanceX * 0.2;
+
+        _reflection.glow.y = glowY;
     }
 
     function setRotation() {
 
-        // var mouseX = me.stage.mouseX;
-        // var width = me.stageWidth;
-        // var originX = width / 2;
-        // var distanceX = originX - mouseX;
-        // var rotation = distanceX * 0.01;
-        // var offset = rotation * 10;
-        // var inversedRotation = rotation *-1;
-        // var inversedOffset = offset *-1;
+        var mouseX = me.stage.mouseX;
+        var width = me.stageWidth;
+        var originX = width / 2;
+        var distanceX = originX - mouseX;
+        var rotation = distanceX * 0.01;
+        var offset = rotation * 10;
+        var inversedRotation = rotation *-1;
+        var inversedOffset = offset *-1;
 
-        // _scaleContainer.rotation = rotation;
-        // _scaleContainer.x = offset;
+        _scaleContainer.rotation = rotation;
+        _scaleContainer.x = offset;
 
-        // _screen.face.rotation = inversedRotation;
-        // _screen.face.x = _screen.width / 2 + inversedOffset;
-        // _screen.face.y = _screen.height / 2;
-        // _reflection.glow.rotation = inversedRotation;
+        _screen.face.rotation = inversedRotation;
+        _screen.face.x = _screen.width / 2 + inversedOffset;
+        _screen.face.y = _screen.height / 2;
+        _reflection.glow.rotation = inversedRotation;
     }
 
+    /**
+     * base scale is the scale for scaleContainer.
+     * base scale controls what is the correct
+     * scale for the current stage size
+     *
+     * @return     {number}     scale value
+     */
     function calculateBaseScale() {
 
         // normal base scale
