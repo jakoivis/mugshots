@@ -53,17 +53,16 @@ var Phone = function() {
 
         _scaleContainer = createScaleContainer(_phoneBitmap);
 
-        _scaleContainer.addChild(_hand);
+        // _scaleContainer.addChild(_hand);
         _scaleContainer.addChild(_phoneBitmap);
-        _scaleContainer.addChild(_screen);
-        _scaleContainer.addChild(_reflection);
-        _scaleContainer.addChild(_handOverlay);
+        // _scaleContainer.addChild(_screen);
+        // _scaleContainer.addChild(_reflection);
+        // _scaleContainer.addChild(_handOverlay);
         me.addChild(_scaleContainer);
 
         me.update();
 
         addClickHandler();
-        initTopics();
     };
 
     me.onResize = function() {
@@ -71,7 +70,7 @@ var Phone = function() {
         me.x = me.stageWidth / 2;
         me.y = me.stageHeight / 2;
 
-        _phoneBaseScale = calculatePhoneBaseScale();
+        _phoneBaseScale = calculateBaseScale();
 
         setScale();
         setRotation();
@@ -99,67 +98,111 @@ var Phone = function() {
 
     function setScale() {
 
+        // top 30% of the screen is the area in which the
+        // scaling happens. otherwise phone doesn't scale
+        // when mouse is at 30% from the top, scaling is at max
+        // when mouse is at 0% from the top, scaling is at min
+
+        var scaleStartPct = 0.3;
+        // var baseScale = 1.3;
+        var baseScale = calculateBaseScale();
+        var minScale = baseScale * 0.5;
+
         var mouseY = me.stage.mouseY;
-        var height = _phoneBitmap.height;
-        var distanceY = height - mouseY;
-        var phoneScale = _phoneBaseScale - distanceY * 0.0002;
-        var faceScale = _faceBaseScale - distanceY * 0.00045;
-        var glowY = distanceY * 0.2;
+        var scaleAreaHeight = me.stageHeight * scaleStartPct;
+        var scalePosition = mouseY / scaleAreaHeight;
+
+        scalePosition = scalePosition > 1 ? 1 : scalePosition;
+
+        var scaleRange = baseScale - minScale;
+        var scale = minScale + scaleRange * scalePosition;
+
+        // _scaleContainer.scaleX = scale;
+        // _scaleContainer.scaleY = scale;
+
+
+        // var mouseY = me.stage.mouseY;
+        // var height = _phoneBitmap.height;
+        // var distanceY = height - mouseY;
+        // var phoneScale = _phoneBaseScale - distanceY * 0.0002;
+        // var faceScale = _faceBaseScale - distanceY * 0.00045;
+        // var glowY = distanceY * 0.2;
         var easing = createjs.Ease.sineInOut;
         var duration = 120;
 
         createjs.Tween
             .get(_scaleContainer, {override:true})
-            .to({scaleX:phoneScale, scaleY:phoneScale}, duration, easing);
+            .to({scaleX:scale, scaleY:scale}, duration, easing);
 
-        createjs.Tween
-            .get(_screen.face, {override:true})
-            .to({scaleX:faceScale, scaleY:faceScale}, duration, easing);
+        // createjs.Tween
+        //     .get(_screen.face, {override:true})
+        //     .to({scaleX:faceScale, scaleY:faceScale}, duration, easing);
 
-        createjs.Tween
-            .get(_reflection.glow, {override:true})
-            .to({y: glowY}, duration, easing);
+        // createjs.Tween
+        //     .get(_reflection.glow, {override:true})
+        //     .to({y: glowY}, duration, easing);
     }
 
     function setRotation() {
 
-        var mouseX = me.stage.mouseX;
-        var width = me.stageWidth;
-        var originX = width / 2;
-        var distanceX = originX - mouseX;
-        var rotation = distanceX * 0.01;
-        var offset = rotation * 10;
-        var inversedRotation = rotation *-1;
-        var inversedOffset = offset *-1;
+        // var mouseX = me.stage.mouseX;
+        // var width = me.stageWidth;
+        // var originX = width / 2;
+        // var distanceX = originX - mouseX;
+        // var rotation = distanceX * 0.01;
+        // var offset = rotation * 10;
+        // var inversedRotation = rotation *-1;
+        // var inversedOffset = offset *-1;
 
-        _scaleContainer.rotation = rotation;
-        _scaleContainer.x = offset;
+        // _scaleContainer.rotation = rotation;
+        // _scaleContainer.x = offset;
 
-        _screen.face.rotation = inversedRotation;
-        _screen.face.x = _screen.width / 2 + inversedOffset;
-        _screen.face.y = _screen.height / 2;
-        _reflection.glow.rotation = inversedRotation;
+        // _screen.face.rotation = inversedRotation;
+        // _screen.face.x = _screen.width / 2 + inversedOffset;
+        // _screen.face.y = _screen.height / 2;
+        // _reflection.glow.rotation = inversedRotation;
     }
 
-    function calculatePhoneBaseScale() {
+    function calculateBaseScale() {
 
-        var ySpaceAvailable = me.stageHeight - _phoneBitmap.height;
+        // normal base scale
+        var normalScale = 1.3;
 
-        if(ySpaceAvailable < _phoneMinYSpaceAvailable) {
+        // base scale cannot be lower than this
+        var minScale = 0.5;
 
-            ySpaceAvailable = _phoneMinYSpaceAvailable;
+        // how many percents the size may be bigger than
+        // stage size before starting to decrease scale
+        // 0 = exact fit, > 0 = scaled bigger than stage
+        var maxExceedingPct = 0.1;
+
+        var scale = normalScale;
+
+        // how many pixels the size may be bigger
+        var maxExceedingSize = me.stageHeight * maxExceedingPct;
+
+        // size scaled to normal
+        var normalSize = _phoneBitmap.height * normalScale;
+
+        // how many pixels the size is bigger than stage size
+        var exceedingSize = normalSize - me.stageHeight;
+
+        // do we need to scale down? i.e. is it too small stage
+        if(exceedingSize > maxExceedingSize) {
+
+            // maximum size in a small stage
+            var maxSize = me.stageHeight + maxExceedingSize;
+
+            // percent of the normal size
+            var pctOfNormalSize = maxSize / normalSize;
+
+            // calculate new normal scale for the small stage
+            scale = normalScale * pctOfNormalSize;
         }
 
-        var scaledPhoneHeight = me.stageHeight - ySpaceAvailable;
-        var scale = scaledPhoneHeight / _phoneBitmap.height;
+        if(scale < minScale) {
 
-        if(scale < _phoneScaleMin) {
-
-            scale = _phoneScaleMin;
-
-        } else if(scale > _phoneScaleMax) {
-
-            scale = _phoneScaleMax;
+            scale = minScale;
         }
 
         return scale;
@@ -170,39 +213,6 @@ var Phone = function() {
             _screen.face.setRandomFaceParts();
             _screen.face.setRandomPositions();
             _screen.screenFlash.flash();
-            me.update();
-        });
-    }
-
-    function initTopics() {
-
-        amplify.subscribe(Topics.NEXT_BACKGROUND, function() {
-
-            _screen.face.stacks.background.next();
-            me.update();
-        });
-
-        amplify.subscribe(Topics.NEXT_NOSE, function() {
-
-            _screen.face.stacks.nose.next();
-            me.update();
-        });
-
-        amplify.subscribe(Topics.NEXT_LEFT_EYE, function() {
-
-            _screen.face.stacks.lefteye.next();
-            me.update();
-        });
-
-        amplify.subscribe(Topics.NEXT_RIGHT_EYE, function() {
-
-            _screen.face.stacks.righteye.next();
-            me.update();
-        });
-
-        amplify.subscribe(Topics.NEXT_MOUTH, function() {
-
-            _screen.face.stacks.mouth.next();
             me.update();
         });
     }
