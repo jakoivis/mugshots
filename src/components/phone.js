@@ -41,7 +41,7 @@ var Phone = function() {
         // _scaleContainer.addChild(_handOverlay);
         me.addChild(_scaleContainer);
 
-        me.update();
+        update();
 
         addClickHandler();
     };
@@ -66,10 +66,10 @@ var Phone = function() {
         return container;
     }
 
-    me.update = function() {
+    function update() {
 
         _screen.update();
-    };
+    }
 
     me.onMouseMove = function() {
 
@@ -219,7 +219,7 @@ var Phone = function() {
             _screen.face.setRandomFaceParts();
             _screen.face.setRandomPositions();
             _screen.screenFlash.flash();
-            me.update();
+            update();
         });
     }
 
