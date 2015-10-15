@@ -75,6 +75,7 @@ var Phone = function() {
 
         setScale();
         setRotation();
+        setReflectionPosition();
     };
 
     function setScale() {
@@ -86,20 +87,13 @@ var Phone = function() {
 
         setScaleContainerScale();
         setFaceScale();
-        setReflectionPosition();
     }
 
     function setScaleContainerScale() {
 
-        var scaleStartPct = 0.3;
-        var mouseY = me.stage.mouseY;
-        var scaleAreaHeight = me.stageHeight * scaleStartPct;
-        var scalePosition = mouseY / scaleAreaHeight;
-
-        scalePosition = scalePosition > 1 ? 1 : scalePosition;
-
         var minScale = _baseScale * 0.5;
         var scaleRange = _baseScale - minScale;
+        var scalePosition = calculateScalePosition();
         var scale = minScale + scaleRange * scalePosition;
 
         var easing = createjs.Ease.sineInOut;
@@ -112,16 +106,10 @@ var Phone = function() {
 
     function setFaceScale() {
 
-        var scaleStartPct = 0.3;
-        var mouseY = me.stage.mouseY;
-        var scaleAreaHeight = me.stageHeight * scaleStartPct;
-        var scalePosition = mouseY / scaleAreaHeight;
-
-        scalePosition = scalePosition > 1 ? 1 : scalePosition;
-
         var faceBaseScale = 0.8;
         var minScale = faceBaseScale * 0.6;
         var scaleRange = faceBaseScale - minScale;
+        var scalePosition = calculateScalePosition();
         var scale = minScale + scaleRange * scalePosition;
 
         var easing = createjs.Ease.sineInOut;
@@ -130,6 +118,18 @@ var Phone = function() {
         createjs.Tween
             .get(_screen.face, {override:true})
             .to({scaleX:scale, scaleY:scale}, duration, easing);
+    }
+
+    function calculateScalePosition() {
+
+        var scaleStartPct = 0.3;
+        var mouseY = me.stage.mouseY;
+        var scaleAreaHeight = me.stageHeight * scaleStartPct;
+        var scalePosition = mouseY / scaleAreaHeight;
+
+        scalePosition = scalePosition > 1 ? 1 : scalePosition;
+
+        return scalePosition;
     }
 
     function setReflectionPosition() {
