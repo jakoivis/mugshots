@@ -4,7 +4,7 @@ var BasicContainer = require("../components/basicContainer.js");
 var ScreenShadows = require("../components/screen/screenShadows.js");
 var ScreenFlash = require("../components/screen/screenFlash.js");
 var ScreenBackground = require("../components/screen/screenBackground.js");
-var Face = require("../components/face/face.js");
+var Face = require("../components/face.js");
 var Bounds = require("../utils/bounds.js");
 
 var Screen = function(screenBounds) {

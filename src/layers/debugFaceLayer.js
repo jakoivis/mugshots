@@ -2,7 +2,7 @@
 "use strict";
 
 var BasicLayer = require("../layers/basicLayer.js");
-var Face = require("../components/face/Face.js");
+var Face = require("../components/Face.js");
 
 var amplify = require("amplify").amplify;
 var Topics = require("../topics.js");
