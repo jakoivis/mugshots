@@ -12,6 +12,7 @@ var ApplicationLayer = require("./layers/ApplicationLayer.js");
 var DebugControlsLayer = require("./layers/debugControlsLayer.js");
 var DebugFaceLayer = require("./layers/debugFaceLayer.js");
 
+
 createjs.Ticker.setFPS(30);
 
 new ApplicationLayer({

@@ -40,8 +40,6 @@ function PreloadLayer(options) {
         createjs.Tween
             .get(_tableShadow)
             .to({alpha: 0}, 1500, createjs.Ease.circOut);
-
-        _spinner.setToBackgroundMode();
     };
 
     me.onPreloadComplete = function() {

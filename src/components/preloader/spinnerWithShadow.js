@@ -2,6 +2,7 @@
 "use strict";
 
 var Spinner = require("../../components/preloader/spinner.js");
+var BasicContainer = require("../../components/basicContainer.js");
 
 var SpinnerWithShadow = function(options) {
 
@@ -9,8 +10,6 @@ var SpinnerWithShadow = function(options) {
 
         return new SpinnerWithShadow(options);
     }
-
-    this.Container_constructor();
 
     var me = this;
     var _spinner;
@@ -20,8 +19,7 @@ var SpinnerWithShadow = function(options) {
     var _settings;
     var _isBackgroundMode = false;
 
-    function init() {
-
+    me.initialize = function() {
         _settings = createSpinnerSettings();
 
         _spinner = new Spinner(_settings.fadeInStart);
@@ -35,23 +33,9 @@ var SpinnerWithShadow = function(options) {
         me.addChild(_spinnerShadow);
         me.regX = _settings.radius;
         me.regY = _settings.height / 2;
+    };
 
-        window.addEventListener("resize", resize, false);
-
-        me.addEventListener("added", addedToStage);
-    }
-
-    function addedToStage(event) {
-
-        if(event.target.stage !== null) {
-
-            resize();
-
-            me.removeEventListener("added", addedToStage);
-        }
-    }
-
-    function resize() {
+    me.onResize = function() {
 
         var canvas = me.stage.canvas;
 
@@ -65,7 +49,7 @@ var SpinnerWithShadow = function(options) {
             me.x = canvas.width / 2;
             me.y = canvas.height / 2 +1;
         }
-    }
+    };
 
     me.update = function() {
 
@@ -86,7 +70,7 @@ var SpinnerWithShadow = function(options) {
             .to(_settings.fadeInEnd, 1000, createjs.Ease.bounceOut);
     };
 
-    me.setToBackgroundMode = function() {
+    me.onApplicationStart = function() {
 
         _isBackgroundMode = true;
 
@@ -104,18 +88,9 @@ var SpinnerWithShadow = function(options) {
         createjs.Tween
             .get(_spinnerShadow)
             .to(_settings.fadeOutEnd, 1000, createjs.Ease.bounceOut)
-            .call(cleanAll)
             .call(onComplete);
-
-        // createjs.Tween
-        //     .get(_spinnerGlow)
-        //     .to({alpha:0}, 1000, createjs.Ease.bounceOut);
     };
 
-    function cleanAll() {
-
-        window.removeEventListener("resize", resize, false);
-    }
 
     function createSpinnerSettings() {
 
@@ -197,7 +172,6 @@ var SpinnerWithShadow = function(options) {
         var graphics = mask.graphics;
         var colors = ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.4)"];
         var ratios = [0, 1];
-        var y = _settings.shadowY;
 
         graphics.beginLinearGradientFill(colors, ratios, 0, 0, 0, d);
         graphics.drawRect(0, 0, d, d);
@@ -216,9 +190,9 @@ var SpinnerWithShadow = function(options) {
         spinner.cache(0, 0, d, d);
     }
 
-    init();
+    me.BasicContainer_constructor();
 };
 
-var proto = createjs.extend(SpinnerWithShadow, createjs.Container);
+var proto = createjs.extend(SpinnerWithShadow, BasicContainer);
 
-module.exports = createjs.promote(SpinnerWithShadow, "Container");
+module.exports = createjs.promote(SpinnerWithShadow, "BasicContainer");
