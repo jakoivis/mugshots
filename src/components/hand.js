@@ -1,9 +1,9 @@
 "use strict";
 
-var BasicContainer = require("../../components/basicContainer.js");
-var HandBitmap = require("../../components/phone/handBitmap.js");
-var HandMaskBitmap = require("../../components/phone/handMaskBitmap.js");
-var FingersBitmap = require("../../components/phone/fingersBitmap.js");
+var BasicContainer = require("../components/basicContainer.js");
+var HandBitmap = require("../components/bitmap/handBitmap.js");
+var HandMaskBitmap = require("../components/bitmap/handMaskBitmap.js");
+var FingersBitmap = require("../components/bitmap/fingersBitmap.js");
 
 var Hand = function() {
 

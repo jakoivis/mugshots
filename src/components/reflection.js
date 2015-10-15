@@ -1,7 +1,7 @@
 "use strict";
 
-var BasicContainer = require("../../components/basicContainer.js");
-var ReflectionMaskBitmap = require("../../components/phone/reflectionMaskBitmap.js");
+var BasicContainer = require("../components/basicContainer.js");
+var ReflectionMaskBitmap = require("../components/bitmap/reflectionMaskBitmap.js");
 
 var Reflection = function() {
 

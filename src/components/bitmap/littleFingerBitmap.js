@@ -1,6 +1,6 @@
 "use strict";
 
-var BasicBitmap = require("../../components/basicBitmap.js");
+var BasicBitmap = require("./basicBitmap.js");
 
 var LittleFingerBitmap = function() {
 

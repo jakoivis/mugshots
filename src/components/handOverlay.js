@@ -1,9 +1,9 @@
 "use strict";
 
-var BasicContainer = require("../../components/basicContainer.js");
-var LittleFingerBitmap = require("../../components/phone/littleFingerBitmap.js");
-var ThumbBitmap = require("../../components/phone/thumbBitmap.js");
-var ThumbPressedBitmap = require("../../components/phone/thumbPressedBitmap.js");
+var BasicContainer = require("../components/basicContainer.js");
+var LittleFingerBitmap = require("../components/bitmap/littleFingerBitmap.js");
+var ThumbBitmap = require("../components/bitmap/thumbBitmap.js");
+var ThumbPressedBitmap = require("../components/bitmap/thumbPressedBitmap.js");
 
 var HandOverlay = function() {
 

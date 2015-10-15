@@ -1,8 +1,8 @@
 "use strict";
 
-var BasicContainer = require("../../components/basicContainer.js");
-var BackgroundBitmap = require("../../components/background/backgroundBitmap.js");
-var ScaleUtil = require("../../utils/scaleUtil.js");
+var BasicContainer = require("../components/basicContainer.js");
+var BackgroundBitmap = require("../components/bitmap/backgroundBitmap.js");
+var ScaleUtil = require("../utils/scaleUtil.js");
 
 var Background = function() {
 

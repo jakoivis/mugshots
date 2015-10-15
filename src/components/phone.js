@@ -1,15 +1,12 @@
 
 "use strict";
 
-var amplify = require("amplify").amplify;
-
-var BasicContainer = require("../../components/basicContainer.js");
-var PhoneBitmap = require("../../components/phone/phoneBitmap.js");
-var Screen = require("../../components/phone/screen.js");
-var Reflection = require("../../components/phone/reflection.js");
-var Hand = require("../../components/phone/hand.js");
-var HandOverlay = require("../../components/phone/handOverlay.js");
-var Topics = require("../../topics.js");
+var BasicContainer = require("../components/basicContainer.js");
+var PhoneBitmap = require("../components/bitmap/phoneBitmap.js");
+var Screen = require("../components/screen.js");
+var Reflection = require("../components/reflection.js");
+var Hand = require("../components/hand.js");
+var HandOverlay = require("../components/handOverlay.js");
 
 var Phone = function() {
 
