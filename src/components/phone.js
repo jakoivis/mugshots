@@ -23,6 +23,8 @@ var Phone = function() {
 
     me.initialize = function() {
 
+        me.setMouseDisabled();
+
         _screen = new Screen();
         _phoneBitmap = new PhoneBitmap();
         _reflection = new Reflection();
@@ -42,8 +44,18 @@ var Phone = function() {
         me.addChild(_scaleContainer);
 
         update();
+    };
 
-        addClickHandler();
+    me.addedToStage = function() {
+
+        var easing = createjs.Ease.sineInOut;
+        var duration = 1200;
+
+        createjs.Tween
+            .get(_scaleContainer)
+            .to({alpha:1}, duration, easing)
+            .call(addClickHandler)
+            .call(me.setMouseEnabled);
     };
 
     me.onResize = function() {
@@ -62,6 +74,7 @@ var Phone = function() {
         var container = new createjs.Container();
         container.regX = phoneBitmap.image.width / 2;
         container.regY = phoneBitmap.image.height / 2;
+        container.alpha = 0;
 
         return container;
     }
@@ -100,7 +113,7 @@ var Phone = function() {
         var duration = 120;
 
         createjs.Tween
-            .get(_scaleContainer, {override:true})
+            .get(_scaleContainer, {override: true})
             .to({scaleX:scale, scaleY:scale}, duration, easing);
     }
 
@@ -116,7 +129,7 @@ var Phone = function() {
         var duration = 120;
 
         createjs.Tween
-            .get(_screen.face, {override:true})
+            .get(_screen.face, {override: true})
             .to({scaleX:scale, scaleY:scale}, duration, easing);
     }
 

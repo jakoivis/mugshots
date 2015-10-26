@@ -25,6 +25,13 @@ var BasicContainer = function(options) {
 
     var me = this;
 
+    var isAddedToStage = false;
+
+    Object.defineProperty(this, "isAddedToStage", {
+
+        get: function() { return isAddedToStage; }
+    });
+
     Object.defineProperty(this, "stageWidth", {
 
         get: function() { return me.stage.canvas.width; }
@@ -90,9 +97,11 @@ var BasicContainer = function(options) {
 
         me.removeEventListener("addedToStage", addedToStage);
 
+        isAddedToStage = true;
+
         attachOnResize();
         attachOnTick();
-        attachMouseMove();
+        addMouseMove();
 
         if(me.addedToStage) {
 
@@ -118,11 +127,19 @@ var BasicContainer = function(options) {
         }
     }
 
-    function attachMouseMove() {
+    function addMouseMove() {
+
+        if(me.onMouseMove && me.mouseEnabled) {
+
+            me.stage.on("stagemousemove", me.onMouseMove);
+        }
+    }
+
+    function removeMouseMove() {
 
         if(me.onMouseMove) {
 
-            me.stage.on("stagemousemove", me.onMouseMove);
+            me.stage.off("stagemousemove", me.onMouseMove);
         }
     }
 
@@ -182,6 +199,26 @@ var BasicContainer = function(options) {
 
         return false;
     }
+
+    me.setMouseEnabled = function() {
+
+        me.mouseEnabled = true;
+
+        if(isAddedToStage) {
+
+            addMouseMove();
+        }
+    };
+
+    me.setMouseDisabled = function() {
+
+        me.mouseEnabled = false;
+
+        if(isAddedToStage) {
+
+            removeMouseMove();
+        }
+    };
 
     me.Container_constructor();
 
