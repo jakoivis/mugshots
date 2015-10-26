@@ -19,6 +19,7 @@ var Topics = require("../topics.js");
  * - onTick
  * - onPreloadComplete
  * - onFileLoadComplete
+ * - onRequiredFilesComplete
  * - getAcceptedResources   Implement this function to filter out resources that aren't used by this compnent
  * - onApplicationStart
  */
@@ -58,6 +59,11 @@ var BasicContainer = function(options) {
         if(me.onFileLoadComplete) {
 
             amplify.subscribe(Topics.PRELOAD_ITEM_COMPLETE, onFileLoadComplete);
+        }
+
+        if(me.onRequiredFilesComplete) {
+
+            amplify.subscribe(Topics.PRELOAD_REQUIRED_COMPLETE, me.onRequiredFilesComplete);
         }
 
         if(me.onApplicationStart) {
@@ -151,6 +157,11 @@ var BasicContainer = function(options) {
         if(me.onFileLoadComplete) {
 
             amplify.unsubscribe(Topics.PRELOAD_ITEM_COMPLETE, onFileLoadComplete);
+        }
+
+        if(me.onRequiredFilesComplete) {
+
+            amplify.unsubscribe(Topics.PRELOAD_REQUIRED_COMPLETE, me.onRequiredFilesComplete);
         }
 
         if(me.onApplicationStart) {

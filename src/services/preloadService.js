@@ -12,6 +12,7 @@ function PreloadService() {
     var me = this;
     var percentToLoadBeforeBGMode = 0.2;
     var isBackgroundMode = false;
+    var requiredFilesLoaded = false;
     var loader;
 
     me.load = function() {
@@ -29,6 +30,16 @@ function PreloadService() {
         if(item.isComplete()) {
 
             amplify.publish(TOPICS.PRELOAD_ITEM_COMPLETE, item);
+        }
+
+        if(!item.required && !requiredFilesLoaded) {
+
+            // items are orderer so that required are first
+            // when first non-required comes, all required are complete
+
+            requiredFilesLoaded = true;
+
+            amplify.publish(TOPICS.PRELOAD_REQUIRED_COMPLETE);
         }
 
         if(canSwitchToBackgroundLoading()) {

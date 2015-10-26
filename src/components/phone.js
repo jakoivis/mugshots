@@ -46,6 +46,10 @@ var Phone = function() {
         update();
     };
 
+    me.onRequiredFilesComplete = function() {
+
+    };
+
     me.addedToStage = function() {
 
         var easing = createjs.Ease.sineInOut;
