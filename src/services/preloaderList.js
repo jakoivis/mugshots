@@ -734,9 +734,6 @@ var list = [
 
 function PreloaderList(list) {
 
-    // returns the list sorted so that loader loads items
-    // from all groups in parallel instead of one group at a time
-
     /**
      * Returns list of images where the required images are first
      * then rest of the items are in mixed order

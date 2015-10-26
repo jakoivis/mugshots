@@ -4,7 +4,7 @@
 var TOPICS = {
     PRELOAD_COMPLETE: "preloadComplete",
     PRELOAD_ITEM_COMPLETE: "preloadItemComplete",
-    PRELOAD_BACKGROUND: "preloadBackground",
+    PRELOAD_APPLICATION_START: "preloaderApplicationStart",
 
     RANDOM_POSITIONS: "randomPositions",
     NEXT_BACKGROUND: "nextBackground",

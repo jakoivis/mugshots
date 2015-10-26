@@ -7,6 +7,7 @@ var Topics = require("../topics.js");
 
 /**
  * @class
+ * @abstract
  * @param      {<type>}  options  { description }
  *
  * - stageWidth     getter
@@ -61,7 +62,7 @@ var BasicContainer = function(options) {
 
         if(me.onApplicationStart) {
 
-            amplify.subscribe(Topics.PRELOAD_BACKGROUND, me.onApplicationStart);
+            amplify.subscribe(Topics.PRELOAD_APPLICATION_START, me.onApplicationStart);
         }
     }
 
@@ -154,7 +155,7 @@ var BasicContainer = function(options) {
 
         if(me.onApplicationStart) {
 
-            amplify.unsubscribe(Topics.PRELOAD_BACKGROUND, me.onApplicationStart);
+            amplify.unsubscribe(Topics.PRELOAD_APPLICATION_START, me.onApplicationStart);
         }
 
         if(me.onPreloadComplete) {

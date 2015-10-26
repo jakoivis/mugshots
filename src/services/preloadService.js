@@ -33,7 +33,7 @@ function PreloadService() {
 
         if(canSwitchToBackgroundLoading()) {
 
-            amplify.publish(TOPICS.PRELOAD_BACKGROUND);
+            amplify.publish(TOPICS.PRELOAD_APPLICATION_START);
         }
     }
 
