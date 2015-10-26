@@ -732,33 +732,70 @@ var list = [
 
 ];
 
-function PreloaderList(list)
-{
+function PreloaderList(list) {
+
     // returns the list sorted so that loader loads items
     // from all groups in parallel instead of one group at a time
-    function getList()
-    {
-        var groups = createFacePartGroups(list);
+
+    /**
+     * Returns list of images where the required images are first
+     * then rest of the items are in mixed order
+     *
+     * e.g.
+     * required item
+     * required item
+     * item from group 1
+     * item from group 2
+     * item from group 3
+     * item from group 1
+     * item from group 2
+     * ...
+     */
+    this.getList = function() {
+
+        var required = getRequiredAssets(list);
+        var groups = createGroups(list);
         var sortedList = createSortedList(groups);
-        return sortedList;
+
+        return required.concat(sortedList);
+    };
+
+    function getRequiredAssets(list) {
+
+        var result = [];
+
+        for(var i = 0; i < list.length; i++) {
+
+            if(list[i].required) {
+
+                result.push(list[i]);
+            }
+        }
+
+        return result;
     }
 
-    function createFacePartGroups(facePartList)
-    {
+    function createGroups(list) {
+
         var result = [];
         var groupNames = [];
         var groupName;
         var groupIndex;
         var item;
 
-        for(var i = 0; i < facePartList.length; i++)
-        {
-            item = facePartList[i];
+        for(var i = 0; i < list.length; i++) {
+
+            item = list[i];
+
+            if(item.required) {
+                continue;
+            }
+
             groupName = item.groupName;
             groupIndex = groupNames.indexOf(groupName);
 
-            if(groupIndex < 0)
-            {
+            if(groupIndex < 0) {
+
                 groupNames.push(groupName);
                 result.push([]);
                 groupIndex = groupNames.indexOf(groupName);
@@ -770,21 +807,21 @@ function PreloaderList(list)
         return result;
     }
 
-    function createSortedList(facePartGroups)
-    {
+    function createSortedList(facePartGroups) {
+
         var length = getHighestGroupLength(facePartGroups);
         var numberOfGroups = facePartGroups.length;
         var result = [];
         var item;
 
-        for(var i = 0; i < length; i++)
-        {
-            for(var j = 0; j < numberOfGroups; j++)
-            {
+        for(var i = 0; i < length; i++) {
+
+            for(var j = 0; j < numberOfGroups; j++) {
+
                 item = facePartGroups[j][i];
 
-                if(item)
-                {
+                if(item) {
+
                     result.push(item);
                 }
             }
@@ -793,24 +830,20 @@ function PreloaderList(list)
         return result;
     }
 
-    function getHighestGroupLength(facePartGroups)
-    {
+    function getHighestGroupLength(facePartGroups) {
+
         var highestLength = 0;
 
-        for(var i = 0; i < facePartGroups.length; i++)
-        {
-            if(facePartGroups[i].length > highestLength)
-            {
+        for(var i = 0; i < facePartGroups.length; i++) {
+
+            if(facePartGroups[i].length > highestLength) {
+
                 highestLength = facePartGroups[i].length;
             }
         }
 
         return highestLength;
     }
-
-    return {
-        getList: getList
-    };
 }
 
 module.exports = new PreloaderList(list);
