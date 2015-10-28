@@ -81,6 +81,10 @@ function Face() {
 
     me.update = function() {
 
+        if(!me.isAddedToStage) {
+            return;
+        }
+
         me.removeAllChildren();
 
         me.addChild(stacks.background.current().bitmap);

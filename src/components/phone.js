@@ -22,6 +22,7 @@ var Phone = function() {
     var _baseScale;
 
     me.initialize = function() {
+        console.log("initialize");
 
         me.setMouseDisabled();
 
@@ -33,7 +34,12 @@ var Phone = function() {
     };
 
     me.onApplicationStart = function() {
+        console.log("onApplicationStart");
 
+    };
+
+    me.onRequiredFilesComplete = function() {
+        console.log("onRequiredFilesComplete");
         _scaleContainer = createScaleContainer(_phoneBitmap);
 
         // _scaleContainer.addChild(_hand);
@@ -46,12 +52,8 @@ var Phone = function() {
         update();
     };
 
-    me.onRequiredFilesComplete = function() {
-
-    };
-
     me.addedToStage = function() {
-
+        console.log("addedToStage");
         var easing = createjs.Ease.sineInOut;
         var duration = 1200;
 
@@ -63,6 +65,8 @@ var Phone = function() {
     };
 
     me.onResize = function() {
+
+        console.log("onResize");
 
         me.x = me.stageWidth / 2;
         me.y = me.stageHeight / 2;

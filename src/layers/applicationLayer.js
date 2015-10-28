@@ -26,7 +26,7 @@ function ApplicationLayer(options) {
         me.stage.update(event);
     };
 
-    me.onApplicationStart = function() {
+    me.onRequiredFilesComplete = function() {
 
         // me.stage.addChild(_background);
         me.stage.addChild(_phone);

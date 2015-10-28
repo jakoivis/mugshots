@@ -16,6 +16,7 @@ var Topics = require("../topics.js");
  * - onTick                 Executed every time for tick event
  * - onPreloadComplete      Executed once when preload has finished
  * - onFileLoadComplete     Executed every time when a file has been loaded
+ * - onRequiredFilesComplete
  * - onApplicationStart     Executed once when application is ready to start
  * - onResize               Executed every time when window size changes
  */
@@ -69,6 +70,11 @@ var BasicLayer = function(options) {
             amplify.subscribe(Topics.PRELOAD_ITEM_COMPLETE, me.onFileLoadComplete);
         }
 
+        if(me.onRequiredFilesComplete) {
+
+            amplify.subscribe(Topics.PRELOAD_REQUIRED_COMPLETE, me.onRequiredFilesComplete);
+        }
+
         if(me.onApplicationStart) {
 
             amplify.subscribe(Topics.PRELOAD_APPLICATION_START, me.onApplicationStart);
@@ -82,6 +88,11 @@ var BasicLayer = function(options) {
         if(me.onFileLoadComplete) {
 
             amplify.unsubscribe(Topics.PRELOAD_ITEM_COMPLETE, me.onFileLoadComplete);
+        }
+
+        if(me.onRequiredFilesComplete) {
+
+            amplify.unsubscribe(Topics.PRELOAD_REQUIRED_COMPLETE, me.onRequiredFilesComplete);
         }
 
         if(me.onApplicationStart) {

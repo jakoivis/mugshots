@@ -20,7 +20,7 @@ var Reflection = function() {
         _reflectionMaskBitmap = new ReflectionMaskBitmap();
     };
 
-    me.onApplicationStart = function() {
+    me.onRequiredFilesComplete = function() {
 
         _glow = createGlow();
 

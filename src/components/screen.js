@@ -64,6 +64,10 @@ var Screen = function(screenBounds) {
         maskScreen(_face, _screenBounds);
     };
 
+    me.onRequiredFilesComplete = function() {
+
+    };
+
     me.onFileLoadComplete = function(imageLoaderItem) {
 
         // we phone need to listen for image only to get dimensions

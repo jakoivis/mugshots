@@ -20,7 +20,7 @@ var HandOverlay = function() {
         _thumbPressedBitmap = new ThumbPressedBitmap();
     };
 
-    me.onApplicationStart = function() {
+    me.onRequiredFilesComplete = function() {
 
         _littleFingerBitmap.x = 23;
         _littleFingerBitmap.y = 767;
