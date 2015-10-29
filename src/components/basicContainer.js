@@ -106,6 +106,8 @@ var BasicContainer = function(options) {
 
         isAddedToStage = true;
 
+        me.addOnResize();
+
         if(me.addedToStage) {
 
             me.addedToStage();
@@ -182,7 +184,7 @@ var BasicContainer = function(options) {
 
             me.onResize();
         }
-    }
+    };
 
     me.removeOnResize = function() {
 
@@ -190,7 +192,7 @@ var BasicContainer = function(options) {
 
             window.removeEventListener("resize", me.onResize);
         }
-    }
+    };
 
     me.addOnTick = function() {
 
@@ -198,7 +200,7 @@ var BasicContainer = function(options) {
 
             me.on("tick", me.onTick);
         }
-    }
+    };
 
     me.removeOnTick = function() {
 
@@ -206,7 +208,7 @@ var BasicContainer = function(options) {
 
             me.off("tick", me.onTick);
         }
-    }
+    };
 
     me.setMouseEnabled = function() {
 

@@ -24,13 +24,11 @@ var Phone = function() {
     me.initialize = function() {
         console.log("initialize");
 
-        me.setMouseDisabled();
-
         _screen = new Screen();
         _phoneBitmap = new PhoneBitmap();
         _reflection = new Reflection();
-        _hand = new Hand();
-        _handOverlay = new HandOverlay();
+        // _hand = new Hand();
+        // _handOverlay = new HandOverlay();
     };
 
     me.onApplicationStart = function() {

@@ -27,6 +27,8 @@ var Reflection = function() {
         me.addChild(_glow);
 
         maskReflection();
+
+        me.addOnTick();
     };
 
     me.onTick = function() {

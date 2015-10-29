@@ -44,7 +44,7 @@ var Screen = function(screenBounds) {
         _face = new Face();
     };
 
-    me.onApplicationStart = function() {
+    me.onRequiredFilesComplete = function() {
 
         _screenBounds = createScreenBounds();
 
@@ -62,9 +62,11 @@ var Screen = function(screenBounds) {
         me.addChild(screenShadows);
 
         maskScreen(_face, _screenBounds);
+
+        me.addOnTick();
     };
 
-    me.onRequiredFilesComplete = function() {
+    me.onApplicationStart = function() {
 
     };
 
