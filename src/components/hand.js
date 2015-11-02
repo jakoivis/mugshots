@@ -20,7 +20,7 @@ var Hand = function() {
         _fingersBitmap = new FingersBitmap();
     };
 
-    me.onApplicationStart = function() {
+    me.onRequiredFilesComplete = function() {
 
         maskHandBitmap();
 

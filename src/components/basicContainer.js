@@ -106,47 +106,11 @@ var BasicContainer = function(options) {
 
         isAddedToStage = true;
 
-        attachOnResize();
-        attachOnTick();
-        addMouseMove();
+        me.addOnResize();
 
         if(me.addedToStage) {
 
             me.addedToStage();
-        }
-    }
-
-    function attachOnResize() {
-
-        if(me.onResize) {
-
-            window.addEventListener("resize", me.onResize);
-
-            me.onResize();
-        }
-    }
-
-    function attachOnTick() {
-
-        if(me.onTick) {
-
-            me.on("tick", me.onTick);
-        }
-    }
-
-    function addMouseMove() {
-
-        if(me.onMouseMove && me.mouseEnabled) {
-
-            me.stage.on("stagemousemove", me.onMouseMove);
-        }
-    }
-
-    function removeMouseMove() {
-
-        if(me.onMouseMove) {
-
-            me.stage.off("stagemousemove", me.onMouseMove);
         }
     }
 
@@ -212,6 +176,40 @@ var BasicContainer = function(options) {
         return false;
     }
 
+    me.addOnResize = function() {
+
+        if(me.onResize) {
+
+            window.addEventListener("resize", me.onResize);
+
+            me.onResize();
+        }
+    };
+
+    me.removeOnResize = function() {
+
+        if(me.onResize) {
+
+            window.removeEventListener("resize", me.onResize);
+        }
+    };
+
+    me.addOnTick = function() {
+
+        if(me.onTick) {
+
+            me.on("tick", me.onTick);
+        }
+    };
+
+    me.removeOnTick = function() {
+
+        if(me.onTick) {
+
+            me.off("tick", me.onTick);
+        }
+    };
+
     me.setMouseEnabled = function() {
 
         me.mouseEnabled = true;
@@ -231,6 +229,22 @@ var BasicContainer = function(options) {
             removeMouseMove();
         }
     };
+
+    function addMouseMove() {
+
+        if(me.onMouseMove) {
+
+            me.stage.on("stagemousemove", me.onMouseMove);
+        }
+    }
+
+    function removeMouseMove() {
+
+        if(me.onMouseMove) {
+
+            me.stage.off("stagemousemove", me.onMouseMove);
+        }
+    }
 
     me.Container_constructor();
 

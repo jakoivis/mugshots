@@ -56,8 +56,14 @@ function Face() {
 
     me.onApplicationStart = function() {
 
+    };
+
+    me.addedToStage = function() {
+
         me.regX = me.width / 2;
         me.regY = me.height / 2;
+
+        me.update();
     };
 
     me.onMouseMove = function() {
@@ -80,6 +86,10 @@ function Face() {
     };
 
     me.update = function() {
+
+        if(!me.isAddedToStage) {
+            return;
+        }
 
         me.removeAllChildren();
 

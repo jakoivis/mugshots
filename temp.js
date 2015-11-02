@@ -1,0 +1,1 @@
+"build:js": "browserify -g uglifyify src/index.js --debug > dist/main.js",
