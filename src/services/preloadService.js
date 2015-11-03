@@ -21,7 +21,7 @@ function PreloadService() {
             images: PreloaderList.getList(),
             onFileComplete: onFileComplete,
             onComplete: onComplete,
-            // simulationDelayMin: 60,
+            simulationDelayMin: 150,
         });
     };
 

@@ -4,6 +4,13 @@
 var BasicLayer = require("../layers/basicLayer.js");
 var SpinnerWithShadow = require("../components/preloader/spinnerWithShadow.js");
 
+/**
+ * This preloader is shown when nothing has been loaded yet.
+ * When there is some content loaded, this will be removed.
+ *
+ * @class
+ * @param      {<type>}  options  { description }
+ */
 function PreloadLayer(options) {
 
     var me = this;
@@ -17,6 +24,10 @@ function PreloadLayer(options) {
         me.stage.addChild(_tableShadow);
 
         _spinner = new SpinnerWithShadow();
+
+        _spinner.x = me.stageWidth / 2;
+        _spinner.y = me.stageHeight / 2;
+
         me.stage.addChild(_spinner);
         _spinner.show();
 
@@ -35,19 +46,16 @@ function PreloadLayer(options) {
         me.stage.update(event);
     };
 
-    me.onApplicationStart = function() {
-
-        createjs.Tween
-            .get(_tableShadow)
-            .to({alpha: 0}, 1500, createjs.Ease.circOut);
-    };
-
-    me.onPreloadComplete = function() {
+    me.onRequiredFilesComplete = function() {
 
         _spinner.remove(function() {
 
             me.killAll();
         });
+
+        createjs.Tween
+            .get(_tableShadow)
+            .to({alpha: 0}, 1500, createjs.Ease.circOut);
     };
 
     function resizeTableShadowPosition() {

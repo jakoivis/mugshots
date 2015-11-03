@@ -17,7 +17,6 @@ var SpinnerWithShadow = function(options) {
     var _spinnerShadow;
     var _spinnerShadowMask;
     var _settings;
-    var _isBackgroundMode = false;
 
     me.initialize = function() {
         _settings = createSpinnerSettings();
@@ -33,22 +32,6 @@ var SpinnerWithShadow = function(options) {
         me.addChild(_spinnerShadow);
         me.regX = _settings.radius;
         me.regY = _settings.height / 2;
-    };
-
-    me.onResize = function() {
-
-        var canvas = me.stage.canvas;
-
-        if(_isBackgroundMode) {
-
-            me.x = _settings.radius +20;
-            me.y = canvas.height / 2 +1;
-
-        } else {
-
-            me.x = canvas.width / 2;
-            me.y = canvas.height / 2 +1;
-        }
     };
 
     me.update = function() {
@@ -68,15 +51,6 @@ var SpinnerWithShadow = function(options) {
         createjs.Tween
             .get(_spinnerShadow)
             .to(_settings.fadeInEnd, 1000, createjs.Ease.bounceOut);
-    };
-
-    me.onApplicationStart = function() {
-
-        _isBackgroundMode = true;
-
-        createjs.Tween
-            .get(me)
-            .to({x: _settings.radius +20}, 1000, createjs.Ease.circInOut);
     };
 
     me.remove = function(onComplete) {

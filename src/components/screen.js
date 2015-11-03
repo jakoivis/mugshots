@@ -6,6 +6,7 @@ var ScreenFlash = require("../components/screen/screenFlash.js");
 var ScreenBackground = require("../components/screen/screenBackground.js");
 var Face = require("../components/face.js");
 var Bounds = require("../utils/bounds.js");
+var ScreenContentPreloader = require("../components/screen/screenContentPreloader.js");
 
 var Screen = function(screenBounds) {
 
@@ -14,6 +15,7 @@ var Screen = function(screenBounds) {
     var _face;
     var _screenFlash;
     var _screenBounds;
+    var _preloaderContent;
 
     var _resources = {
         phone: null
@@ -44,30 +46,9 @@ var Screen = function(screenBounds) {
         _face = new Face();
     };
 
-    me.onRequiredFilesComplete = function() {
+    me.getAcceptedResources = function() {
 
-        _screenBounds = createScreenBounds();
-
-        _screenFlash = new ScreenFlash(_screenBounds.width, _screenBounds.height);
-
-        var screenShadows = new ScreenShadows(_screenBounds, 6);
-        var screenBackground = new ScreenBackground(_screenBounds.width, _screenBounds.height);
-
-        me.x = _screenBounds.left;
-        me.y = _screenBounds.top;
-
-        me.addChild(screenBackground);
-        me.addChild(_face);
-        me.addChild(_screenFlash);
-        me.addChild(screenShadows);
-
-        maskScreen(_face, _screenBounds);
-
-        me.addOnTick();
-    };
-
-    me.onApplicationStart = function() {
-
+        return {name: ["phone"]};
     };
 
     me.onFileLoadComplete = function(imageLoaderItem) {
@@ -79,9 +60,41 @@ var Screen = function(screenBounds) {
         }
     };
 
-    me.getAcceptedResources = function() {
+    me.onRequiredFilesComplete = function() {
 
-        return {name: ["phone"]};
+        console.log("Screen::onRequiredFilesComplete");
+
+        _screenBounds = createScreenBounds();
+
+        var screenWidth = _screenBounds.width;
+        var screenHeight = _screenBounds.height;
+
+        _preloaderContent = new ScreenContentPreloader(screenWidth, screenHeight);
+
+        _screenFlash = new ScreenFlash(_screenBounds.width, _screenBounds.height);
+
+        var screenShadows = new ScreenShadows(_screenBounds, 6);
+        var screenBackground = new ScreenBackground(_screenBounds.width, _screenBounds.height);
+
+        me.x = _screenBounds.left;
+        me.y = _screenBounds.top;
+
+        // me.addChild(screenBackground);
+        // me.addChild(_face);
+        // me.addChild(_screenFlash);
+        me.addChild(_preloaderContent);
+        me.addChild(screenShadows);
+
+        maskScreen(_screenBounds);
+
+        me.addOnTick();
+    };
+
+    me.addedToStage = function() {
+
+        console.log("Screen::addedToStage");
+
+        _preloaderContent.show();
     };
 
     me.onTick = function() {
@@ -109,7 +122,7 @@ var Screen = function(screenBounds) {
         });
     }
 
-    function maskScreen(face, screenBounds) {
+    function maskScreen(screenBounds) {
 
         var mask = new createjs.Shape();
         mask.graphics.beginFill("#FF0000");
@@ -117,7 +130,7 @@ var Screen = function(screenBounds) {
         mask.cache(0, 0, screenBounds.width, screenBounds.height);
 
         me.filters = [new createjs.AlphaMaskFilter(mask.cacheCanvas)];
-        me.cache(0, 0, face.width, face.height);
+        me.cache(0, 0, screenBounds.width, screenBounds.height);
     }
 
     me.BasicContainer_constructor();
