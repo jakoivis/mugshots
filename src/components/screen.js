@@ -4,18 +4,20 @@ var BasicContainer = require("../components/basicContainer.js");
 var ScreenShadows = require("../components/screen/screenShadows.js");
 var ScreenFlash = require("../components/screen/screenFlash.js");
 var ScreenBackground = require("../components/screen/screenBackground.js");
-var Face = require("../components/face.js");
 var Bounds = require("../utils/bounds.js");
 var ScreenContentPreloader = require("../components/screen/screenContentPreloader.js");
+var ScreenContentFace = require("../components/screen/screenContentFace.js");
 
 var Screen = function(screenBounds) {
 
     var me = this;
 
-    var _face;
     var _screenFlash;
     var _screenBounds;
     var _preloaderContent;
+    var _faceContent;
+    var _screenBackground;
+    var _screenShadows;
 
     var _resources = {
         phone: null
@@ -38,12 +40,12 @@ var Screen = function(screenBounds) {
 
     Object.defineProperty(this, "face", {
 
-        get: function() { return _face; }
+        get: function() { return _faceContent.face; }
     });
 
     me.initialize = function() {
 
-        _face = new Face();
+        _faceContent = new ScreenContentFace();
     };
 
     me.getAcceptedResources = function() {
@@ -66,24 +68,21 @@ var Screen = function(screenBounds) {
 
         _screenBounds = createScreenBounds();
 
+        me.x = _screenBounds.left;
+        me.y = _screenBounds.top;
+
         var screenWidth = _screenBounds.width;
         var screenHeight = _screenBounds.height;
 
         _preloaderContent = new ScreenContentPreloader(screenWidth, screenHeight);
+        _screenFlash = new ScreenFlash(screenWidth, screenHeight);
+        _screenBackground = new ScreenBackground(screenWidth, screenHeight);
+        _screenShadows = new ScreenShadows(_screenBounds, 6);
 
-        _screenFlash = new ScreenFlash(_screenBounds.width, _screenBounds.height);
-
-        var screenShadows = new ScreenShadows(_screenBounds, 6);
-        var screenBackground = new ScreenBackground(_screenBounds.width, _screenBounds.height);
-
-        me.x = _screenBounds.left;
-        me.y = _screenBounds.top;
-
-        // me.addChild(screenBackground);
-        // me.addChild(_face);
+        me.addChild(_screenBackground);
         // me.addChild(_screenFlash);
         me.addChild(_preloaderContent);
-        me.addChild(screenShadows);
+        me.addChild(_screenShadows);
 
         maskScreen(_screenBounds);
 
@@ -94,7 +93,25 @@ var Screen = function(screenBounds) {
 
         console.log("Screen::addedToStage");
 
+        _screenBackground.fadeIn();
         _preloaderContent.show();
+    };
+
+    me.onApplicationStart = function() {
+
+        _preloaderContent.remove()
+            .then(function() {
+
+                me.removeChild(_preloaderContent);
+
+                console.log("preloader removed");
+                return _screenBackground.fadeToWhite();
+                // me.addChild(_faceContent);
+                // _faceContent.show();
+            })
+            .then(function() {
+                console.log("complete");
+            });
     };
 
     me.onTick = function() {
@@ -107,7 +124,8 @@ var Screen = function(screenBounds) {
 
     me.update = function() {
 
-        _face.update();
+        _faceContent.update();
+        // _face.update();
     };
 
     function createScreenBounds() {

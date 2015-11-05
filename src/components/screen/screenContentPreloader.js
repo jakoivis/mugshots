@@ -31,7 +31,7 @@ var ScreenContentPreloader = function(width, height) {
 
     me.remove = function() {
 
-        _spinner.remove();
+        return _spinner.remove();
     };
 
     me.BasicContainer_constructor();

@@ -53,16 +53,19 @@ var SpinnerWithShadow = function(options) {
             .to(_settings.fadeInEnd, 1000, createjs.Ease.bounceOut);
     };
 
-    me.remove = function(onComplete) {
+    me.remove = function() {
 
-        createjs.Tween
-            .get(_spinner)
-            .to(_settings.fadeOutEnd, 1000, createjs.Ease.bounceOut);
+        return new Promise(function(resolve) {
 
-        createjs.Tween
-            .get(_spinnerShadow)
-            .to(_settings.fadeOutEnd, 1000, createjs.Ease.bounceOut)
-            .call(onComplete);
+            createjs.Tween
+                .get(_spinner)
+                .to(_settings.fadeOutEnd, 1000, createjs.Ease.bounceOut);
+
+            createjs.Tween
+                .get(_spinnerShadow)
+                .to(_settings.fadeOutEnd, 1000, createjs.Ease.bounceOut)
+                .call(resolve);
+        });
     };
 
 
