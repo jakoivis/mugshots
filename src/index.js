@@ -9,6 +9,7 @@ require("tweenjs");
 var PreloadService = require("./services/preloadService.js");
 var PreloadLayer = require("./layers/preloadLayer.js");
 var ApplicationLayer = require("./layers/ApplicationLayer.js");
+var ImageCache = require("./imageCache.js");
 // var DebugControlsLayer = require("./layers/debugControlsLayer.js");
 // var DebugFaceLayer = require("./layers/debugFaceLayer.js");
 
@@ -31,5 +32,5 @@ new PreloadLayer({
 //     target: "debugControls"
 // });
 
-
+ImageCache.initialize();
 PreloadService.load();

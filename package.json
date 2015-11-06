@@ -29,7 +29,8 @@
     "amplify": "./bower_components/amplify/lib/amplify.core.min.js",
     "ImageLoader": "./bower_components/imageLoader/build/imageLoader.js",
     "easeljs": "./bower_components/easeljs/lib/easeljs-0.8.1.combined.js",
-    "tweenjs": "./bower_components/TweenJS/lib/tweenjs-0.6.1.combined.js"
+    "tweenjs": "./bower_components/TweenJS/lib/tweenjs-0.6.1.combined.js",
+    "lodash": "./bower_components/lodash/lodash.min.js"
   },
   "scripts": {
     "clean": "n-clean dist",

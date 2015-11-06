@@ -2,7 +2,6 @@
 
 var BasicContainer = require("../components/basicContainer.js");
 var ScreenShadows = require("../components/screen/screenShadows.js");
-var ScreenFlash = require("../components/screen/screenFlash.js");
 var ScreenBackground = require("../components/screen/screenBackground.js");
 var Bounds = require("../utils/bounds.js");
 var ScreenContentPreloader = require("../components/screen/screenContentPreloader.js");
@@ -75,12 +74,11 @@ var Screen = function(screenBounds) {
         var screenHeight = _screenBounds.height;
 
         _preloaderContent = new ScreenContentPreloader(screenWidth, screenHeight);
-        _screenFlash = new ScreenFlash(screenWidth, screenHeight);
+
         _screenBackground = new ScreenBackground(screenWidth, screenHeight);
         _screenShadows = new ScreenShadows(_screenBounds, 6);
 
         me.addChild(_screenBackground);
-        // me.addChild(_screenFlash);
         me.addChild(_preloaderContent);
         me.addChild(_screenShadows);
 
@@ -100,17 +98,12 @@ var Screen = function(screenBounds) {
     me.onApplicationStart = function() {
 
         _preloaderContent.remove()
+            .then(_screenBackground.fadeToWhite)
             .then(function() {
 
                 me.removeChild(_preloaderContent);
-
-                console.log("preloader removed");
-                return _screenBackground.fadeToWhite();
-                // me.addChild(_faceContent);
-                // _faceContent.show();
-            })
-            .then(function() {
-                console.log("complete");
+                me.addChild(_faceContent);
+                _faceContent.show();
             });
     };
 
@@ -125,7 +118,6 @@ var Screen = function(screenBounds) {
     me.update = function() {
 
         _faceContent.update();
-        // _face.update();
     };
 
     function createScreenBounds() {

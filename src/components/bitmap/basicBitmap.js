@@ -4,6 +4,7 @@
 var amplify = require("amplify").amplify;
 
 var Topics = require("../../topics.js");
+var ImageCache = require("../../imageCache.js");
 
 /**
  * @class
@@ -26,7 +27,19 @@ var BasicBitmap = function() {
 
     function init() {
 
-        amplify.subscribe(Topics.PRELOAD_ITEM_COMPLETE, onFileLoadComplete);
+        var name = me.getAcceptedResourceName();
+        var imageLoaderItem = ImageCache.getItemByName(name);
+
+        if(imageLoaderItem) {
+
+            onFileLoadComplete(imageLoaderItem);
+            console.log("image found from cache: ", imageLoaderItem.name);
+
+        } else {
+
+            amplify.subscribe(Topics.PRELOAD_ITEM_COMPLETE, onFileLoadComplete);
+        }
+
     }
 
     function onFileLoadComplete(imageLoaderItem) {
