@@ -27,19 +27,23 @@ var BasicBitmap = function() {
 
     function init() {
 
-        var name = me.getAcceptedResourceName();
-        var imageLoaderItem = ImageCache.getItemByName(name);
+        var imageLoaderItem = getImageFromCache();
 
         if(imageLoaderItem) {
 
             onFileLoadComplete(imageLoaderItem);
-            console.log("image found from cache: ", imageLoaderItem.name);
 
         } else {
 
             amplify.subscribe(Topics.PRELOAD_ITEM_COMPLETE, onFileLoadComplete);
         }
+    }
 
+    function getImageFromCache() {
+
+        var name = me.getAcceptedResourceName();
+
+        return ImageCache.getItemByName(name);
     }
 
     function onFileLoadComplete(imageLoaderItem) {

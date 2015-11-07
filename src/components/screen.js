@@ -11,7 +11,6 @@ var Screen = function(screenBounds) {
 
     var me = this;
 
-    var _screenFlash;
     var _screenBounds;
     var _preloaderContent;
     var _faceContent;
@@ -24,7 +23,7 @@ var Screen = function(screenBounds) {
 
     Object.defineProperty(this, "screenFlash", {
 
-        get: function() { return _screenFlash; }
+        get: function() { return _faceContent.screenFlash; }
     });
 
     Object.defineProperty(this, "width", {
@@ -74,11 +73,11 @@ var Screen = function(screenBounds) {
         var screenHeight = _screenBounds.height;
 
         _preloaderContent = new ScreenContentPreloader(screenWidth, screenHeight);
-
         _screenBackground = new ScreenBackground(screenWidth, screenHeight);
         _screenShadows = new ScreenShadows(_screenBounds, 6);
 
         me.addChild(_screenBackground);
+        me.addChild(_faceContent);
         me.addChild(_preloaderContent);
         me.addChild(_screenShadows);
 
@@ -102,7 +101,7 @@ var Screen = function(screenBounds) {
             .then(function() {
 
                 me.removeChild(_preloaderContent);
-                me.addChild(_faceContent);
+
                 _faceContent.show();
             });
     };

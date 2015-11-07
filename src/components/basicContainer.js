@@ -1,9 +1,11 @@
 
 "use strict";
 
+var _ = require("lodash");
 var amplify = require("amplify").amplify;
 
 var Topics = require("../topics.js");
+var ImageCache = require("../imageCache.js");
 
 /**
  * @class
@@ -53,6 +55,27 @@ var BasicContainer = function(options) {
 
         me.addEventListener("added", added);
         me.addEventListener("addedToStage", addedToStage);
+
+        if(me.getAcceptedResources) {
+
+            getImagesFromCache();
+        }
+
+        listenForLoadedImages();
+    }
+
+    function getImagesFromCache() {
+
+        var accepted = me.getAcceptedResources();
+        var items = ImageCache.getItems(accepted);
+
+        _.forEach(items, function(item) {
+
+            onFileLoadComplete(item);
+        });
+    }
+
+    function listenForLoadedImages() {
 
         amplify.subscribe(Topics.PRELOAD_COMPLETE, onPreloadComplete);
 
@@ -158,9 +181,7 @@ var BasicContainer = function(options) {
 
         if(!me.getAcceptedResources) {
 
-            // if user didn't implement this function
-            // we don't need to do any filtering for the accepted resources
-            return true;
+            return false;
         }
 
         var accepted = me.getAcceptedResources();

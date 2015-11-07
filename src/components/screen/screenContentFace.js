@@ -17,10 +17,15 @@ var ScreenContentPreloader = function(width, height) {
         get: function() { return _face; }
     });
 
+    Object.defineProperty(this, "screenFlash", {
+
+        get: function() { return _screenFlash; }
+    });
+
     me.initialize = function() {
 
         _face = new Face();
-        // _screenFlash = new ScreenFlash(width, height);
+        _screenFlash = new ScreenFlash(width, height);
     };
 
     me.update = function() {
