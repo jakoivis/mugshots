@@ -33,6 +33,11 @@ function ApplicationLayer(options) {
         // me.stage.addChild(_footer);
     };
 
+    me.onApplicationStart = function() {
+
+        _phone.start();
+    };
+
     me.BasicLayer_constructor(options);
 }
 

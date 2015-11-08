@@ -8,6 +8,12 @@ var Topics = require("../topics.js");
 var ImageCache = require("../imageCache.js");
 
 /**
+ * BasicContainer handles subsicribing to pubsub channel of image loader service.
+ * Whenever image has been loaded, it is cheched whether it is accepted by this
+ * BasicContainer instance and then a callback is called to notify the sub class.
+ *
+ * TODO: if instantiated after onApplicationStart it misses that event and also onRequiredFilesComplete
+ *
  * @class
  * @abstract
  * @param      {<type>}  options  { description }
@@ -16,7 +22,7 @@ var ImageCache = require("../imageCache.js");
  * - stageHeight    getter
  *
  * - initialize
- * - addedToStage
+ * - onAdded
  * - onResize
  * - onTick
  * - onPreloadComplete
@@ -29,21 +35,24 @@ var BasicContainer = function(options) {
 
     var me = this;
 
-    var isAddedToStage = false;
-
-    Object.defineProperty(this, "isAddedToStage", {
-
-        get: function() { return isAddedToStage; }
-    });
-
     Object.defineProperty(this, "stageWidth", {
 
-        get: function() { return me.stage.canvas.width; }
+        get: function() { return window.innerWidth; }
     });
 
     Object.defineProperty(this, "stageHeight", {
 
-        get: function() { return me.stage.canvas.height; }
+        get: function() { return window.innerHeight; }
+    });
+
+    Object.defineProperty(this, "stageCenterX", {
+
+        get: function() { return me.stageWidth / 2; }
+    });
+
+    Object.defineProperty(this, "stageCenterY", {
+
+        get: function() { return me.stageHeight / 2; }
     });
 
     function init() {
@@ -54,7 +63,7 @@ var BasicContainer = function(options) {
         }
 
         me.addEventListener("added", added);
-        me.addEventListener("addedToStage", addedToStage);
+        // me.addEventListener("addedToStage", addedToStage);
 
         if(me.getAcceptedResources) {
 
@@ -97,44 +106,14 @@ var BasicContainer = function(options) {
 
     function added(event) {
 
-        var target = event.target;
-        var stage = target.stage;
+        event.target.removeEventListener("added", added);
 
-        target.removeEventListener("added", added);
+        if(me.onAdded) {
 
-        if(stage) {
-
-            notifyAddedToStage(target);
-            target.dispatchEvent("addedToStage");
+            me.onAdded();
         }
-    }
-
-    function notifyAddedToStage(target) {
-
-        var child;
-
-        if(target.children) {
-
-            for(var i = 0; i < target.children.length; i++) {
-                child = target.children[i];
-                child.dispatchEvent("addedToStage");
-                notifyAddedToStage(child);
-            }
-        }
-    }
-
-    function addedToStage() {
-
-        me.removeEventListener("addedToStage", addedToStage);
-
-        isAddedToStage = true;
 
         me.addOnResize();
-
-        if(me.addedToStage) {
-
-            me.addedToStage();
-        }
     }
 
     function onPreloadComplete() {
@@ -235,20 +214,14 @@ var BasicContainer = function(options) {
 
         me.mouseEnabled = true;
 
-        if(isAddedToStage) {
-
-            addMouseMove();
-        }
+        addMouseMove();
     };
 
     me.setMouseDisabled = function() {
 
         me.mouseEnabled = false;
 
-        if(isAddedToStage) {
-
-            removeMouseMove();
-        }
+        removeMouseMove();
     };
 
     function addMouseMove() {

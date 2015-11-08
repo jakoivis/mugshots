@@ -22,52 +22,40 @@ var Phone = function() {
     var _baseScale;
 
     me.initialize = function() {
-        console.log("initialize");
 
         _screen = new Screen();
         _phoneBitmap = new PhoneBitmap();
         _reflection = new Reflection();
-        // _hand = new Hand();
-        // _handOverlay = new HandOverlay();
+        // // _hand = new Hand();
+        // // _handOverlay = new HandOverlay();
     };
 
-    me.onApplicationStart = function() {
-        console.log("onApplicationStart");
+    me.onAdded = function() {
 
-    };
-
-    me.onRequiredFilesComplete = function() {
-        console.log("onRequiredFilesComplete");
         _scaleContainer = createScaleContainer(_phoneBitmap);
 
-        // _scaleContainer.addChild(_hand);
+        // // _scaleContainer.addChild(_hand);
         _scaleContainer.addChild(_phoneBitmap);
         _scaleContainer.addChild(_screen);
         _scaleContainer.addChild(_reflection);
-        // _scaleContainer.addChild(_handOverlay);
+        // // _scaleContainer.addChild(_handOverlay);
         me.addChild(_scaleContainer);
 
-        update();
-    };
-
-    me.addedToStage = function() {
-        console.log("addedToStage");
         var easing = createjs.Ease.sineInOut;
         var duration = 1200;
 
+        me.alpha = 0;
+
         createjs.Tween
-            .get(_scaleContainer)
+            .get(me)
             .to({alpha:1}, duration, easing)
-            .call(addClickHandler)
             .call(me.setMouseEnabled);
     };
 
     me.onResize = function() {
 
-        console.log("onResize");
-
-        me.x = me.stageWidth / 2;
-        me.y = me.stageHeight / 2;
+        me.x = me.stageCenterX;
+        me.y = me.stageCenterY;
 
         _baseScale = calculateBaseScale();
 
@@ -75,19 +63,18 @@ var Phone = function() {
         setRotation();
     };
 
+    me.start = function() {
+
+        _screen.start();
+    };
+
     function createScaleContainer(phoneBitmap) {
 
         var container = new createjs.Container();
-        container.regX = phoneBitmap.image.width / 2;
-        container.regY = phoneBitmap.image.height / 2;
-        container.alpha = 0;
+        container.regX = phoneBitmap.centerX;
+        container.regY = phoneBitmap.centerY;
 
         return container;
-    }
-
-    function update() {
-
-        _screen.update();
     }
 
     me.onMouseMove = function() {
@@ -231,15 +218,6 @@ var Phone = function() {
         }
 
         return scale;
-    }
-
-    function addClickHandler() {
-        me.on("click", function() {
-            _screen.face.setRandomFaceParts();
-            _screen.face.setRandomPositions();
-            _screen.screenFlash.flash();
-            update();
-        });
     }
 
     me.BasicContainer_constructor();

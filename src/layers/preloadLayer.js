@@ -32,6 +32,12 @@ function PreloadLayer(options) {
         _spinner.show();
 
         me.setMousePointerEvents(false);
+
+        _tableShadow.alpha = 0;
+
+        createjs.Tween
+            .get(_tableShadow)
+            .to({alpha: 1}, 1500, createjs.Ease.circOut);
     };
 
     me.onResize = function() {
@@ -48,10 +54,11 @@ function PreloadLayer(options) {
 
     me.onRequiredFilesComplete = function() {
 
-        _spinner.remove(function() {
+        _spinner.remove()
+            .then(function() {
 
-            me.killAll();
-        });
+                me.killAll();
+            });
 
         createjs.Tween
             .get(_tableShadow)

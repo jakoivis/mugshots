@@ -25,6 +25,16 @@ var BasicBitmap = function() {
         get: function() { return me.image.height; }
     });
 
+    Object.defineProperty(this, "centerX", {
+
+        get: function() { return me.width / 2; }
+    });
+
+    Object.defineProperty(this, "centerY", {
+
+        get: function() { return me.height / 2; }
+    });
+
     function init() {
 
         var imageLoaderItem = getImageFromCache();

@@ -11,13 +11,13 @@ var ScreenBackground = function(width, height) {
 
     function init() {
 
+        me.alpha = 0;
+
         me.graphics.beginFill(black);
         me.graphics.drawRect(0, 0, width, height);
     }
 
     me.fadeIn = function() {
-
-        me.alpha = 0;
 
         return new Promise(function(resolve) {
 

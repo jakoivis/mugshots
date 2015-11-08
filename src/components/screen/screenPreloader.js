@@ -4,7 +4,7 @@
 var BasicContainer = require("../../components/basicContainer.js");
 var SpinnerWithShadow = require("../../components/preloader/spinnerWithShadow.js");
 
-var ScreenContentPreloader = function(width, height) {
+var ScreenPreloader = function(width, height) {
 
     var me = this;
 
@@ -37,6 +37,6 @@ var ScreenContentPreloader = function(width, height) {
     me.BasicContainer_constructor();
 };
 
-var proto  = createjs.extend(ScreenContentPreloader, BasicContainer);
+var proto  = createjs.extend(ScreenPreloader, BasicContainer);
 
-module.exports = createjs.promote(ScreenContentPreloader, "BasicContainer");
+module.exports = createjs.promote(ScreenPreloader, "BasicContainer");
