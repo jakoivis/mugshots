@@ -92,7 +92,6 @@ var Phone = function() {
         // when mouse is at 0% from the top, scaling is at min
 
         setScaleContainerScale();
-        setFaceScale();
     }
 
     function setScaleContainerScale() {
@@ -107,22 +106,6 @@ var Phone = function() {
 
         createjs.Tween
             .get(_scaleContainer, {override: true})
-            .to({scaleX:scale, scaleY:scale}, duration, easing);
-    }
-
-    function setFaceScale() {
-
-        var faceBaseScale = 0.8;
-        var minScale = faceBaseScale * 0.6;
-        var scaleRange = faceBaseScale - minScale;
-        var scalePosition = calculateScalePosition();
-        var scale = minScale + scaleRange * scalePosition;
-
-        var easing = createjs.Ease.sineInOut;
-        var duration = 120;
-
-        createjs.Tween
-            .get(_screen.face, {override: true})
             .to({scaleX:scale, scaleY:scale}, duration, easing);
     }
 
@@ -157,14 +140,10 @@ var Phone = function() {
         var rotation = distanceX * 0.01;
         var offset = rotation * 10;
         var inversedRotation = rotation *-1;
-        var inversedOffset = offset *-1;
 
         _scaleContainer.rotation = rotation;
         _scaleContainer.x = offset;
 
-        _screen.face.rotation = inversedRotation;
-        _screen.face.x = _screen.width / 2 + inversedOffset;
-        _screen.face.y = _screen.height / 2;
         _reflection.glow.rotation = inversedRotation;
     }
 

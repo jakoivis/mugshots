@@ -63,7 +63,6 @@ var BasicContainer = function(options) {
         }
 
         me.addEventListener("added", added);
-        // me.addEventListener("addedToStage", addedToStage);
 
         if(me.getAcceptedResources) {
 
@@ -108,12 +107,44 @@ var BasicContainer = function(options) {
 
         event.target.removeEventListener("added", added);
 
-        if(me.onAdded) {
+        waitForStage()
+            .then(function() {
 
-            me.onAdded();
-        }
+                if(me.onAdded) {
 
-        me.addOnResize();
+                    me.onAdded();
+                }
+
+                me.addOnResize();
+            });
+    }
+
+    // unlike in actionscript, easel's added event notifies only
+    // when component has been added to parent. what easel is
+    // missing is an event when component has been added to parent
+    // and when stage is available... namely addedToStage event.
+    // when added event is fired we have no way of knowing when
+    // stage is available. This creates nasty issues everywhere
+    // when trying to access stage too early. therefore this
+    // nasty fix is required.
+    function waitForStage() {
+
+        return new Promise(function(resolve) {
+
+            function tryResolvingStage() {
+
+                if(me.stage) {
+
+                    resolve();
+
+                } else {
+
+                    setTimeout(tryResolvingStage, 40);
+                }
+            }
+
+            tryResolvingStage();
+        });
     }
 
     function onPreloadComplete() {

@@ -65,6 +65,8 @@ var Screen = function(screenBounds) {
         var screenWidth = _screenBounds.width;
         var screenHeight = _screenBounds.height;
 
+        console.log(screenWidth, screenHeight);
+
         _screenFace = new ScreenFace(screenWidth, screenHeight);
         _screenPreloader = new ScreenPreloader(screenWidth, screenHeight);
         _screenBackground = new ScreenBackground(screenWidth, screenHeight);
@@ -102,11 +104,6 @@ var Screen = function(screenBounds) {
         // this is needed when phone is scaled,
         // as the face will scale at different rate than phone
         me.updateCache();
-    };
-
-    me.update = function() {
-
-        _screenFace.update();
     };
 
     function createScreenBounds() {

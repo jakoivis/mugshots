@@ -43,7 +43,63 @@ var ScreenPreloader = function(width, height) {
             .to({alpha:1}, duration, easing);
 
         addClickHandler();
+        me.setMouseEnabled();
     };
+
+    me.onResize = function() {
+
+        setScale();
+        setRotation();
+    };
+
+    me.onMouseMove = function() {
+
+        setScale();
+        setRotation();
+    };
+
+    function setScale() {
+
+        var faceBaseScale = 0.8;
+        var minScale = faceBaseScale * 0.6;
+        var scaleRange = faceBaseScale - minScale;
+        var scalePosition = calculateScalePosition();
+        var scale = minScale + scaleRange * scalePosition;
+
+        var easing = createjs.Ease.sineInOut;
+        var duration = 120;
+
+        createjs.Tween
+            .get(_face, {override: true})
+            .to({scaleX:scale, scaleY:scale}, duration, easing);
+    }
+
+    function calculateScalePosition() {
+
+        var scaleStartPct = 0.3;
+        var mouseY = me.stage.mouseY;
+        var scaleAreaHeight = me.stageHeight * scaleStartPct;
+        var scalePosition = mouseY / scaleAreaHeight;
+
+        scalePosition = scalePosition > 1 ? 1 : scalePosition;
+
+        return scalePosition;
+    }
+
+    function setRotation() {
+
+        var mouseX = me.stage.mouseX;
+        var originX = me.stageWidth / 2;
+        var distanceX = originX - mouseX;
+        var rotation = distanceX * 0.01;
+        var offset = rotation * 10;
+        var inversedRotation = rotation *-1;
+        var inversedOffset = offset *-1;
+
+        _face.rotation = inversedRotation;
+        _face.x = width / 2 + inversedOffset;
+        _face.y = height / 2;
+    }
 
     function addClickHandler() {
         me.on("click", function() {
