@@ -33,7 +33,7 @@ var ScreenPreloader = function(width, height) {
         me.alpha = 0;
 
         me.addChild(_face);
-        // me.addChild(_screenFlash);
+        me.addChild(_screenFlash);
 
         var easing = createjs.Ease.sineInOut;
         var duration = 1000;
@@ -105,7 +105,7 @@ var ScreenPreloader = function(width, height) {
         me.on("click", function() {
             _face.setRandomFaceParts();
             _face.setRandomPositions();
-            // _screenFlash.flash();
+            _screenFlash.flash();
             _face.update();
         });
     }

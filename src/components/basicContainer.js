@@ -9,10 +9,13 @@ var ImageCache = require("../imageCache.js");
 
 /**
  * BasicContainer handles subsicribing to pubsub channel of image loader service.
- * Whenever image has been loaded, it is cheched whether it is accepted by this
+ * Whenever image has been loaded, it is cheched whether image is accepted by this
  * BasicContainer instance and then a callback is called to notify the sub class.
+ * In case BasicContainer is instantiated after the events were fired, images are
+ * fetched from ImageCache. All the instances should be instantiated when
+ * Layer's onRequiredFilesComplete is called or after that.
  *
- * TODO: if instantiated after onApplicationStart it misses that event and also onRequiredFilesComplete
+ * TODO: remove onApplicationStart and onRequiredFilesComplete from this file
  *
  * @class
  * @abstract
@@ -27,9 +30,7 @@ var ImageCache = require("../imageCache.js");
  * - onTick
  * - onPreloadComplete
  * - onFileLoadComplete
- * - onRequiredFilesComplete
  * - getAcceptedResources   Implement this function to filter out resources that aren't used by this compnent
- * - onApplicationStart
  */
 var BasicContainer = function(options) {
 

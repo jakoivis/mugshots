@@ -8,7 +8,8 @@ require("tweenjs");
 
 var PreloadService = require("./services/preloadService.js");
 var PreloadLayer = require("./layers/preloadLayer.js");
-var ApplicationLayer = require("./layers/ApplicationLayer.js");
+var BackgroundLayer = require("./layers/backgroundLayer.js");
+var ApplicationLayer = require("./layers/applicationLayer.js");
 var ImageCache = require("./imageCache.js");
 // var DebugControlsLayer = require("./layers/debugControlsLayer.js");
 // var DebugFaceLayer = require("./layers/debugFaceLayer.js");
@@ -16,12 +17,16 @@ var ImageCache = require("./imageCache.js");
 
 createjs.Ticker.setFPS(30);
 
-new ApplicationLayer({
-    target: "application"
-});
+// new BackgroundLayer({
+//     target: "background"
+// });
 
 new PreloadLayer({
     target: "loader"
+});
+
+new ApplicationLayer({
+    target: "application"
 });
 
 // new DebugFaceLayer({

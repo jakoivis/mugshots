@@ -62,25 +62,6 @@ function Face() {
         me.update();
     };
 
-    me.onMouseMove = function() {
-
-        // var mouseX = me.stage.mouseX;
-        // var width = me.stageWidth;
-        // var originX = width / 2;
-        // var distanceX = originX - mouseX;
-        // var rotation = distanceX * 0.01;
-        // var offset = rotation * 10;
-        // var inversedRotation = rotation *-1;
-        // var inversedOffset = offset *-1;
-
-        // _scaleContainer.rotation = rotation;
-        // _scaleContainer.x = offset;
-
-        // _screen.face.rotation = inversedRotation;
-        // // _screen.face.x = inversedOffset;
-        // _reflection.glow.rotation = inversedRotation;
-    };
-
     me.update = function() {
 
         me.removeAllChildren();

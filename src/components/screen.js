@@ -93,7 +93,6 @@ var Screen = function(screenBounds) {
 
                 me.removeChild(_screenPreloader);
 
-                console.log("show");
                 _screenFace.show();
             });
     };

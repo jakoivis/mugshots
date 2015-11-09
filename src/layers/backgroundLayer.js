@@ -10,13 +10,11 @@ function ApplicationLayer(options) {
 
     var me = this;
 
-    var _phone;
-    var _footer;
+    var _background;
 
     me.initialize = function() {
 
-        _phone = new Phone();
-        // _footer = new Footer();
+        _background = new Background();
     };
 
     me.onTick = function(event) {
@@ -26,13 +24,11 @@ function ApplicationLayer(options) {
 
     me.onRequiredFilesComplete = function() {
 
-        me.stage.addChild(_phone);
-        // me.stage.addChild(_footer);
+        me.stage.addChild(_background);
     };
 
     me.onApplicationStart = function() {
 
-        _phone.start();
     };
 
     me.BasicLayer_constructor(options);
