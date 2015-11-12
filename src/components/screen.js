@@ -6,6 +6,7 @@ var ScreenBackground = require("../components/screen/screenBackground.js");
 var Bounds = require("../utils/bounds.js");
 var ScreenPreloader = require("../components/screen/screenPreloader.js");
 var ScreenFace = require("../components/screen/screenFace.js");
+var ScreenIntro = require("../components/screen/screenIntro.js");
 
 var Screen = function(screenBounds) {
 
@@ -16,6 +17,7 @@ var Screen = function(screenBounds) {
     var _screenFace;
     var _screenBackground;
     var _screenShadows;
+    var _screenIntro;
 
     var _resources = {
         phone: null
@@ -69,10 +71,12 @@ var Screen = function(screenBounds) {
 
         _screenFace = new ScreenFace(screenWidth, screenHeight);
         _screenPreloader = new ScreenPreloader(screenWidth, screenHeight);
+        _screenIntro = new ScreenIntro();
         _screenBackground = new ScreenBackground(screenWidth, screenHeight);
         _screenShadows = new ScreenShadows(_screenBounds, 6);
 
         me.addChild(_screenBackground);
+        me.addChild(_screenIntro);
         me.addChild(_screenFace);
         me.addChild(_screenPreloader);
         me.addChild(_screenShadows);
@@ -93,7 +97,9 @@ var Screen = function(screenBounds) {
 
                 me.removeChild(_screenPreloader);
 
-                _screenFace.show();
+                // _screenFace.show();
+
+                _screenIntro.show();
             });
     };
 

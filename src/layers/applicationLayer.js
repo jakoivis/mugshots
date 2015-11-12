@@ -5,6 +5,7 @@ var BasicLayer = require("../layers/basicLayer.js");
 var Background = require("../components/background.js");
 var Phone = require("../components/phone.js");
 var Footer = require("../components/footer.js");
+var ScreenIntro = require("../components/screen/screenIntro.js");
 
 function ApplicationLayer(options) {
 
@@ -26,13 +27,16 @@ function ApplicationLayer(options) {
 
     me.onRequiredFilesComplete = function() {
 
-        me.stage.addChild(_phone);
+        var screenIntro = new ScreenIntro();
+        me.stage.addChild(screenIntro);
+        screenIntro.show();
+        // me.stage.addChild(_phone);
         // me.stage.addChild(_footer);
     };
 
     me.onApplicationStart = function() {
 
-        _phone.start();
+        // _phone.start();
     };
 
     me.BasicLayer_constructor(options);
