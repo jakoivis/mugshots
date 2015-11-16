@@ -58,25 +58,48 @@ var ScreenIntro = function() {
         text31.alpha = 0;
         text32.alpha = 0;
 
-        var duration = 2000;
-        var easing = createjs.Ease.sineInOut;
+        container.y = 300;
+        container.x = 300;
+        container.scaleX = 2;
+        container.scaleY = 2;
+        container.rotation = 90;
 
+        text21.rotation = 45;
+        text22.rotation = 45;
+        text31.rotation = -45;
+        text32.rotation = -45;
 
-        tween(container, {rotation:-90, y:355}, duration, easing)
-        tween(text1, {alpha:1}, duration, easing)
+        var duration = 1000;
+        var wait = 500;
+        // var easing = createjs.Ease.sineInOut;
+        var easing = createjs.Ease.backInOut;
+
+        tween(text1, {alpha:1}, duration, easing);
+
+        return tween(container, {y:100}, duration, easing)
 
             .then(function() {
 
-                tween(text21, {alpha:1}, duration, easing);
-
-                return tween(text22, {alpha:1}, duration, easing);
-
+                tween(container, {rotation:0, x: 75, scaleY: 1, scaleX: 1}, duration, easing, wait);
+                tween(text21, {alpha:1, rotation: 0}, duration, easing, wait);
+                return tween(text22, {alpha:1, rotation: 0}, duration, easing, wait+200);
             })
+
             .then(function() {
 
-                tween(text31, {alpha:1}, duration, easing);
-                tween(text32, {alpha:1}, duration, easing);
+                tween(container, {rotation: 90, x: 300, y: 20, scaleY: 0.41, scaleX: 0.41}, duration, easing, wait);
+                tween(text31, {alpha:1, rotation: 0}, duration, easing, wait);
+                return tween(text32, {alpha:1, rotation: 0}, duration, easing, wait+200);
+            })
 
+            .then(function() {
+
+                // tween(container, {rotation: 20}, duration*2, easing);
+                tween(text32, {alpha:0, rotation: 20}, duration, easing, wait);
+                tween(text31, {alpha:0, rotation: 20}, duration, easing, wait+100);
+                tween(text22, {alpha:0, rotation: 20}, duration, easing, wait+200);
+                tween(text21, {alpha:0, rotation: 20}, duration, easing, wait+300);
+                return tween(text1, {alpha:0, rotation: 20}, duration, easing, wait+300);
             });
 
 
@@ -105,10 +128,11 @@ var ScreenIntro = function() {
         //     .to({y: text.getMeasuredWidth()}, 500, createjs.Ease.sineInOut);
     };
 
-    function tween(target, options, duration, easing) {
+    function tween(target, options, duration, easing, wait) {
         return new Promise(function(resolve)  {
             createjs.Tween
                 .get(target)
+                .wait(wait || 0)
                 .to(options, duration, easing)
                 .call(resolve)
         });

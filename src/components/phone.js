@@ -65,7 +65,10 @@ var Phone = function() {
 
     me.start = function() {
 
-        _screen.start();
+        _screen.start()
+            .then(function() {
+                // enable movement
+            });
     };
 
     function createScaleContainer(phoneBitmap) {

@@ -58,7 +58,7 @@ var Screen = function(screenBounds) {
     };
 
     me.onAdded = function() {
-
+        console.log("onAdded");
         _screenBounds = createScreenBounds();
 
         me.x = _screenBounds.left;
@@ -66,8 +66,6 @@ var Screen = function(screenBounds) {
 
         var screenWidth = _screenBounds.width;
         var screenHeight = _screenBounds.height;
-
-        console.log(screenWidth, screenHeight);
 
         _screenFace = new ScreenFace(screenWidth, screenHeight);
         _screenPreloader = new ScreenPreloader(screenWidth, screenHeight);
@@ -91,15 +89,20 @@ var Screen = function(screenBounds) {
 
     me.start = function() {
 
-        _screenPreloader.remove()
-            .then(_screenBackground.fadeToWhite)
+        // TODO: start may come before onAdded
+        return _screenPreloader.remove()
+
+            .then(function() {
+
+                setTimeout(_screenBackground.fadeToWhite, 3000);
+
+                return _screenIntro.show();
+            })
             .then(function() {
 
                 me.removeChild(_screenPreloader);
 
-                // _screenFace.show();
-
-                _screenIntro.show();
+                _screenFace.show();
             });
     };
 
