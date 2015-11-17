@@ -7,6 +7,7 @@ var Screen = require("../components/screen.js");
 var Reflection = require("../components/reflection.js");
 var Hand = require("../components/hand.js");
 var HandOverlay = require("../components/handOverlay.js");
+var TweenUtil = require("../utils/tweenUtil.js");
 
 var Phone = function() {
 
@@ -21,24 +22,26 @@ var Phone = function() {
 
     var _baseScale;
 
+    var _introPlaying = true;
+
     me.initialize = function() {
 
         _screen = new Screen();
         _phoneBitmap = new PhoneBitmap();
         _reflection = new Reflection();
-        // // _hand = new Hand();
-        // // _handOverlay = new HandOverlay();
+        _hand = new Hand();
+        _handOverlay = new HandOverlay();
     };
 
     me.onAdded = function() {
 
         _scaleContainer = createScaleContainer(_phoneBitmap);
 
-        // // _scaleContainer.addChild(_hand);
+        _scaleContainer.addChild(_hand);
         _scaleContainer.addChild(_phoneBitmap);
         _scaleContainer.addChild(_screen);
         _scaleContainer.addChild(_reflection);
-        // // _scaleContainer.addChild(_handOverlay);
+        // _scaleContainer.addChild(_handOverlay);
         me.addChild(_scaleContainer);
 
         var easing = createjs.Ease.sineInOut;
@@ -48,8 +51,7 @@ var Phone = function() {
 
         createjs.Tween
             .get(me)
-            .to({alpha:1}, duration, easing)
-            .call(me.setMouseEnabled);
+            .to({alpha:1}, duration, easing);
     };
 
     me.onResize = function() {
@@ -60,14 +62,34 @@ var Phone = function() {
         _baseScale = calculateBaseScale();
 
         setScale();
-        setRotation();
+
+        if(!_introPlaying) {
+
+            setRotation();
+        }
     };
 
     me.start = function() {
 
+        _introPlaying = true;
+
+        var duration = 1000;
+        var easing = createjs.Ease.quadInOut;
+
+        createjs.Tween
+            .get(_scaleContainer)
+            .to({rotation: -45}, duration, easing);
+
         _screen.start()
             .then(function() {
-                // enable movement
+
+                return TweenUtil.tween(_scaleContainer, {rotation: 0}, duration, easing);
+            })
+            .then(function() {
+
+                me.setMouseEnabled();
+
+                _introPlaying = false;
             });
     };
 
@@ -101,14 +123,14 @@ var Phone = function() {
 
         var minScale = _baseScale * 0.5;
         var scaleRange = _baseScale - minScale;
-        var scalePosition = calculateScalePosition();
+        var scalePosition = _introPlaying ? 0.5 : calculateScalePosition();
         var scale = minScale + scaleRange * scalePosition;
 
         var easing = createjs.Ease.sineInOut;
         var duration = 120;
 
         createjs.Tween
-            .get(_scaleContainer, {override: true})
+            .get(_scaleContainer, {override: !_introPlaying})
             .to({scaleX:scale, scaleY:scale}, duration, easing);
     }
 
