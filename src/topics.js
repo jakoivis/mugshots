@@ -29,6 +29,11 @@ var TOPICS = {
      */
     PRELOAD_APPLICATION_START: "preloaderApplicationStart",
 
+    /**
+     * Topic executed each time the screen is clicked
+     */
+    SCREEN_CLICK: "screenClick",
+
     // for debugging purposes
     RANDOM_POSITIONS: "randomPositions",
     NEXT_BACKGROUND: "nextBackground",

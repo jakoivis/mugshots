@@ -272,6 +272,22 @@ var BasicContainer = function(options) {
         }
     }
 
+    function addTouchMove() {
+
+        if(me.onTouchMove) {
+
+            me.stage.canvas.addEventListener("touchmove", me.onTouchMove);
+        }
+    }
+
+    function removeTouchMove() {
+
+        if(me.onTouchMove) {
+
+            me.stage.canvas.removeEventListener("touchmove", me.onTouchMove);
+        }
+    }
+
     me.Container_constructor();
 
     init();

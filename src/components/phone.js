@@ -61,7 +61,7 @@ var Phone = function() {
 
         _baseScale = calculateBaseScale();
 
-        setScale();
+        setScale(0);
 
         if(!_introPlaying) {
 
@@ -80,6 +80,8 @@ var Phone = function() {
             .get(_scaleContainer)
             .to({rotation: -45}, duration, easing);
 
+        // let the animations in screen finish then
+        // rotate back to normal and enable interactions
         _screen.start()
             .then(function() {
 
@@ -104,26 +106,39 @@ var Phone = function() {
 
     me.onMouseMove = function() {
 
-        setScale();
-        setRotation();
-        setReflectionPosition();
+        if(!_introPlaying) {
+
+            var scalePosition = calculateScalePosition(me.stage.mouseY);
+
+            setScale(scalePosition);
+            setRotation();
+            setReflectionPosition();
+        }
     };
 
-    function setScale() {
+    me.onTouchMove = function(event) {
+
+        if(!_introPlaying) {
+
+            var touchObject = event.changedTouches[0];
+            var scalePosition = calculateScalePosition(touchObject.clientY);
+
+            setScale(scalePosition);
+            setRotation();
+            setReflectionPosition();
+        }
+    };
+
+    function setScale(scalePosition) {
 
         // top 30% of the screen is the area in which the
         // scaling happens. otherwise phone doesn't scale
         // when mouse is at 30% from the top, scaling is at max
         // when mouse is at 0% from the top, scaling is at min
 
-        setScaleContainerScale();
-    }
-
-    function setScaleContainerScale() {
-
         var minScale = _baseScale * 0.5;
         var scaleRange = _baseScale - minScale;
-        var scalePosition = _introPlaying ? 0.5 : calculateScalePosition();
+        // var scalePosition = _introPlaying ? 0.5 : calculateScalePosition();
         var scale = minScale + scaleRange * scalePosition;
 
         var easing = createjs.Ease.sineInOut;
@@ -134,12 +149,11 @@ var Phone = function() {
             .to({scaleX:scale, scaleY:scale}, duration, easing);
     }
 
-    function calculateScalePosition() {
+    function calculateScalePosition(y) {
 
         var scaleStartPct = 0.3;
-        var mouseY = me.stage.mouseY;
         var scaleAreaHeight = me.stageHeight * scaleStartPct;
-        var scalePosition = mouseY / scaleAreaHeight;
+        var scalePosition = y / scaleAreaHeight;
 
         scalePosition = scalePosition > 1 ? 1 : scalePosition;
 
