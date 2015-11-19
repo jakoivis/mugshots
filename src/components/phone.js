@@ -8,6 +8,7 @@ var Reflection = require("../components/reflection.js");
 var Hand = require("../components/hand.js");
 var HandOverlay = require("../components/handOverlay.js");
 var TweenUtil = require("../utils/tweenUtil.js");
+var _ = require("lodash");
 
 var Phone = function() {
 
@@ -61,12 +62,15 @@ var Phone = function() {
 
         _baseScale = calculateBaseScale();
 
-        setScale(0);
+        var scale = calculateScale(0);
+        var rotation = null;
 
         if(!_introPlaying) {
 
-            setRotation();
+            rotation = calculateRotation(me.stageCenterX);
         }
+
+        animate(scale, rotation);
     };
 
     me.start = function() {
@@ -108,12 +112,12 @@ var Phone = function() {
 
         if(!_introPlaying) {
 
-            var scalePosition = calculateScalePosition(me.stage.mouseY);
-            var mouseX = me.stage.mouseX;
-
-            setScale(scalePosition);
-            setRotation(mouseX);
             setReflectionPosition();
+
+            var scale = calculateScale(me.stage.mouseY);
+            var rotation = calculateRotation(me.stage.mouseX);
+
+            animate(scale, rotation);
         }
     };
 
@@ -122,32 +126,51 @@ var Phone = function() {
         if(!_introPlaying) {
 
             var touchObject = event.changedTouches[0];
-            var scalePosition = calculateScalePosition(touchObject.clientY);
-            var touchX = touchObject.clientX;
 
-            setScale(scalePosition);
-            setRotation(touchX);
             setReflectionPosition();
+
+            var scale = calculateScale(touchObject.clientY);
+            var rotation = calculateRotation(touchObject.clientX);
+
+            animate(scale, rotation);
         }
     };
 
-    function setScale(scalePosition) {
+    function animate(scale, rotation) {
+        var offset = rotation * 10;
+        var inversedRotation = rotation * -1;
+
+        var easing = createjs.Ease.sineInOut;
+        var duration = 120;
+
+        var rot = _.isNumber(rotation) ? rotation : _scaleContainer.rotation;
+
+        createjs.Tween
+            .get(_scaleContainer, {override: false})
+            .to({
+                scaleX:scale,
+                scaleY:scale,
+                // rotation:rot,
+                x: offset
+            }, duration, easing);
+
+        _scaleContainer.rotation = rot;
+        _reflection.glow.rotation = inversedRotation;
+    }
+
+    function calculateScale(y) {
 
         // top 30% of the screen is the area in which the
         // scaling happens. otherwise phone doesn't scale
         // when mouse is at 30% from the top, scaling is at max
         // when mouse is at 0% from the top, scaling is at min
 
+        var scalePosition = calculateScalePosition(y);
         var minScale = _baseScale * 0.5;
         var scaleRange = _baseScale - minScale;
         var scale = minScale + scaleRange * scalePosition;
 
-        var easing = createjs.Ease.sineInOut;
-        var duration = 120;
-
-        createjs.Tween
-            .get(_scaleContainer, {override: !_introPlaying})
-            .to({scaleX:scale, scaleY:scale}, duration, easing);
+        return scale;
     }
 
     function calculateScalePosition(y) {
@@ -171,19 +194,14 @@ var Phone = function() {
         _reflection.glow.y = glowY;
     }
 
-    function setRotation(x) {
+    function calculateRotation(x) {
 
         var width = me.stageWidth;
         var originX = width / 2;
         var distanceX = originX - x;
         var rotation = distanceX * 0.01;
-        var offset = rotation * 10;
-        var inversedRotation = rotation *-1;
 
-        _scaleContainer.rotation = rotation;
-        _scaleContainer.x = offset;
-
-        _reflection.glow.rotation = inversedRotation;
+        return rotation;
     }
 
     /**
