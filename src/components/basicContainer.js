@@ -247,6 +247,7 @@ var BasicContainer = function(options) {
         me.mouseEnabled = true;
 
         addMouseMove();
+        addTouchMove();
     };
 
     me.setMouseDisabled = function() {
@@ -254,6 +255,7 @@ var BasicContainer = function(options) {
         me.mouseEnabled = false;
 
         removeMouseMove();
+        removeTouchMove();
     };
 
     function addMouseMove() {

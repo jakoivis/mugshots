@@ -109,9 +109,10 @@ var Phone = function() {
         if(!_introPlaying) {
 
             var scalePosition = calculateScalePosition(me.stage.mouseY);
+            var mouseX = me.stage.mouseX;
 
             setScale(scalePosition);
-            setRotation();
+            setRotation(mouseX);
             setReflectionPosition();
         }
     };
@@ -122,9 +123,10 @@ var Phone = function() {
 
             var touchObject = event.changedTouches[0];
             var scalePosition = calculateScalePosition(touchObject.clientY);
+            var touchX = touchObject.clientX;
 
             setScale(scalePosition);
-            setRotation();
+            setRotation(touchX);
             setReflectionPosition();
         }
     };
@@ -138,7 +140,6 @@ var Phone = function() {
 
         var minScale = _baseScale * 0.5;
         var scaleRange = _baseScale - minScale;
-        // var scalePosition = _introPlaying ? 0.5 : calculateScalePosition();
         var scale = minScale + scaleRange * scalePosition;
 
         var easing = createjs.Ease.sineInOut;
@@ -170,12 +171,11 @@ var Phone = function() {
         _reflection.glow.y = glowY;
     }
 
-    function setRotation() {
+    function setRotation(x) {
 
-        var mouseX = me.stage.mouseX;
         var width = me.stageWidth;
         var originX = width / 2;
-        var distanceX = originX - mouseX;
+        var distanceX = originX - x;
         var rotation = distanceX * 0.01;
         var offset = rotation * 10;
         var inversedRotation = rotation *-1;
