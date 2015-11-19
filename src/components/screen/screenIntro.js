@@ -133,7 +133,7 @@ var ScreenIntro = function() {
 
         var text = new createjs.Text();
         text.scaleX = 0.8;
-        text.font = fontSize + "px Archivo Black";
+        text.font = fontSize + "px ArchivoBlack";
         text.color = color;
         text.text = value;
 
